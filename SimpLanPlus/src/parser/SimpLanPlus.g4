@@ -8,62 +8,52 @@ grammar SimpLanPlus;
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
-program :  dec* stm* ;
 
-//prog   : exp ';'                 #singleExp
-//       | let exp ';'             #letInExp
-//       ;
+//* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
+program : dec* (stm* | (let stm ';')*) ;
 
-stm: exp
-    | asg
+stm: ite
     | dec
-    | let
-    | ite
-    | call
-    | block ;
+    | call ;
 
+block : '{' dec* (stm* | (let stm ';')*) '}' ;
 
-dec : decFun
-    | decVar ;
+dec : decFun    #funDec
+    | decVar    #varDec;
 
-decFun : (type | 'void') ID '(' (arg (',' arg)*)? ')' block ;
+//* i tipi includono anche il tipo void ;
+//* le funzioni possono essere ricorsive (ma non mutuamente ricorsive) - non è possibile definire una funzione all'interno del corpo di una funzione
+//* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
+decFun : (type | 'void') ID '(' (arg (',' arg)*)? ')' bodyFun ;
+
+//* le dichiarazioni di variabili sono:  type ID (senza inizializzazione) ;
+decVar : type ID ;
+
+//* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
+//* sono ammessi corpi di funzioni del tipo { stm ; exp }. In tal caso la funzione, dopo aver valutato stm, ritorna il valore di exp.
+bodyFun : '{' (stm)+ (';' exp)?  '}';
 
 arg : type ID;
 
-asg  : ID '=' exp ';' ;
+//asg  : ID '=' exp ';' ;
 
-block : '{' dec* stm* '}' ;
 
-decVar : type ID ';' ;
-//dec    : type ID '=' exp                                         #idInit
-//       | type ID '(' ( param ( ',' param)* )? ')' '=' (let)? exp     #funDec
-//       ;
 
 call : ID '(' (exp(',' exp)*)? ')' ';';
-//param  : type ID ;
 
-ite : 'if' '(' exp ')' block ('else' block)? ;
+ite : 'if' '(' exp ')' bodyIte ('else' bodyIte)? ;
 
-let    : 'let' (dec )+ 'in' stm;
+bodyIte : block
+        | '{' exp* '}';
+
+let    : 'let' (dec ';')+ 'in';
+//let int x = 5 in x+1 - non consentito perché assegnamento?
 
 type   : 'int'  
        | 'bool'
-       ;  
+       ;
 
-
-
-//exp    :  ('-')? left=term ((plus='+' | sub='-') right=exp)?
-//       ;
-//
-//term   : left=factor ((mul='*' | div='/') right=term)?
-//       ;
-//
-//factor : left=value ('==' right=value)?
-//       ;
-
-exp	    : '(' exp ')'				        #baseExp
-	    //| '-' exp					        #negExp
-	    //| '!' exp                                           #notExp
+exp	    : '(' exp ')'				                        #baseExp
 	    | ID						                        #varExp
 	    | left=exp op=('*' | '/')               right=exp   #binExp
 	    | left=exp op=('+' | '-')               right=exp   #binExp
@@ -74,14 +64,6 @@ exp	    : '(' exp ')'				        #baseExp
 	    | call                                              #callExp
 	    | BOOL                                              #boolExp
 	    | INTEGER					        #valExp;
-
-//value  :  INTEGER							#intVal
-//       | BOOL                               #boolVal
-//       | '(' exp ')'                      	#baseExp
-//       | 'if' cond=exp 'then' '{' thenBranch=exp '}' 'else' '{' elseBranch=exp '}'  #ifExp
-//       | ID                                  #varExp
-//       | ID '(' (exp (',' exp)* )? ')'       #funExp
-//       ;
  
 /*------------------------------------------------------------------
  * LEXER RULES
