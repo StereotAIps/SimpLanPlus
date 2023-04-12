@@ -1,52 +1,49 @@
 grammar SimpLanPlus;
-//
-//@lexer::members {
-//   //there is a much better way to do this, check the ANTLR guide
-//   public int lexicalErrors=0;
-//}
+
+@lexer::members {
+   //there is a much better way to do this, check the ANTLR guide
+   public int lexicalErrors=0;
+}
 
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
 
 //* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
-program : dec* (stm* | (let stm ';')*) ;
+//in questo modo le dichiarazioni di funzioni possono essere fatte solo in radice
+program : (dec | stm )* ;
 
-stm: ite
-    | dec
-    | call ;
-
-block : '{' dec* (stm* | (let stm ';')*) '}' ;
+stm: asg ';'
+    | ite
+    | let (stm | dec)
+    | call ';';
 
 dec : decFun    #funDec
-    | decVar    #varDec;
+    | decVar ';'   #varDec;
 
 //* i tipi includono anche il tipo void ;
 //* le funzioni possono essere ricorsive (ma non mutuamente ricorsive) - non è possibile definire una funzione all'interno del corpo di una funzione
 //* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
-decFun : (type | 'void') ID '(' (arg (',' arg)*)? ')' bodyFun ;
+decFun : (type | 'void') ID '(' (decVar (',' decVar)*)? ')' body ;
 
 //* le dichiarazioni di variabili sono:  type ID (senza inizializzazione) ;
 decVar : type ID ;
 
+asg  : ID '=' exp ;
+
+call : ID '(' (exp(',' exp)*)? ')' ;
+
+ite : 'if' '(' exp ')' body ('else' body)? ;
+
 //* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
 //* sono ammessi corpi di funzioni del tipo { stm ; exp }. In tal caso la funzione, dopo aver valutato stm, ritorna il valore di exp.
-bodyFun : '{' (stm)+ (';' exp)?  '}';
+//in questo modo posso anche solo ritornare exp senza nessuno stm
+body : '{' (((decVar ';') | stm ( exp)? )*| exp)  '}'
+        | (stm | exp ';');
 
-arg : type ID;
+//block : '{' (dec | stm | (let stm ';'))* '}' ;
 
-//asg  : ID '=' exp ';' ;
-
-
-
-call : ID '(' (exp(',' exp)*)? ')' ';';
-
-ite : 'if' '(' exp ')' bodyIte ('else' bodyIte)? ;
-
-bodyIte : block
-        | '{' exp* '}';
-
-let    : 'let' (dec ';')+ 'in';
+let    : 'let' (dec)+ 'in';
 //let int x = 5 in x+1 - non consentito perché assegnamento?
 
 type   : 'int'  
