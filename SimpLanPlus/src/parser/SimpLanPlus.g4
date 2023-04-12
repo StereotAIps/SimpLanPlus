@@ -15,11 +15,11 @@ program : (dec | stm )* ;
 
 stm: asg ';'
     | ite
-    | let (stm | dec)
+    | let
     | call ';';
 
-dec : decFun    #funDec
-    | decVar ';'   #varDec;
+dec : decFun        #funDec
+    | decVar ';'    #varDec;
 
 //* i tipi includono anche il tipo void ;
 //* le funzioni possono essere ricorsive (ma non mutuamente ricorsive) - non è possibile definire una funzione all'interno del corpo di una funzione
@@ -43,7 +43,7 @@ body : '{' (((decVar ';') | stm ( exp)? )*| exp)  '}'
 
 //block : '{' (dec | stm | (let stm ';'))* '}' ;
 
-let    : 'let' (dec)+ 'in';
+let    : 'let' (dec)+ 'in' (stm | dec) ;
 //let int x = 5 in x+1 - non consentito perché assegnamento?
 
 type   : 'int'  
@@ -51,7 +51,7 @@ type   : 'int'
        ;
 
 exp	    : '(' exp ')'				                        #baseExp
-	    | ID						                        #varExp
+	    | ID						                        #idVal
 	    | left=exp op=('*' | '/')               right=exp   #binExp
 	    | left=exp op=('+' | '-')               right=exp   #binExp
 	    | left=exp op=('<' | '<=' | '>' | '>=') right=exp   #binExp
@@ -59,8 +59,8 @@ exp	    : '(' exp ')'				                        #baseExp
 	    | left=exp op='&&'                      right=exp   #binExp
 	    | left=exp op='||'                      right=exp   #binExp
 	    | call                                              #callExp
-	    | BOOL                                              #boolExp
-	    | INTEGER					        #valExp;
+	    | BOOL                                              #boolVal
+	    | INTEGER					                        #intVal;
  
 /*------------------------------------------------------------------
  * LEXER RULES

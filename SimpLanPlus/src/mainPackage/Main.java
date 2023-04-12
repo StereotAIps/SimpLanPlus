@@ -20,7 +20,7 @@ public class Main {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
-        //SimpLanPlusVisitor visitor = new SimpLanPlusVisitor();
+        //SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
         //Node ast = visitor.visit(parser.prog()); //generazione AST
 
         //SIMPLE CHECK FOR LEXER ERRORS
