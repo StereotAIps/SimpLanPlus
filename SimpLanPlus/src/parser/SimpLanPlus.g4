@@ -38,7 +38,7 @@ ite : 'if' '(' exp ')' body ('else' body)? ;
 //* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure let dec in stm
 //* sono ammessi corpi di funzioni del tipo { stm ; exp }. In tal caso la funzione, dopo aver valutato stm, ritorna il valore di exp.
 //in questo modo posso anche solo ritornare exp senza nessuno stm
-body : '{' (((decVar ';') | stm ( exp)? )*| exp)  '}'
+body : '{' (((decVar ';') | stm (exp)? )* | exp)  '}'
         | (stm | exp ';');
 
 //block : '{' (dec | stm | (let stm ';'))* '}' ;

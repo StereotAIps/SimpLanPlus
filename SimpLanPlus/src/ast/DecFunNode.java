@@ -1,10 +1,14 @@
 package ast;
 
-public class Asg implements Node {
+import ast.type.Type;
 
-    private String id;
-    private Node type;
-    private Node exp;
+import java.util.ArrayList;
+
+public class DecFunNode implements Node{
+
+    private Type type;
+    private IdNode id;
+    private ArrayList<Node> args;
 
     @Override
     public String codeGeneration() {

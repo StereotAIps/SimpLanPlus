@@ -17,9 +17,13 @@ public class Main {
         FileInputStream is = new FileInputStream(fileName);
         ANTLRInputStream input = new ANTLRInputStream(is);
         SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(ThrowingErrorListener.INSTANCE);
         //SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
         //Node ast = visitor.visit(parser.prog()); //generazione AST
 
