@@ -2,8 +2,6 @@ package ast;
 import java.util.ArrayList;
 
 public class ProgramNode implements Node{
-
-
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
 

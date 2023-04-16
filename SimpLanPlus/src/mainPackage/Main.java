@@ -2,53 +2,40 @@ package mainPackage;
 
 import java.io.FileInputStream;
 
+
+import ast.Node;
+import ast.SimpLanPlusVisitorImpl;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import parser.SimpLanPlusLexer;
-import parser.SimpLanPlusParser;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
         String fileName = "./src/mainPackage/prova.simplan";
-
         FileInputStream is = new FileInputStream(fileName);
         ANTLRInputStream input = new ANTLRInputStream(is);
         SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
-        lexer.removeErrorListeners();
-        lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
+        //System.out.println(lexer.lexicalErrors); NON DOVREBBE DARE SUBITO GLI ERRORI PRIMA DI COSTRUIRE L'AST
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-
         SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
-        parser.removeErrorListeners();
-        parser.addErrorListener(ThrowingErrorListener.INSTANCE);
-        //SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
-        //Node ast = visitor.visit(parser.prog()); //generazione AST
 
-        //SIMPLE CHECK FOR LEXER ERRORS
-        if (lexer.lexicalErrors > 0) {
-            System.out.println("The program was not in the right format. Exiting the compilation process now");
-        }
-//        else {
-//            SymbolTable ST = new SymbolTable();
-//            ArrayList<SemanticError> errors = ast.checkSemantics(ST, 0);
-//            if(errors.size()>0){
-//                System.out.println("You had: " + errors.size() + " errors:");
-//                for(SemanticError e : errors)
-//                    System.out.println("\t" + e);
-//            } else {
-//                System.out.println("Visualizing AST...");
-//                System.out.println(ast.toPrint(""));
-//
-//                Node type = ast.typeCheck(); //type-checking bottom-up
-//                if (type instanceof ErrorType)
-//                    System.out.println("Type checking is WRONG!");
-//                else
-//                    System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
-//
-//
-//            }
+        SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
+        Node ast = visitor.visit(parser.program()); //generazione AST
+        //Create the parser error listenter
+        //ParserErrorHandler handler = new ParserErrorHandler();
+        //lexer.removeErrorListeners();
+        //lexer.addErrorListener(handler);
+        //parser.removeErrorListeners();
+        //parser.addErrorListener(handler);
+
+        //SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
+
+//        if (handler.isError()) {
+//            System.out.println(handler);
+//            System.out.println(handler.getErrors());
+//            //handler.dumpToFile(filename + ".log");
+//            return;
+//        }
     }
 }

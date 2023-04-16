@@ -3,8 +3,11 @@ package ast;
 public class StatementNode implements Node {
 
     private Node statement;
+    private int line;
+
     public StatementNode(Node statement, int line) {
         this.statement = statement;
+        this.line = line;
     }
 
     public Node getStatement() {

@@ -1,12 +1,11 @@
 package ast;
 
 public class IdNode implements Node {
-    private String id ;
-    //private STentry type ;
-    private int nesting ;
-
-    public IdNode (String _id) {
-        id = _id ;
+    private String id;
+    private int line;
+    public IdNode(String id, int line){
+        this.id = id;
+        this.line = line;
     }
     @Override
     public String codeGeneration() {
