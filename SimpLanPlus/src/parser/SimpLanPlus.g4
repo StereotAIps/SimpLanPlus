@@ -1,11 +1,11 @@
 grammar SimpLanPlus ;
 
-prog   : exp
-       | (dec)+  (stm)* (exp)?
+prog   : exp                        #singleExp
+       | (dec)+  (stm)* (exp)?      #letInExp
        ;
 
-dec    : type ID ';'
-       | type ID '(' ( param ( ',' param)* )? ')' '{' body '}'
+dec    : type ID ';'                                            #idDec
+       | type ID '(' ( param ( ',' param)* )? ')' '{' body '}'  #funDec
        ;
 
 param  : type ID ;
@@ -18,21 +18,24 @@ type   : 'int'
        | 'void'
        ;
 
-stm   : ID '=' exp ';'
-       | ID '(' (exp (',' exp)* )? ')' ';'
-       | 'if' '(' exp ')' '{' (stm)* '}' ('else' '{' (stm)* '}')?
+stm    : ID '=' exp ';'                                             #asgStm
+       | call ';'                                                   #callStm
+       | 'if' '(' exp ')' '{' (stm)* '}' ('else' '{' (stm)* '}')?   #ifStm
 	   ;
 
-exp    :  INTEGER | 'true' | 'false'
-       | ID
-       | '!' exp
-       | exp ('*' | '/') exp
-       | exp ('+' | '-') exp
-       | exp ('>' | '<' | '>=' | '<=' | '==') exp
-       | exp ('&&' | '||') exp
-       | 'if' '(' exp ')' '{' exp '}' 'else' '{' exp '}'
-       | '(' exp ')'
-       | ID '(' (exp (',' exp)* )? ')'
+call : ID '(' (exp (',' exp)* )? ')';
+
+exp    :  INTEGER                                                   #intExp
+       | ('true' | 'false')                                         #boolExp
+       | ID                                                         #idExp
+       | '!' exp                                                    #notExp
+       | exp ('*' | '/') exp                                        #binExp
+       | exp ('+' | '-') exp                                        #binExp
+       | exp ('>' | '<' | '>=' | '<=' | '==') exp                   #binExp
+       | exp ('&&' | '||') exp                                      #binExp
+       | 'if' '(' exp ')' '{' exp '}' 'else' '{' exp '}'            #ifExp
+       | '(' exp ')'                                                #baseExp
+       | call                                                       #callExp
        ;
 
 /*------------------------------------------------------------------
