@@ -1,20 +1,19 @@
-Progetto AA 2021-22 -- SimpLanPlus [PUNTEGGIO MAX: 6 PUNTI]
+Progetto AA 2022-23 -- SimpLanPlus [PUNTEGGIO MAX: 6 PUNTI]
 
-SimpLanPlus è un semplice linguaggio imperativo che estende SimpLan, in cui 
+SimpLanPlus è un semplice linguaggio imperativo che estende SimpLan, in cui
 
 * i tipi includono anche il tipo void ;
 
 * le dichiarazioni di variabili sono:  type ID (senza inizializzazione) ;
 
-* le funzioni possono essere ricorsive (ma non mutuamente ricorsive) 
-ESEMPIO: int fact(int n){ if (n == 0){ 1 } else { n*f(n-1) }
+* le funzioni possono essere ricorsive (ma non mutuamente ricorsive)
+ESEMPIO: int fact(int n){ if (n == 0){ 1 } else { n*fact(n-1) }
 
-* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure
-let dec in stm 
+* ci sono i comandi: un programma o il corpo di una funzione può essere stm oppure dec stm
 
-* sono ammessi corpi di funzioni del tipo { stm ; exp }. In tal caso la funzione, dopo 
+* sono ammessi corpi di funzioni del tipo { stm ; exp }. In tal caso la funzione, dopo
 aver valutato stm, ritorna il valore di exp.
-ESEMPIO: let int x ; in f(int z){ x = 1 ; x+z} f(3)   ritorna 4
+ESEMPIO: int x ; in f(int z){ x = 1 ; x+z} f(3)   ritorna 4
 
 VEDERE SINTASSI IN ALLEGATO -- file SimpLanPlus.g4
 

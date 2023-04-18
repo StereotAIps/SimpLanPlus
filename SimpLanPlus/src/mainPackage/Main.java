@@ -22,6 +22,7 @@ public class Main {
 
         SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
         Node ast = visitor.visit(parser.program()); //generazione AST
+
         //Create the parser error listenter
         //ParserErrorHandler handler = new ParserErrorHandler();
         //lexer.removeErrorListeners();
