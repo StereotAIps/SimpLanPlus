@@ -137,18 +137,6 @@ public class SimpLanPlusBaseListener implements SimpLanPlusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCall(SimpLanPlusParser.CallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCall(SimpLanPlusParser.CallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBaseExp(SimpLanPlusParser.BaseExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -161,13 +149,13 @@ public class SimpLanPlusBaseListener implements SimpLanPlusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinExp(SimpLanPlusParser.BinExpContext ctx) { }
+	@Override public void enterEqExp(SimpLanPlusParser.EqExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBinExp(SimpLanPlusParser.BinExpContext ctx) { }
+	@Override public void exitEqExp(SimpLanPlusParser.EqExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -197,6 +185,18 @@ public class SimpLanPlusBaseListener implements SimpLanPlusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCompExp(SimpLanPlusParser.CompExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompExp(SimpLanPlusParser.CompExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBoolExp(SimpLanPlusParser.BoolExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -216,6 +216,30 @@ public class SimpLanPlusBaseListener implements SimpLanPlusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCallExp(SimpLanPlusParser.CallExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOpExp(SimpLanPlusParser.OpExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOpExp(SimpLanPlusParser.OpExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotExp(SimpLanPlusParser.NotExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotExp(SimpLanPlusParser.NotExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -78,12 +78,6 @@ public interface SimpLanPlusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStm(SimpLanPlusParser.IfStmContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SimpLanPlusParser#call}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCall(SimpLanPlusParser.CallContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code baseExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
@@ -91,12 +85,12 @@ public interface SimpLanPlusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBaseExp(SimpLanPlusParser.BaseExpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code binExp}
+	 * Visit a parse tree produced by the {@code eqExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBinExp(SimpLanPlusParser.BinExpContext ctx);
+	T visitEqExp(SimpLanPlusParser.EqExpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code idExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
@@ -112,6 +106,13 @@ public interface SimpLanPlusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfExp(SimpLanPlusParser.IfExpContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code compExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompExp(SimpLanPlusParser.CompExpContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code boolExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
@@ -125,6 +126,20 @@ public interface SimpLanPlusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCallExp(SimpLanPlusParser.CallExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code opExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOpExp(SimpLanPlusParser.OpExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code notExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotExp(SimpLanPlusParser.NotExpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code intExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.

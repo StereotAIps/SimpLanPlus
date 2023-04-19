@@ -8,46 +8,40 @@ import java.util.ArrayList;
 
 public class DecvarNode implements Node {
     private String id;
-    private Node type;
-    private Node exp;
-    private int nesting;
+    private Type type;
+    private int nesting ;
 
-    public DecvarNode(String _id, Node _type, Node _exp) {
+    public DecvarNode (String _id, Type _type) {
         id = _id ;
         type = _type ;
-        exp = _exp ;
     }
 
+    public String getId(){
+        return id;
+    }
+
+    public Type getType(){
+        return type;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-//        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//        nesting = _nesting ;
-//        errors.addAll(exp.checkSemantics(ST, nesting));
-//
-//        if (ST.top_lookup(id) == true)
-//            errors.add(new SemanticError("Var id " + id + " already declared"));
-//        else ST.insert(id, (Type) type, nesting,"") ;
-//
-//        return errors ;
-        return null; //a caso
+        nesting = _nesting ;
+        return new ArrayList<SemanticError>();
     }
 
+    //non utilizzato
     public Type typeCheck () {
-//        if (exp.typeCheck().getClass().equals(type.getClass() ))
-//            return null ;
-//        else {
-//            System.out.println("Type Error: incompatible type of expression for variable "+id) ;
-//            return new ErrorType() ;
-//        }
         return null;
     }
 
+    //non utilizzato
     public String codeGeneration() {
-        return exp.codeGeneration() +
-                "pushr A0 \n" ;
+        return "";
     }
 
     public String toPrint(String s) {
-        return s + "Var:" + id + type.toPrint(" ") + "\n" + exp.toPrint(s+"\t");
+        return s+"Par " + id + ":" + type.toPrint(s) ;
     }
 
 }

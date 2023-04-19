@@ -18,24 +18,25 @@ type   : 'int'
        | 'void'
        ;
 
-stm    : ID '=' exp ';'                                                 #asgStm
-       | call ';'                                                       #callStm
-       | 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?       #ifStm
+stm    : ID '=' exp ';'                                                                                      #asgStm
+       | ID '(' (exp (',' exp)* )? ')' ';'                                                                   #callStm
+       | 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?                                            #ifStm
 	   ;
 
-call   : ID '(' (exp (',' exp)* )? ')' ;
 
-exp    :  INTEGER                                                       #intExp
-       | ('true' | 'false')                                             #boolExp
-       | ID                                                             #idExp
-       | '!' exp                                                        #binExp
-       | exp ('*' | '/') exp                                            #numExp
-       | exp ('+' | '-') exp                                            #numExp
-       | exp ('>' | '<' | '>=' | '<=' | '==') exp                       #binExp
-       | exp ('&&' | '||') exp                                          #binExp
-       | 'if' '(' exp ')' '{' (stm)* exp '}' 'else' '{' (stm)* exp '}'  #ifExp
-       | '(' exp ')'                                                    #baseExp
-       | call                                                           #callExp
+
+exp    :  INTEGER                                                                                            #intExp
+       | ('true' | 'false')                                                                                  #boolExp
+       | ID                                                                                                  #idExp
+       | '!' exp                                                                                             #notExp
+       | leftExp=exp ('*' | '/') rightExp=exp                                                                #numExp
+       | leftExp=exp ('+' | '-') rightExp=exp                                                                #numExp
+       | leftExp=exp  '==' rightExp=exp                                                                      #eqExp
+       | leftExp=exp ('>' | '<' | '>=' | '<=' ) rightExp=exp                                                 #compExp
+       | leftExp=exp ('&&' | '||') rightExp=exp                                                              #opExp
+       | 'if' '(' cond=exp ')' '{' (thenStm=stm)* thenExp=exp '}' 'else' '{' (elseStm=stm)* elseExp=exp '}'  #ifExp
+       | '(' exp ')'                                                                                         #baseExp
+       | ID '(' (exp (',' exp)* )? ')'                                                                       #callExp
        ;
 
 /*------------------------------------------------------------------

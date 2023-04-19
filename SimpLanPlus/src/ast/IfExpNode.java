@@ -6,15 +6,22 @@ import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
-public class IfNode implements Node {
-    private Node guard;
-    private Node thenbranch;
-    private Node elsebranch;
+/**
+ *  exp: 'if' '(' cond=exp ')' '{' (thenStm=stm)* thenExp=exp '}' 'else' '{' (elseStm=stm)* elseExp=exp '}'  #ifExp
+ * **/
+public class IfExpNode implements Node {
+    private Node exp;
+    private ArrayList<Node> thenStm;
+    private Node thenExp;
+    private ArrayList<Node> elseStm;
+    private Node elseExp;
 
-    public IfNode(Node _guard, Node _thenbranch, Node _elsebranch) {
-        guard = _guard;
-        thenbranch = _thenbranch;
-        elsebranch = _elsebranch;
+    public IfExpNode(Node _guard, ArrayList<Node> _thenStm, Node _thenExp, ArrayList<Node> _elseStm, Node _elseExp) {
+        exp = _guard;
+        thenStm = _thenStm;
+        thenExp = _thenExp;
+        elseStm = _elseStm;
+        elseExp = _elseExp;
     }
 
     @Override

@@ -6,21 +6,22 @@ import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
+/**
+ * dec    : type ID '(' ( param ( ',' param)* )? ')' '{' body '}'          #funDec
+ * **/
 public class DecfunNode implements Node{
     private String id;
     private Type returntype ;
     private ArrayList<ParNode> parlist ;
-    private ArrayList<Node> declist ;
     private Node body ;
     //private ArrowType type ;
     private int nesting ;
     private String flabel ;
 
-    public DecfunNode (String _id, Type _type, ArrayList<ParNode> _parlist, ArrayList<Node> _declist, Node _body) {
+    public DecfunNode (String _id, Type _type, ArrayList<ParNode> _parlist, Node _body) {
         id = _id ;
         returntype = _type;
         parlist = _parlist ;
-        declist = _declist ;
         body = _body ;
     }
 
@@ -130,9 +131,9 @@ public class DecfunNode implements Node{
             parlstr += par.toPrint(s);
         }
         String declstr= "";
-        if (declist!=null)
-            for (Node dec:declist)
-                declstr+=dec.toPrint(s+" ");
+//        if (declist!=null)
+//            for (Node dec:declist)
+//                declstr+=dec.toPrint(s+" ");
         return s+"Fun:" + id +"\n"
                 //  +type.toPrint(s+"  ")
                 +parlstr

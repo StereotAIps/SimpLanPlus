@@ -6,15 +6,23 @@ import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
-public class IfMultNode implements Node {
+/**
+ * stm    : 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?                 #ifStm
+ * **/
+public class IfStmNode implements Node {
     private Node guard;
     private ArrayList<Node> thenbranch;
-    private ArrayList<Node> elsebranch;
+    //private ArrayList<Node> elsebranch;
 
-    public IfMultNode(Node _guard, ArrayList<Node> _thenbranch, ArrayList<Node> _elsebranch) {
+    public IfStmNode(Node _guard, ArrayList<Node> _thenbranch, ArrayList<Node> _elsebranch) {
         guard = _guard;
         thenbranch = _thenbranch;
-        elsebranch = _elsebranch;
+      //  elsebranch = _elsebranch;
+    }
+
+    public IfStmNode(Node _guard, ArrayList<Node> _thenbranch) {
+        guard = _guard;
+        thenbranch = _thenbranch;
     }
 
     @Override

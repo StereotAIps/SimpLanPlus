@@ -122,16 +122,6 @@ public interface SimpLanPlusListener extends ParseTreeListener {
 	 */
 	void exitIfStm(SimpLanPlusParser.IfStmContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SimpLanPlusParser#call}.
-	 * @param ctx the parse tree
-	 */
-	void enterCall(SimpLanPlusParser.CallContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SimpLanPlusParser#call}.
-	 * @param ctx the parse tree
-	 */
-	void exitCall(SimpLanPlusParser.CallContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code baseExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
@@ -144,17 +134,17 @@ public interface SimpLanPlusListener extends ParseTreeListener {
 	 */
 	void exitBaseExp(SimpLanPlusParser.BaseExpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code binExp}
+	 * Enter a parse tree produced by the {@code eqExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void enterBinExp(SimpLanPlusParser.BinExpContext ctx);
+	void enterEqExp(SimpLanPlusParser.EqExpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code binExp}
+	 * Exit a parse tree produced by the {@code eqExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void exitBinExp(SimpLanPlusParser.BinExpContext ctx);
+	void exitEqExp(SimpLanPlusParser.EqExpContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code idExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
@@ -180,6 +170,18 @@ public interface SimpLanPlusListener extends ParseTreeListener {
 	 */
 	void exitIfExp(SimpLanPlusParser.IfExpContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code compExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompExp(SimpLanPlusParser.CompExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code compExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompExp(SimpLanPlusParser.CompExpContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code boolExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
@@ -203,6 +205,30 @@ public interface SimpLanPlusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCallExp(SimpLanPlusParser.CallExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code opExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterOpExp(SimpLanPlusParser.OpExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code opExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitOpExp(SimpLanPlusParser.OpExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code notExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotExp(SimpLanPlusParser.NotExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code notExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotExp(SimpLanPlusParser.NotExpContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code intExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
