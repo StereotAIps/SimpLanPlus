@@ -12,11 +12,11 @@ import java.util.ArrayList;
 public class AsgNode implements Node{
 
     private String id;
-    private Node type;
+    private Node exp;
 
-    public AsgNode(String _id, Node _type, Node _exp) {
+    public AsgNode(String _id, Node _exp) {
         id = _id ;
-        type = _type ;
+        exp = _exp ;
     }
 
     @Override

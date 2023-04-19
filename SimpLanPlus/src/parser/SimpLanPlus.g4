@@ -1,11 +1,11 @@
 grammar SimpLanPlus ;
 
-prog   : exp                        #singleExp
-       | (dec)+  (stm)* (exp)?      #letInExp
+prog   : exp                                                            #expProg
+       | (dec)+ (stm)* (exp)?                                           #letProg
        ;
 
-dec    : type ID ';'                                            #idDec
-       | type ID '(' ( param ( ',' param)* )? ')' '{' body '}'  #funDec
+dec    : type ID ';'                                                    #varDec
+       | type ID '(' ( param ( ',' param)* )? ')' '{' body '}'          #funDec
        ;
 
 param  : type ID ;
@@ -18,24 +18,24 @@ type   : 'int'
        | 'void'
        ;
 
-stm    : ID '=' exp ';'                                             #asgStm
-       | call ';'                                                   #callStm
-       | 'if' '(' exp ')' '{' (stm)* '}' ('else' '{' (stm)* '}')?   #ifStm
+stm    : ID '=' exp ';'                                                 #asgStm
+       | call ';'                                                       #callStm
+       | 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?       #ifStm
 	   ;
 
-call : ID '(' (exp (',' exp)* )? ')';
+call   : ID '(' (exp (',' exp)* )? ')' ;
 
-exp    :  INTEGER                                                   #intExp
-       | ('true' | 'false')                                         #boolExp
-       | ID                                                         #idExp
-       | '!' exp                                                    #notExp
-       | exp ('*' | '/') exp                                        #binExp
-       | exp ('+' | '-') exp                                        #binExp
-       | exp ('>' | '<' | '>=' | '<=' | '==') exp                   #binExp
-       | exp ('&&' | '||') exp                                      #binExp
-       | 'if' '(' exp ')' '{' exp '}' 'else' '{' exp '}'            #ifExp
-       | '(' exp ')'                                                #baseExp
-       | call                                                       #callExp
+exp    :  INTEGER                                                       #intExp
+       | ('true' | 'false')                                             #boolExp
+       | ID                                                             #idExp
+       | '!' exp                                                        #binExp
+       | exp ('*' | '/') exp                                            #numExp
+       | exp ('+' | '-') exp                                            #numExp
+       | exp ('>' | '<' | '>=' | '<=' | '==') exp                       #binExp
+       | exp ('&&' | '||') exp                                          #binExp
+       | 'if' '(' exp ')' '{' (stm)* exp '}' 'else' '{' (stm)* exp '}'  #ifExp
+       | '(' exp ')'                                                    #baseExp
+       | call                                                           #callExp
        ;
 
 /*------------------------------------------------------------------

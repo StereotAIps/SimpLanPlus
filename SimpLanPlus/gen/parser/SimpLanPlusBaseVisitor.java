@@ -18,21 +18,21 @@ public class SimpLanPlusBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSingleExp(SimpLanPlusParser.SingleExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpProg(SimpLanPlusParser.ExpProgContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLetInExp(SimpLanPlusParser.LetInExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLetProg(SimpLanPlusParser.LetProgContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdDec(SimpLanPlusParser.IdDecContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVarDec(SimpLanPlusParser.VarDecContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -137,12 +137,12 @@ public class SimpLanPlusBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNotExp(SimpLanPlusParser.NotExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIntExp(SimpLanPlusParser.IntExpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIntExp(SimpLanPlusParser.IntExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNumExp(SimpLanPlusParser.NumExpContext ctx) { return visitChildren(ctx); }
 }

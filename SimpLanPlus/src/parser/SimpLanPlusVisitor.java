@@ -11,26 +11,26 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SimpLanPlusVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code singleExp}
+	 * Visit a parse tree produced by the {@code expProg}
 	 * labeled alternative in {@link SimpLanPlusParser#prog}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSingleExp(SimpLanPlusParser.SingleExpContext ctx);
+	T visitExpProg(SimpLanPlusParser.ExpProgContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code letInExp}
+	 * Visit a parse tree produced by the {@code letProg}
 	 * labeled alternative in {@link SimpLanPlusParser#prog}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLetInExp(SimpLanPlusParser.LetInExpContext ctx);
+	T visitLetProg(SimpLanPlusParser.LetProgContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code idDec}
+	 * Visit a parse tree produced by the {@code varDec}
 	 * labeled alternative in {@link SimpLanPlusParser#dec}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdDec(SimpLanPlusParser.IdDecContext ctx);
+	T visitVarDec(SimpLanPlusParser.VarDecContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code funDec}
 	 * labeled alternative in {@link SimpLanPlusParser#dec}.
@@ -126,17 +126,17 @@ public interface SimpLanPlusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCallExp(SimpLanPlusParser.CallExpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code notExp}
-	 * labeled alternative in {@link SimpLanPlusParser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotExp(SimpLanPlusParser.NotExpContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code intExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIntExp(SimpLanPlusParser.IntExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numExp}
+	 * labeled alternative in {@link SimpLanPlusParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumExp(SimpLanPlusParser.NumExpContext ctx);
 }

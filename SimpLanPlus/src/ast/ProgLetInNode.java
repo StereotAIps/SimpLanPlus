@@ -8,15 +8,26 @@ import ast.Types.Type;
 import semanticanalysis.SemanticError;
 import semanticanalysis.SymbolTable;
 
+/**
+ * prog   : (dec)+ (stm)* (exp)?
+ * **/
 public class ProgLetInNode implements Node {
 	
-	private ArrayList<Node> dec ;
+	private ArrayList<Node> declist ;
+
+	private ArrayList<Node> stmlist ;
 	private Node exp ;
 	private int nesting ;
   
-	public ProgLetInNode (ArrayList<Node> _dec, Node _exp) {
-		dec = _dec ;
+	public ProgLetInNode (ArrayList<Node> _dec, ArrayList<Node> _stm, Node _exp) {
+		declist = _dec ;
+		stmlist = _stm ;
 		exp = _exp ;
+	}
+
+	public ProgLetInNode (ArrayList<Node> _dec, ArrayList<Node> _stm) {
+		declist = _dec ;
+		stmlist = _stm ;
 	}
   
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
@@ -42,7 +53,7 @@ public class ProgLetInNode implements Node {
 		return null;
 	}
 	public Type typeCheck () {
-		for (Node d: dec)
+		for (Node d: declist)
 		    d.typeCheck();
 		return exp.typeCheck();
 	}
@@ -64,7 +75,7 @@ public class ProgLetInNode implements Node {
 		  
 	public String toPrint(String s) {
 		String declstr="";
-		for (Node d : dec)
+		for (Node d : declist)
 			declstr += d.toPrint(s+"\t");
 		return s+"ProgLetIn\n" + declstr + "\n" + exp.toPrint(s+"\t") ; 
 	}
