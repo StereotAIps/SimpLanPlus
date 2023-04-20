@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 public class Type implements Node {
     public boolean isEqual(Type A, Type B) {

@@ -2,8 +2,12 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.ArrowType;
+import symboltable.STentry;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * dec    : type ID '(' ( param ( ',' param)* )? ')' '{' body '}'          #funDec
@@ -17,6 +21,8 @@ public class DecfunNode implements Node{
     private int nesting ;
     private String flabel ;
 
+    private ArrowType type ;
+
     public DecfunNode (String _id, Type _type, ArrayList<ParNode> _parlist, Node _body) {
         id = _id ;
         returntype = _type;
@@ -25,40 +31,36 @@ public class DecfunNode implements Node{
     }
 
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+        nesting = _nesting ;
 
-//        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//        nesting = _nesting ;
-//
-//        if (ST.lookup(id) != null)
-//            errors.add(new SemanticError("Identifier " + id + " already declared"));
-//        else {
-//            HashMap<String,STentry> HM = new HashMap<String,STentry>() ;
-//            ArrayList<Type> partypes = new ArrayList<Type>() ;
-//
-//            ST.add(HM);
-//
-//            for (ParNode arg : parlist){
-//                partypes.add(arg.getType());
-//                if (ST.top_lookup(arg.getId()))
-//                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared")) ;
-//                else ST.insert(arg.getId(), arg.getType(), nesting+1, "") ;
-//            }
-//
-//            type = new ArrowType(partypes, returntype) ;
-//
-//            ST.increaseoffset() ; // aumentiamo di 1 l'offset per far posto al return value
-//            for (Node dec : declist)
-//                errors.addAll(dec.checkSemantics(ST, nesting+1));
-//
-//            errors.addAll(body.checkSemantics(ST, nesting+1));
-//            ST.remove();
-//
-//            flabel = SimpLanlib.freshFunLabel() ;
-//
-//            ST.insert(id, type, nesting, flabel) ;
-//        }
-//        return errors ; // problemi con la generazione di codice!
-        return null;
+        if (ST.lookup(id) != null)
+            errors.add(new SemanticError("Identifier " + id + " already declared"));
+        else {
+            HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
+            ArrayList<Type> partypes = new ArrayList<Type>() ;
+
+            ST.add(HM);
+
+            for (ParNode arg : parlist){
+                partypes.add(arg.getType());
+                if (ST.top_lookup(arg.getId()))
+                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared")) ;
+                else ST.insert(arg.getId(), arg.getType(), nesting+1, "") ;
+            }
+
+            type = new ArrowType(partypes, returntype) ;
+
+            ST.increaseoffset() ; // aumentiamo di 1 l'offset per far posto al return value
+
+            errors.addAll(body.checkSemantics(ST, nesting+1));
+            ST.remove();
+
+            flabel = id;//SimpLanlib.freshFunLabel() ;
+
+            ST.insert(id, type, nesting, flabel) ;
+        }
+        return errors ; // problemi con la generazione di codice!
     }
 
     public Type typeCheck () {

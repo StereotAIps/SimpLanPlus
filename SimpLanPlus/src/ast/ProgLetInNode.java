@@ -1,10 +1,11 @@
 package ast;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ast.Types.Type;
-//import evaluator.SimpLanlib;
-//import semanticanalysis.STentry;
 import semanticanalysis.SemanticError;
+import symboltable.STentry;
+import symboltable.SymbolTable;
 
 /**
  * prog   : (dec)+ (stm)* (exp)?
@@ -29,26 +30,29 @@ public class ProgLetInNode implements Node {
 	}
   
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-//		  nesting = _nesting + 1 ;
-//	      HashMap<String,STentry> H = new HashMap<String, STentry>();
-//	      ST.add(H);
-//
-//	      //declare resulting list
-//	      ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//
-//	      for (Node d : dec) {
-//	    	  	errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
-//	      }												  // ad eccezione delle funzioni ...
-//
-//	      //check semantics in the exp body
-//	      errors.addAll(exp.checkSemantics(ST, nesting)) ;
-//
-//	      //clean the scope, we are leaving a let scope
-//	      ST.remove();
-//
-//	      //return the result
-//	      return errors;
-		return null;
+		nesting = _nesting + 1 ;
+		HashMap<String, STentry> H = new HashMap<String, STentry>();
+		ST.add(H);
+
+		//declare resulting list
+		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+
+		for (Node d : declist) {
+			errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
+		}
+		for (Node d : stmlist) {
+			errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
+		}
+
+		//check semantics in the exp body
+		if(exp != null)
+			errors.addAll(exp.checkSemantics(ST, nesting)) ;
+
+		//clean the scope, we are leaving a let scope
+		ST.remove();
+
+		//return the result
+		return errors;
 	}
 	public Type typeCheck () {
 		for (Node d: declist)

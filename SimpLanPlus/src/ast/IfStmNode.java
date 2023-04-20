@@ -2,11 +2,12 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
 /**
- * stm    : 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?                 #ifStm
+ * stm    : 'if' '(' exp ')' '{' left=stms '}' ('else' '{' right=stms '}')?                   #ifStm
  * **/
 public class IfStmNode implements Node {
     private Node exp;
@@ -26,14 +27,17 @@ public class IfStmNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-//        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//
-//        errors.addAll(guard.checkSemantics(ST, _nesting));
-//        errors.addAll(thenbranch.checkSemantics(ST, _nesting));
-//        errors.addAll(elsebranch.checkSemantics(ST, _nesting));
-//
-//        return errors;
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+
+        errors.addAll(exp.checkSemantics(ST, _nesting));
+        for (Node d : thenbranch) {
+            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+        }
+        for (Node d : elsebranch) {
+            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+        }
+
+        return errors;
     }
 
     public Type typeCheck() {

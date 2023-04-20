@@ -2,6 +2,9 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.ArrowType;
+import symboltable.STentry;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -10,6 +13,7 @@ public class CallNode implements Node {
     //private STentry entry ;
     private ArrayList<Node> parameters ;
     private int nesting ;
+    private STentry entry ;
 
     public CallNode(String _id, ArrayList<Node> _parameters) {
         id = _id;
@@ -17,18 +21,17 @@ public class CallNode implements Node {
     }
 
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-//        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//        nesting = _nesting ;
-//        STentry tmp = ST.lookup(id) ;
-//        if (tmp != null) {
-//            entry = tmp ;
-//            for (Node par : parameters)
-//                errors.addAll(par.checkSemantics(ST, nesting));
-//        } else {
-//            errors.add(new SemanticError("Id " + id + " not declared")) ;
-//        }
-//        return errors;
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+        nesting = _nesting ;
+        STentry tmp = ST.lookup(id) ;
+        if (tmp != null) {
+            entry = tmp ;
+            for (Node par : parameters)
+                errors.addAll(par.checkSemantics(ST, nesting));
+        } else {
+            errors.add(new SemanticError("Id " + id + " not declared")) ;
+        }
+        return errors;
     }
 
     public Type typeCheck() {

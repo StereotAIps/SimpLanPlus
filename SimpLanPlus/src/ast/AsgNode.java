@@ -2,6 +2,7 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class AsgNode implements Node{
     private String id;
     private Node exp;
 
+    private int nesting;
     public AsgNode(String _id, Node _exp) {
         id = _id ;
         exp = _exp ;
@@ -20,7 +22,10 @@ public class AsgNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+        nesting = _nesting ;
+        errors.addAll(exp.checkSemantics(ST, nesting));
+        return errors ;
     }
 
     @Override

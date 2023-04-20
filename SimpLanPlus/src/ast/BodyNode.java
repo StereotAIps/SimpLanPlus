@@ -2,8 +2,11 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.STentry;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  body   : (dec)* (stm)* (exp)?
@@ -14,6 +17,8 @@ public class BodyNode implements Node{
     private ArrayList<Node> declist ;
     private ArrayList<Node> stmlist ;
     private Node exp;
+
+    private int nesting;
 
     public BodyNode (ArrayList<Node> declist, ArrayList<Node> stmlist, Node exp){
         this.declist = declist;
@@ -28,7 +33,29 @@ public class BodyNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        return null;
+        nesting = _nesting + 1 ;
+        HashMap<String, STentry> H = new HashMap<String, STentry>();
+        ST.add(H);
+
+        //declare resulting list
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+
+        for (Node d : declist) {
+            errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
+        }
+        for (Node d : stmlist) {
+            errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
+        }
+
+        //check semantics in the exp body
+        if(exp != null)
+            errors.addAll(exp.checkSemantics(ST, nesting)) ;
+
+        //clean the scope, we are leaving a let scope
+        ST.remove();
+
+        //return the result
+        return errors;
     }
 
     @Override

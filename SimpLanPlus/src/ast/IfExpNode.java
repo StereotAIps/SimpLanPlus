@@ -2,6 +2,7 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -25,14 +26,18 @@ public class IfExpNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-//        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//
-//        errors.addAll(guard.checkSemantics(ST, _nesting));
-//        errors.addAll(thenbranch.checkSemantics(ST, _nesting));
-//        errors.addAll(elsebranch.checkSemantics(ST, _nesting));
-//
-//        return errors;
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+
+        errors.addAll(exp.checkSemantics(ST, _nesting));
+        errors.addAll(thenExp.checkSemantics(ST, _nesting));
+        errors.addAll(elseExp.checkSemantics(ST, _nesting));
+        for (Node d : thenStm) {
+            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+        }
+        for (Node d : elseStm) {
+            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+        }
+        return errors;
     }
 
     public Type typeCheck() {

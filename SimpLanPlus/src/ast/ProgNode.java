@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError ;
+import symboltable.SymbolTable;
 
 /**
  * prog   : exp                        #singleExp
@@ -14,8 +15,9 @@ public class ProgNode implements Node {
 	public ProgNode (Node _exp) {
 		exp = _exp ;
 	}
-  
-	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {		
+
+
+	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
 		return exp.checkSemantics(ST, _nesting);
 	}
 

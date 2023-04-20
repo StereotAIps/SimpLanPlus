@@ -6,13 +6,15 @@ import ast.Node;
 import ast.Types.Type;
 //import semanticanalysis.STentry;
 import semanticanalysis.SemanticError;
+import symboltable.STentry;
+import symboltable.SymbolTable;
 
 /**
  *  exp: ID #idExp
  * **/
 public class IdExpNode implements Node {
 	private String id ;
-	//private STentry type ;
+	private STentry type ;
 	private int nesting ;
   
 	public IdExpNode(String _id) {
@@ -20,16 +22,15 @@ public class IdExpNode implements Node {
 	}
   
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-//		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-//		nesting = _nesting ;
-//
-//		STentry st_type = ST.lookup(id) ;
-//		if (st_type == null)
-//			errors.add(new SemanticError("Id " + id + " not declared"));
-//		else type = st_type ;
-//
-//		return errors;
-		return null;
+		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+		nesting = _nesting ;
+
+		STentry st_type = ST.lookup(id) ;
+		if (st_type == null)
+			errors.add(new SemanticError("Id " + id + " not declared"));
+		else type = st_type ;
+
+		return errors;
 	}
   
 	public Type typeCheck () {

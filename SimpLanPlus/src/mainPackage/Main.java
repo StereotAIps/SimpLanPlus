@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 
 import ast.Node;
@@ -10,6 +11,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import parser.ParserErrorHandler;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
+import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 /**
  * param  : type ID
@@ -41,6 +44,14 @@ public class Main {
         }
         System.out.println("[L] Parse completed without issues!");
         System.out.println("[L] Checking for semantic errors...");
+        SymbolTable ST = new SymbolTable();
+        ArrayList<SemanticError> errors = ast.checkSemantics(ST, 0);
+        if(errors.size()>0) {
+            System.out.println("You had: " + errors.size() + " errors:");
+            for (SemanticError e : errors)
+                System.out.println("\t" + e);
+            return;
+        }
         System.out.println("Visualizing AST...");
         System.out.println(ast.toPrint(""));
     }

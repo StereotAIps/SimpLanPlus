@@ -6,6 +6,7 @@ import ast.Node;
 import ast.Types.IntType;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 public class IntExpNode implements Node {
 	private Integer val;

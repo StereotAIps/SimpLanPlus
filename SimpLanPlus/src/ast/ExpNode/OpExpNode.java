@@ -3,6 +3,7 @@ package ast.ExpNode;
 import ast.Node;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
+import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,12 @@ public class OpExpNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+
+        errors.addAll(left.checkSemantics(ST, _nesting));
+        errors.addAll(right.checkSemantics(ST, _nesting));
+
+        return errors;
     }
 
     @Override
