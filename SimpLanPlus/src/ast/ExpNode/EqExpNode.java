@@ -6,15 +6,14 @@ import semanticanalysis.SemanticError;
 
 import java.util.ArrayList;
 
-/**
- * exp:'!' exp                                                                                             #notExp
- * */
-public class NotExpNode implements Node {
+public class EqExpNode implements Node {
 
-    private Node exp;
+    private Node left;
+    private Node right;
 
-    public NotExpNode( Node exp) {
-        this.exp = exp;
+    public EqExpNode(Node left, Node right) {
+        this.left = left;
+        this.right = right;
     }
 
     @Override
@@ -34,6 +33,6 @@ public class NotExpNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return s+"Op:!= \n" + exp.toPrint(s+"  ") ;
+        return s+"Op: == \n" + left.toPrint(s+"  ")  + right.toPrint(s+"  ") ;
     }
 }

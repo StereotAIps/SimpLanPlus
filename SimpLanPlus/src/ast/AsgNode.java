@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -36,6 +35,6 @@ public class AsgNode implements Node{
 
     @Override
     public String toPrint(String s) {
-        return null;
+        return s + "Asg:" +"\n"+s+"  ID:"+ id + "\n" + exp.toPrint(s+"  ");
     }
 }

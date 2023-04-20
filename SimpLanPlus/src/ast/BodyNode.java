@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -44,6 +43,16 @@ public class BodyNode implements Node{
 
     @Override
     public String toPrint(String s) {
-        return null;
+
+        String declstr="";
+        for (Node d : declist)
+            declstr += d.toPrint(s+"  ");
+        String stmstr="";
+        for (Node d : stmlist)
+            stmstr += d.toPrint(s+"  ");
+        return s+"Body\n"
+                + ((!declstr.equals(""))?(declstr + ""):"")
+                + ((!stmstr.equals(""))?(stmstr + ""):"")
+                + ((exp != null)? (exp.toPrint(s+"  ")):"") ;
     }
 }

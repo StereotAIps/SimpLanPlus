@@ -1,17 +1,17 @@
-package ast;
+package ast.ExpNode;
 
 import java.util.ArrayList;
 
+import ast.Node;
 import ast.Types.BoolType;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
-public class BoolNode implements Node {
+public class BoolExpNode implements Node {
 
 	private boolean val;
   
-	public BoolNode (boolean _val) {
+	public BoolExpNode(boolean _val) {
 		val = _val ;
 	}
 

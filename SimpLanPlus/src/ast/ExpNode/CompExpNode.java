@@ -3,7 +3,6 @@ package ast.ExpNode;
 import ast.Node;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 /**
@@ -15,9 +14,10 @@ public class CompExpNode implements Node {
     private Node left;
     private Node right;
 
-    public CompExpNode( Node left, Node right) {
+    public CompExpNode( Node left, Node right, String op) {
         this.left = left;
         this.right = right;
+        this.op = op;
     }
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
@@ -36,6 +36,6 @@ public class CompExpNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return null;
+        return s+"Op:"+op+"\n" + left.toPrint(s+"  ")  + right.toPrint(s+"  ") ;
     }
 }

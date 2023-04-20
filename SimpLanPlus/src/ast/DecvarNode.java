@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ public class DecvarNode implements Node {
     }
 
     public String toPrint(String s) {
-        return s+"Par " + id + ":" + type.toPrint(s) ;
+        return s+"DecVar " + id + ":" + type.toPrint(s)+"\n" ;
     }
 
 }

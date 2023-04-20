@@ -3,7 +3,6 @@ package ast.ExpNode;
 import ast.Node;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -35,6 +34,7 @@ public class OpExpNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return null;
+
+        return s+"Op: == \n" + left.toPrint(s+"  ")  + right.toPrint(s+"  ") ;
     }
 }

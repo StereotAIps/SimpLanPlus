@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError ;
-import semanticanalysis.SymbolTable ;
 
 /**
  * prog   : exp                        #singleExp

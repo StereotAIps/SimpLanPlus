@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -69,6 +68,13 @@ public class IfExpNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return null;
+        String thenStmStr=s+"Then: \n";
+        for (Node d : thenStm)
+            thenStmStr += d.toPrint(s+"  ");
+        String elseStmStr=s+"Else:\n";
+        for (Node d : elseStm)
+            elseStmStr += d.toPrint(s+"  ");
+        return s+"IfExp\n" + exp.toPrint(s+"Cond:\n    ") +thenStmStr + thenExp.toPrint(s+"    ")+ elseStmStr+ elseExp.toPrint(s+"    ");
+
     }
 }

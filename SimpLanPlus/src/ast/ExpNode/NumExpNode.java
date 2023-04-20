@@ -3,7 +3,6 @@ package ast.ExpNode;
 import ast.Node;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -13,9 +12,10 @@ public class NumExpNode implements Node {
     private Node left;
     private Node right;
 
-    public NumExpNode(Node left, Node right) {
+    public NumExpNode(Node left, Node right, String op) {
         this.left = left;
         this.right = right;
+        this.op = op;
     }
 
     @Override
@@ -35,6 +35,6 @@ public class NumExpNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return null;
+        return s+"NumExp:"+op+"\n" + left.toPrint(s+"  ")  + right.toPrint(s+"  ") ;
     }
 }

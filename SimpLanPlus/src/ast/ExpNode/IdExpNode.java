@@ -1,21 +1,21 @@
-package ast;
+package ast.ExpNode;
 
 import java.util.ArrayList;
 
+import ast.Node;
 import ast.Types.Type;
 //import semanticanalysis.STentry;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 /**
  *  exp: ID #idExp
  * **/
-public class IdNode implements Node {
+public class IdExpNode implements Node {
 	private String id ;
 	//private STentry type ;
 	private int nesting ;
   
-	public IdNode (String _id) {
+	public IdExpNode(String _id) {
 		id = _id ;
 	}
   
@@ -54,8 +54,8 @@ public class IdNode implements Node {
 
 	public String toPrint(String s) {
 
-		//return s+"Id:" + id + " at nestlev " + type.getnesting() +"\n" ;
-		return null;
+		return s+"Id:" + id +"\n"; //+ " at nestlev " + type.getnesting() +"\n" ;
+
 	}
   
 }  

@@ -50,26 +50,18 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
      dec    : type ID ';'                                                    #varDec
      */
     @Override public Node visitVarDec(SimpLanPlusParser.VarDecContext ctx) {
-        return new ParNode(ctx.ID().getText(), (Type) visit( ctx.type() ));
+        return new DecvarNode(ctx.ID().getText(), (Type) visit( ctx.type() ));
     }
     /**
      dec    : type ID '(' ( param ( ',' param)* )? ')' '{' body '}'          #funDec
      */
     @Override public Node visitFunDec(SimpLanPlusParser.FunDecContext ctx) {
-        //initialize @res with the visits to the type and its ID
-
-        //add argument declarations
-        //we are getting a shortcut here by constructing directly the ParNode
-        //this could be done differently by visiting instead the VardecContext
         ArrayList<ParNode> _param = new ArrayList<ParNode>() ;
 
         for (ParamContext vc : ctx.param())
             _param.add( new ParNode(vc.ID().getText(), (Type) visit( vc.type() )) );
 
-        Node body = visit(ctx.body());
-
-        return new DecfunNode(ctx.ID().getText(), (Type) visit(ctx.type()), _param, body);
-
+        return new DecfunNode(ctx.ID().getText(), (Type) visit(ctx.type()), _param, visit(ctx.body()));
     }
     /**
      param  : type ID ;
@@ -134,17 +126,39 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
         return new CallNode(ctx.ID().getText(), explist);
     }
     /**
-     stm    : 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?      #ifStm
+     stm    : 'if' '(' exp ')' '{' left=stms '}' ('else' '{' right=stms '}')?      #ifStm
      */
     @Override public Node visitIfStm(SimpLanPlusParser.IfStmContext ctx) {
 
-        ArrayList<Node> _stm = new ArrayList<Node>() ;
+        ArrayList<Node> _stm1 = new ArrayList<Node>() ;
+        ArrayList<Node> _stm2 = new ArrayList<Node>() ;
 
-        for (StmContext st : ctx.stm())
-            _stm.add( visit(st) );
+        for (StmContext st : ctx.left.stm())
+            _stm1.add( visit(st) );
 
-        return new IfStmNode(visit(ctx.exp()), _stm);
+        if(ctx.right != null){
+            for (StmContext st : ctx.right.stm())
+                _stm2.add( visit(st) );
+
+            return new IfStmNode(visit(ctx.exp()), _stm1, _stm2);
+        }
+
+        return new IfStmNode(visit(ctx.exp()), _stm1);
     }
+    /**
+     stms   : (stm)+
+     */
+    @Override public Node visitStms(SimpLanPlusParser.StmsContext ctx) {
+//        ArrayList<Node> _stm = new ArrayList<Node>() ;
+//        for (StmContext st : ctx.stm())
+//            _stm.add( visit(st) );
+//        return new StmSNode(_stm);
+        return null;
+    }
+    /**
+     stme   : (stm)* exp
+     */
+    @Override public Node visitStme(SimpLanPlusParser.StmeContext ctx) {  return null; }
     /**
      * exp: '(' exp ')' #baseExp
      * */
@@ -152,33 +166,43 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
         return visit(ctx.exp());
     }
     /**
+     * exp: leftExp=exp  '==' rightExp=exp                                                                      #eqExp
+     */
+    @Override public Node visitEqExp(SimpLanPlusParser.EqExpContext ctx) {
+        return new EqExpNode(visit(ctx.leftExp), visit(ctx.rightExp));
+    }
+    /**
      * exp: | ID                                                                                                  #idExp
      */
     @Override public Node visitIdExp(SimpLanPlusParser.IdExpContext ctx) {
-        return new IdNode(ctx.ID().getText());
+        return new IdExpNode(ctx.ID().getText());
     }
     /**
-     * exp: 'if' '(' cond=exp ')' '{' (thenStm=stm)* thenExp=exp '}' 'else' '{' (elseStm=stm)* elseExp=exp '}'  #ifExp
+     * exp: 'if' '(' cond=exp ')' '{' left=stme '}' 'else' '{' right=stme '}'   #ifExp
      */
     @Override public Node visitIfExp(SimpLanPlusParser.IfExpContext ctx) {
-        ArrayList<Node> _stm = new ArrayList<Node>() ;
+        ArrayList<Node> _stm1 = new ArrayList<Node>() ;
+        ArrayList<Node> _stm2 = new ArrayList<Node>() ;
 
-        for (StmContext st : ctx.stm())
-            _stm.add( visit(st) );
+        for (StmContext st : ctx.left.stm())
+            _stm1.add( visit(st) );
 
-        return new IfExpNode(visit(ctx.cond),_stm, visit(ctx.thenExp),_stm, visit(ctx.elseExp));
+        for (StmContext st : ctx.right.stm())
+            _stm2.add( visit(st) );
+
+        return new IfExpNode(visit(ctx.cond), _stm1, visit(ctx.left.exp()), _stm2, visit(ctx.right.exp()));
     }
     /**
      * exp: leftExp=exp ('>' | '<' | '>=' | '<=' ) rightExp=exp                                                 #compExp
      */
     @Override public Node visitCompExp(SimpLanPlusParser.CompExpContext ctx) {
-        return new CompExpNode(visit(ctx.leftExp), visit(ctx.rightExp));
+        return new CompExpNode(visit(ctx.leftExp), visit(ctx.rightExp), ctx.op.getText());
     }
     /**
      * exp: ('true' | 'false')                                                                                  #boolExp
      */
     @Override public Node visitBoolExp(SimpLanPlusParser.BoolExpContext ctx) {
-        return new BoolNode(Boolean.parseBoolean(ctx.getText()));
+        return new BoolExpNode(Boolean.parseBoolean(ctx.getText()));
     }
     /**
      * exp: ID '(' (exp (',' exp)* )? ')'                                                                       #callExp
@@ -214,6 +238,6 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
      *    | leftExp=exp ('+' | '-') rightExp=exp                                                                #numExp
      */
     @Override public Node visitNumExp(SimpLanPlusParser.NumExpContext ctx) {
-        return new NumExpNode(visit(ctx.leftExp), visit(ctx.rightExp));
+        return new NumExpNode(visit(ctx.leftExp), visit(ctx.rightExp), ctx.op.getText());
     }
 }

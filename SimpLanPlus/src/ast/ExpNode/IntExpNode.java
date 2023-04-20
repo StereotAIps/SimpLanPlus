@@ -6,7 +6,6 @@ import ast.Node;
 import ast.Types.IntType;
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 public class IntExpNode implements Node {
 	private Integer val;
@@ -28,6 +27,7 @@ public class IntExpNode implements Node {
 	}
 
 	public String toPrint(String s) {
-	    return s + Integer.toString(val) +"\n";  
+
+		return s+"Int:" + val +"\n";
 	}
 }  

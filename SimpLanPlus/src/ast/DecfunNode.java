@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -127,19 +126,10 @@ public class DecfunNode implements Node{
 
     public String toPrint(String s) {
         String parlstr="";
-        for (Node par:parlist){
+        for (ParNode par:parlist){
             parlstr += par.toPrint(s);
         }
-        String declstr= "";
-//        if (declist!=null)
-//            for (Node dec:declist)
-//                declstr+=dec.toPrint(s+" ");
-        return s+"Fun:" + id +"\n"
-                //  +type.toPrint(s+"  ")
-                +parlstr
-                +declstr
-                + "\n"
-                +body.toPrint(s+"  ") ;
+        return s+"DecFun "+id+":"+returntype.toPrint(" ")+"\n  "+parlstr + "\n"+body.toPrint(s+"  ") ;
     }
 
         //valore di ritorno non utilizzato

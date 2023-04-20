@@ -1,12 +1,10 @@
 package ast;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import ast.Types.Type;
 //import evaluator.SimpLanlib;
 //import semanticanalysis.STentry;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 /**
  * prog   : (dec)+ (stm)* (exp)?
@@ -76,8 +74,14 @@ public class ProgLetInNode implements Node {
 	public String toPrint(String s) {
 		String declstr="";
 		for (Node d : declist)
-			declstr += d.toPrint(s+"\t");
-		return s+"ProgLetIn\n" + declstr + "\n" + exp.toPrint(s+"\t") ; 
+			declstr += d.toPrint(s+"  ");
+		String stmlstr="";
+		for (Node d : stmlist)
+			stmlstr += d.toPrint(s+"  ");
+		return s+"ProgLetIn\n"
+				+ ((declstr!="")?declstr:"")
+				+ ((stmlstr!="")?stmlstr:"")
+				+ ((exp!=null)?exp.toPrint(s+""):"");
 	}
      
 }  

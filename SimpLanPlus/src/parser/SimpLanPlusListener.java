@@ -122,6 +122,26 @@ public interface SimpLanPlusListener extends ParseTreeListener {
 	 */
 	void exitIfStm(SimpLanPlusParser.IfStmContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SimpLanPlusParser#stms}.
+	 * @param ctx the parse tree
+	 */
+	void enterStms(SimpLanPlusParser.StmsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpLanPlusParser#stms}.
+	 * @param ctx the parse tree
+	 */
+	void exitStms(SimpLanPlusParser.StmsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SimpLanPlusParser#stme}.
+	 * @param ctx the parse tree
+	 */
+	void enterStme(SimpLanPlusParser.StmeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpLanPlusParser#stme}.
+	 * @param ctx the parse tree
+	 */
+	void exitStme(SimpLanPlusParser.StmeContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code baseExp}
 	 * labeled alternative in {@link SimpLanPlusParser#exp}.
 	 * @param ctx the parse tree

@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -10,18 +9,18 @@ import java.util.ArrayList;
  * stm    : 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?                 #ifStm
  * **/
 public class IfStmNode implements Node {
-    private Node guard;
+    private Node exp;
     private ArrayList<Node> thenbranch;
-    //private ArrayList<Node> elsebranch;
+    private ArrayList<Node> elsebranch;
 
     public IfStmNode(Node _guard, ArrayList<Node> _thenbranch, ArrayList<Node> _elsebranch) {
-        guard = _guard;
+        exp = _guard;
         thenbranch = _thenbranch;
-      //  elsebranch = _elsebranch;
+        elsebranch = _elsebranch;
     }
 
     public IfStmNode(Node _guard, ArrayList<Node> _thenbranch) {
-        guard = _guard;
+        exp = _guard;
         thenbranch = _thenbranch;
     }
 
@@ -70,6 +69,15 @@ public class IfStmNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return null;
+        String thenStmStr=s+"Then:\n";
+        for (Node d : thenbranch)
+            thenStmStr += d.toPrint(s+"  ");
+        String elseStmStr=s+"Else:\n";
+        if(elsebranch!= null){
+            for (Node d : elsebranch)
+                elseStmStr += d.toPrint(s+"  ");
+        }
+        return s+"IfStm\n"
+                +s+"Cond: \n"+ exp.toPrint(s+"  ") +thenStmStr + elseStmStr;
     }
 }

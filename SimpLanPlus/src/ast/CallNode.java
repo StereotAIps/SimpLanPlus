@@ -2,7 +2,6 @@ package ast;
 
 import ast.Types.Type;
 import semanticanalysis.SemanticError;
-import semanticanalysis.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -100,10 +99,9 @@ public class CallNode implements Node {
     }
 
     public String toPrint(String s) {  //
-//        String parlstr="";
-//        for (Node par : parameters)
-//            parlstr+=par.toPrint(s+"  ");
-//        return s+"Call:" + id + " at nestlev " + nesting +"\n" + entry.gettype().toPrint(s+"  ") + parlstr ;
-        return null;
+        String parlstr="";
+		for (Node par : parameters)
+			parlstr+=par.toPrint(s+"    ");
+		return s+"Call:" + id + /*" at nestlev " + nesting + */"\n" + /*entry.gettype().toPrint(s+"  ") +*/ parlstr ;
     }
 }

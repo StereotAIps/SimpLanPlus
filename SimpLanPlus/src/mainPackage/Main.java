@@ -11,7 +11,9 @@ import parser.ParserErrorHandler;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
 
-
+/**
+ * param  : type ID
+ * */
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -39,5 +41,7 @@ public class Main {
         }
         System.out.println("[L] Parse completed without issues!");
         System.out.println("[L] Checking for semantic errors...");
+        System.out.println("Visualizing AST...");
+        System.out.println(ast.toPrint(""));
     }
 }

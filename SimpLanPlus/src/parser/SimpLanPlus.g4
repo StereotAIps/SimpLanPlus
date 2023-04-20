@@ -8,7 +8,8 @@ dec    : type ID ';'                                                    #varDec
        | type ID '(' ( param ( ',' param)* )? ')' '{' body '}'          #funDec
        ;
 
-param  : type ID ;
+param  : type ID
+       ;
 
 body   : (dec)* (stm)* (exp)?
 	   ;
@@ -20,21 +21,26 @@ type   : 'int'
 
 stm    : ID '=' exp ';'                                                                                      #asgStm
        | ID '(' (exp (',' exp)* )? ')' ';'                                                                   #callStm
-       | 'if' '(' exp ')' '{' (stm)+ '}' ('else' '{' (stm)+ '}')?                                            #ifStm
+       | 'if' '(' exp ')' '{' left=stms '}' ('else' '{' right=stms '}')?                                     #ifStm
 	   ;
 
+stms   : (stm)+
+       ;
+
+stme   : (stm)* exp
+       ;
 
 
 exp    :  INTEGER                                                                                            #intExp
        | ('true' | 'false')                                                                                  #boolExp
        | ID                                                                                                  #idExp
        | '!' exp                                                                                             #notExp
-       | leftExp=exp ('*' | '/') rightExp=exp                                                                #numExp
-       | leftExp=exp ('+' | '-') rightExp=exp                                                                #numExp
+       | leftExp=exp (op='*' | op='/') rightExp=exp                                                          #numExp
+       | leftExp=exp (op='+' | op='-') rightExp=exp                                                          #numExp
        | leftExp=exp  '==' rightExp=exp                                                                      #eqExp
-       | leftExp=exp ('>' | '<' | '>=' | '<=' ) rightExp=exp                                                 #compExp
-       | leftExp=exp ('&&' | '||') rightExp=exp                                                              #opExp
-       | 'if' '(' cond=exp ')' '{' (thenStm=stm)* thenExp=exp '}' 'else' '{' (elseStm=stm)* elseExp=exp '}'  #ifExp
+       | leftExp=exp (op='>' | op='<' | op='>=' | op='<=' ) rightExp=exp                                     #compExp
+       | leftExp=exp (op='&&' | op='||') rightExp=exp                                                        #opExp
+       | 'if' '(' cond=exp ')' '{' left=stme '}' 'else' '{' right=stme '}'                                   #ifExp
        | '(' exp ')'                                                                                         #baseExp
        | ID '(' (exp (',' exp)* )? ')'                                                                       #callExp
        ;
