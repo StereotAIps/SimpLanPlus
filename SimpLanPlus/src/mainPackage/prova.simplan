@@ -1,4 +1,8 @@
-int fact(int n){
-    if (n == 0){ 1 }
-    else { n*fact(n-1) }
+int x ;
+int f(int z, int y){
+    int pippo;
+    int pluto;
+    int pippo;
+    x = 1 ; x+z
 }
+f(3)

@@ -27,9 +27,13 @@ public class ParNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        ST.toPrint("ParNode"+ id, nesting);
+        ST.toPrint("ParNode "+ id, _nesting);
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
-        return new ArrayList<SemanticError>();
+        if (ST.top_lookup(id)) //controllo se esiste già un parametro con questo nome
+            errors.add(new SemanticError("Parameter id " + id + " already declared")) ; //se si errore
+        else ST.insert(id, type, nesting, "") ; //se no aggiungo il nuovo parametro nell'ultimo ambiente della ST
+        return errors ;
     }
 
     //non utilizzato

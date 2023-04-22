@@ -21,9 +21,9 @@ public class CallNode implements Node {
     }
 
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        nesting = _nesting;
         ST.toPrint("Call "+id, nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-        nesting = _nesting ;
         STentry tmp = ST.lookup(id) ;
         if (tmp != null) {
             entry = tmp ;

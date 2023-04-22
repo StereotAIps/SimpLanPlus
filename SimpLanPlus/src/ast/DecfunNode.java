@@ -38,16 +38,11 @@ public class DecfunNode implements Node{
         if (ST.lookup(id) != null) //vedo se il nome della funz è già stata dichiarata in questo ambiente
             errors.add(new SemanticError("Identifier " + id + " already declared"));
         else { //altrimenti creo un nuovo ambiente
-            HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
             ArrayList<Type> partypes = new ArrayList<Type>() ;
-
-            ST.add(HM); //metto questo nuovo ambiente in testa allo stack
 
             for (ParNode arg : parlist){
                 partypes.add(arg.getType()); //aggiungo il tipo del parametro alla lista dei tipi dei parametri
-                if (ST.top_lookup(arg.getId())) //controllo se esiste già un parametro con questo nome
-                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared")) ; //se si errore
-                else ST.insert(arg.getId(), arg.getType(), nesting+1, "") ; //se no aggiungo il nuovo parametro nell'ultimo ambiente della ST
+                //errors.addAll(arg.checkSemantics(ST, nesting+1));
             }
 
             type = new ArrowType(partypes, returntype) ; //mi salvo i tipi dei parametri e il tipo di ritorno della funzione
@@ -57,6 +52,12 @@ public class DecfunNode implements Node{
             flabel = id;//SimpLanlib.freshFunLabel() ;
 
             ST.insert(id, type, nesting, flabel) ;
+
+            HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
+            ST.add(HM); //metto questo nuovo ambiente in testa allo stack
+            for (ParNode arg : parlist){
+                errors.addAll(arg.checkSemantics(ST, nesting+1));
+            }
 
             errors.addAll(body.checkSemantics(ST, nesting+1)); //controllo la semantica del body
 

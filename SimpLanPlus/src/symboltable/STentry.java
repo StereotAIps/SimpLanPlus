@@ -24,7 +24,7 @@ public class STentry {
 	}
 
 	public String toPrint(){
-		return "["+type.toPrint("")+","+offset+","+nesting+","+label+"]";
+		return "|"+nesting+"|"+offset+"|"+label+"|"+type.toPrint("");
 	}
 	public Type gettype() {
 		return type ;

@@ -22,9 +22,9 @@ public class IdExpNode implements Node {
 	}
   
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+		nesting = _nesting ;
 		ST.toPrint("IdExpNode "+id, nesting);
 		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-		nesting = _nesting ;
 
 		STentry st_type = ST.lookup(id) ;
 		if (st_type == null)

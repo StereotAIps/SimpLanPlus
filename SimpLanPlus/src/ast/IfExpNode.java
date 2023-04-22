@@ -16,6 +16,8 @@ public class IfExpNode implements Node {
     private ArrayList<Node> elseStm;
     private Node elseExp;
 
+    private int nesting;
+
     public IfExpNode(Node _guard, ArrayList<Node> _thenStm, Node _thenExp, ArrayList<Node> _elseStm, Node _elseExp) {
         exp = _guard;
         thenStm = _thenStm;
@@ -27,16 +29,17 @@ public class IfExpNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
         ST.toPrint("IfExpNode", _nesting);
+        nesting = _nesting;
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
-        errors.addAll(exp.checkSemantics(ST, _nesting));
-        errors.addAll(thenExp.checkSemantics(ST, _nesting));
-        errors.addAll(elseExp.checkSemantics(ST, _nesting));
+        errors.addAll(exp.checkSemantics(ST, nesting));
+        errors.addAll(thenExp.checkSemantics(ST, nesting+1));
+        errors.addAll(elseExp.checkSemantics(ST, nesting+1));
         for (Node d : thenStm) {
-            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
         }
         for (Node d : elseStm) {
-            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
         }
         return errors;
     }

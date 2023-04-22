@@ -26,6 +26,7 @@ public class ArrowType extends Type {
 		for (Type t : inputtype)
 			tmp = tmp + t.toPrint("") + " " ;
 		tmp = tmp + "-> "+ outputtype.toPrint("") ;
-		return s + "Function Type: " + tmp +  "\n" ;  
+		//return s + "Function Type: " + tmp +  "\n" ;
+		return s+tmp;
 	  }
 }
