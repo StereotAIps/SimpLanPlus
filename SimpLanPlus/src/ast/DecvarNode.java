@@ -26,6 +26,7 @@ public class DecvarNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        ST.toPrint("DecvarNode", nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
 

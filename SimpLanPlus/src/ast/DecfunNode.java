@@ -31,34 +31,38 @@ public class DecfunNode implements Node{
     }
 
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        ST.toPrint("DecfunNode", _nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
 
-        if (ST.lookup(id) != null)
+        if (ST.lookup(id) != null) //vedo se il nome della funz è già stata dichiarata in questo ambiente
             errors.add(new SemanticError("Identifier " + id + " already declared"));
-        else {
+        else { //altrimenti creo un nuovo ambiente
             HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
             ArrayList<Type> partypes = new ArrayList<Type>() ;
 
-            ST.add(HM);
+            ST.add(HM); //metto questo nuovo ambiente in testa allo stack
 
             for (ParNode arg : parlist){
-                partypes.add(arg.getType());
-                if (ST.top_lookup(arg.getId()))
-                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared")) ;
-                else ST.insert(arg.getId(), arg.getType(), nesting+1, "") ;
+                partypes.add(arg.getType()); //aggiungo il tipo del parametro alla lista dei tipi dei parametri
+                if (ST.top_lookup(arg.getId())) //controllo se esiste già un parametro con questo nome
+                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared")) ; //se si errore
+                else ST.insert(arg.getId(), arg.getType(), nesting+1, "") ; //se no aggiungo il nuovo parametro nell'ultimo ambiente della ST
             }
 
-            type = new ArrowType(partypes, returntype) ;
+            type = new ArrowType(partypes, returntype) ; //mi salvo i tipi dei parametri e il tipo di ritorno della funzione
 
             ST.increaseoffset() ; // aumentiamo di 1 l'offset per far posto al return value
-
-            errors.addAll(body.checkSemantics(ST, nesting+1));
-            ST.remove();
 
             flabel = id;//SimpLanlib.freshFunLabel() ;
 
             ST.insert(id, type, nesting, flabel) ;
+
+            errors.addAll(body.checkSemantics(ST, nesting+1)); //controllo la semantica del body
+
+            ST.remove(); //rimuvo l'ambiente
+
+
         }
         return errors ; // problemi con la generazione di codice!
     }

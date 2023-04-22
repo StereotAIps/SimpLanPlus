@@ -62,4 +62,4 @@ WS              : (' '|'\t'|'\n'|'\r')-> skip;
 LINECOMENTS     : '//' (~('\n'|'\r'))* -> skip;
 BLOCKCOMENTS    : '/*'( ~('/'|'*')|'/'~'*'|'*'~'/'|BLOCKCOMENTS)* '*/' -> skip;
 
-ERR             : .  -> channel(HIDDEN);
+//ERR             : .  -> channel(HIDDEN);

@@ -21,7 +21,7 @@ public class NotExpNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-
+        ST.toPrint("NotExpNode", _nesting);
         errors.addAll(exp.checkSemantics(ST, _nesting));
 
         return errors;

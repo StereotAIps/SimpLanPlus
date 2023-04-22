@@ -19,6 +19,7 @@ public class EqExpNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        ST.toPrint("EqExpNode", _nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(left.checkSemantics(ST, _nesting));

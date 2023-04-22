@@ -16,7 +16,8 @@ public class IntExpNode implements Node {
 	}
 	
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
- 	 	  return new ArrayList<SemanticError>();
+ 	 	ST.toPrint("IntExpNode "+val, _nesting);
+		return new ArrayList<SemanticError>();
 	}
  	  
 	public Type typeCheck(){

@@ -4,8 +4,7 @@ import ast.Types.BoolType;
 import ast.Types.IntType;
 import ast.Types.Type;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class SymbolTable {
 	private ArrayList<HashMap<String,STentry>>  symbol_table ;
@@ -15,11 +14,23 @@ public class SymbolTable {
 		symbol_table = new ArrayList<HashMap<String,STentry>>() ;
 		offset = new ArrayList<Integer>() ;
 	}
-	
+
+	public void toPrint(String fun, int nesting){
+		System.out.println("ST"+nesting+": "+fun);
+		for(HashMap<String,STentry> h : symbol_table){
+			h.forEach((s,st) -> {
+				System.out.println("string: "+s+st.toPrint());
+			});
+		}
+	}
 	public Integer nesting() {
 		return symbol_table.size() -1 ;
 	}
-	
+
+	//lookup a name in the current and enclosing scopes
+	// • to check if it is multiply declared
+	//• to check for a use of an undeclared name, and
+	//• to link a use with the corresponding symbol-table entry
 	public STentry lookup(String id) {
 		int n = symbol_table.size() - 1 ;
 		boolean found = false ;
@@ -44,11 +55,13 @@ public class SymbolTable {
 		return n ;
 	}
 
+	//a new name into the symbol table with its attributes
 	public void add(HashMap<String,STentry> H) {
 		symbol_table.add(H) ;
 		offset.add(1) ;		// si inizia da 2 perche` prima ci sonop FP e AL
 	}
-	
+
+	//do what must be done when a scope is exited
 	public void remove() {
 		int x = symbol_table.size() ;
 		symbol_table.remove(x-1) ;
@@ -62,7 +75,8 @@ public class SymbolTable {
 		T = H.get(id) ;
 		return (T != null) ;
 	}
-	
+
+
 	public void insert(String id, Type type, int _nesting, String _label) {
 		int n = symbol_table.size() - 1 ;
 		HashMap<String,STentry> H = symbol_table.get(n) ;

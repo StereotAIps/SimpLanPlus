@@ -22,7 +22,10 @@ public class STentry {
 		nesting = _nesting ;
 		label = _label ;
 	}
-	
+
+	public String toPrint(){
+		return "["+type.toPrint("")+","+offset+","+nesting+","+label+"]";
+	}
 	public Type gettype() {
 		return type ;
 	}

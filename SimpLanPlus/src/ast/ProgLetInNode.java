@@ -31,6 +31,8 @@ public class ProgLetInNode implements Node {
   
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
 		nesting = _nesting + 1 ;
+		ST.toPrint("ProgLetInNode", nesting);
+
 		HashMap<String, STentry> H = new HashMap<String, STentry>();
 		ST.add(H);
 
@@ -38,10 +40,10 @@ public class ProgLetInNode implements Node {
 		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
 		for (Node d : declist) {
-			errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
+			errors.addAll(d.checkSemantics(ST, nesting)) ;
 		}
 		for (Node d : stmlist) {
-			errors.addAll(d.checkSemantics(ST, nesting)) ; // nella sintassi non ci sono annidamenti di let
+			errors.addAll(d.checkSemantics(ST, nesting)) ;
 		}
 
 		//check semantics in the exp body

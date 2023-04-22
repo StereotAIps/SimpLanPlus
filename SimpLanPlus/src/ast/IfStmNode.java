@@ -14,6 +14,8 @@ public class IfStmNode implements Node {
     private ArrayList<Node> thenbranch;
     private ArrayList<Node> elsebranch;
 
+    private int nesting;
+
     public IfStmNode(Node _guard, ArrayList<Node> _thenbranch, ArrayList<Node> _elsebranch) {
         exp = _guard;
         thenbranch = _thenbranch;
@@ -26,7 +28,10 @@ public class IfStmNode implements Node {
     }
 
     @Override
+
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        ST.toPrint("IfExpNode", _nesting);
+        nesting = _nesting;
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(exp.checkSemantics(ST, _nesting));

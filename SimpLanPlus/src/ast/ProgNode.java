@@ -18,6 +18,7 @@ public class ProgNode implements Node {
 
 
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+		ST.toPrint("ProgNode", _nesting);
 		return exp.checkSemantics(ST, _nesting);
 	}
 

@@ -34,6 +34,7 @@ public class BodyNode implements Node{
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
         nesting = _nesting + 1 ;
+        ST.toPrint("Body", nesting);
         HashMap<String, STentry> H = new HashMap<String, STentry>();
         ST.add(H);
 

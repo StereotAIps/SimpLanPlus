@@ -27,6 +27,7 @@ public class ParNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        ST.toPrint("ParNode"+ id, nesting);
         nesting = _nesting ;
         return new ArrayList<SemanticError>();
     }
