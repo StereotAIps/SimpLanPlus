@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import parser.ParserErrorHandler;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
 
@@ -33,7 +34,7 @@ public class Main {
         parser.addErrorListener(handler);
         SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
         // Faccio il parsing
-        System.out.println("Parsing");
+        System.out.println("Parsing in progress....");
         Node ast = visitor.visit(parser.prog());
         //Controllo se ci sono errori
         if (handler.numErrori() != 0) {
@@ -42,8 +43,8 @@ public class Main {
             handler.scriviInFile("./src/mainPackage/errori.log");
             return;
         }
-        System.out.println("[L] Parse completed without issues!");
-        System.out.println("[L] Checking for semantic errors...");
+        System.out.println("Parse completed!");
+        System.out.println("Checking semantic errors...");
         SymbolTable ST = new SymbolTable();
         ArrayList<SemanticError> errors = ast.checkSemantics(ST, 0);
         if(errors.size()>0) {
@@ -54,5 +55,11 @@ public class Main {
         }
         System.out.println("Visualizing AST...");
         System.out.println(ast.toPrint(""));
+        System.out.println("Checking type errors...");
+        Node type = ast.typeCheck(); //type-checking bottom-up
+        if (type instanceof ErrorType)
+            System.out.println("Type checking is WRONG!");
+        else
+            System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
     }
 }

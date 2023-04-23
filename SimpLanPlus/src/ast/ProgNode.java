@@ -24,8 +24,8 @@ public class ProgNode implements Node {
 
 	public Type typeCheck() {
 		return exp.typeCheck();
-	}  
-  
+	}
+
 	public String codeGeneration() {
 		return exp.codeGeneration()+"halt\n";
 	}  

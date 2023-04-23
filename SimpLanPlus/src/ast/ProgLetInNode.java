@@ -59,6 +59,8 @@ public class ProgLetInNode implements Node {
 	public Type typeCheck () {
 		for (Node d: declist)
 		    d.typeCheck();
+		for (Node d: stmlist)
+			d.typeCheck();
 		return exp.typeCheck();
 	}
 		  

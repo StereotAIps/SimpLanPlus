@@ -1,6 +1,7 @@
 package ast;
 
 import ast.Types.Type;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.ArrowType;
 import symboltable.STentry;
@@ -69,16 +70,15 @@ public class DecfunNode implements Node{
     }
 
     public Type typeCheck () {
-//        if (declist!=null)
-//            for (Node dec:declist)
-//                dec.typeCheck();
-//        if ( (body.typeCheck()).getClass().equals(returntype.getClass()))
-//            return null ;
-//        else {
-//            System.out.println("Wrong return type for function "+id);
-//            return new ErrorType() ;
-//        }
-        return  null;
+        if (parlist!=null)
+            for (Node dec:parlist)
+                dec.typeCheck();
+        if ( (body.typeCheck()).getClass().equals(returntype.getClass()))
+            return null ;
+        else {
+            System.out.println("Wrong return type for function "+id);
+            return new ErrorType() ;
+        }
     }
 
     public String codeGeneration() {

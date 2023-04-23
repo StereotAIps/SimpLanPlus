@@ -1,6 +1,7 @@
 package ast;
 
 import ast.Types.Type;
+import ast.Types.VoidType;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
@@ -61,7 +62,16 @@ public class BodyNode implements Node{
 
     @Override
     public Type typeCheck() {
-        return null;
+        for (Node d: declist)
+            d.typeCheck();
+        for (Node d: stmlist)
+            d.typeCheck();
+
+        //se c'è exp passo il suo tipo, altrimenti saranno solo stm senza ritorno, quindi void(?)
+        if(exp != null)
+            return exp.typeCheck();
+        else
+            return new VoidType();
     }
 
     @Override
