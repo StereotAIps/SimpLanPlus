@@ -6,6 +6,9 @@ import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
+/**
+ * dec    : type ID ';'                                                    #varDec
+ * */
 public class DecvarNode implements Node {
     private String id;
     private Type type;
@@ -26,7 +29,7 @@ public class DecvarNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        ST.toPrint("DecvarNode", nesting);
+        ST.toPrint("DecvarNode "+ id, nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
 

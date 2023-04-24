@@ -1,1 +1,1 @@
-line 1:0 mismatched input '<EOF>' expecting {'(', 'int', 'bool', 'void', 'if', 'true', 'false', '!', INTEGER, ID}
+line 6:0 no viable alternative at input 'if(c>1){int'

@@ -1,12 +1,19 @@
 package ast.ExpNode;
 
 import ast.Node;
+import ast.Types.BoolType;
+import ast.Types.IntType;
 import ast.Types.Type;
+import ast.Types.VoidType;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
+/**
+ * exp: leftExp=exp (op='&&' | op='||') rightExp=exp                                                        #opExp
+ * */
 public class OpExpNode implements Node {
 
     private String op;
@@ -31,7 +38,15 @@ public class OpExpNode implements Node {
 
     @Override
     public Type typeCheck() {
-        return null;
+        Type leftop = left.typeCheck() ;
+        Type rightop = right.typeCheck() ;
+        //Controllo che siano dello stesso entrambi bool e ritorno bool
+        if ((leftop instanceof BoolType) || (rightop instanceof BoolType))
+            return new BoolType();
+        else {
+            System.out.println("Type Error: incompatible types in op expression");
+            return new ErrorType();
+        }
     }
 
     @Override

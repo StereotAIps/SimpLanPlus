@@ -61,5 +61,6 @@ public class Main {
             System.out.println("Type checking is WRONG!");
         else
             System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+
     }
 }

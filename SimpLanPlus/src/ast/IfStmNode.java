@@ -1,10 +1,15 @@
 package ast;
 
+import ast.Types.BoolType;
 import ast.Types.Type;
+import ast.Types.VoidType;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
+import symboltable.STentry;
 import symboltable.SymbolTable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * stm    : 'if' '(' exp ')' '{' left=stms '}' ('else' '{' right=stms '}')?                   #ifStm
@@ -34,27 +39,35 @@ public class IfStmNode implements Node {
         nesting = _nesting;
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
-        errors.addAll(exp.checkSemantics(ST, _nesting));
+        errors.addAll(exp.checkSemantics(ST, nesting));
+        HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
+        ST.add(HM); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenbranch) {
-            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
         }
+        ST.remove();
+        HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
+        ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elsebranch) {
-            errors.addAll(d.checkSemantics(ST, _nesting)) ;
+            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
         }
+        ST.remove();
 
         return errors;
     }
 
     public Type typeCheck() {
-        if (guard.typeCheck() instanceof BoolType) {
-            Type thenexp = thenbranch.typeCheck() ;
-            Type elseexp = elsebranch.typeCheck() ;
-            if (thenexp.getClass().equals(elseexp.getClass()))
-                return thenexp;
-            else {
-                System.out.println("Type Error: incompatible types in then and else branches");
-                return new ErrorType() ;
-            }
+        if (exp.typeCheck() instanceof BoolType) {
+//            Type thenexp = thenbranch.typeCheck() ;
+//            Type elseexp = elsebranch.typeCheck() ;
+//            if (thenexp.getClass().equals(elseexp.getClass()))
+//                return thenexp;
+//            else {
+//                System.out.println("Type Error: incompatible types in then and else branches");
+//                return new ErrorType() ;
+//            }
+            //non controllo il tipo di ritorno perché in questo caso non ritorno niente, quindi void
+            return new VoidType();
         } else {
             System.out.println("Type Error: non boolean condition in if");
             return new ErrorType() ;

@@ -1,7 +1,10 @@
 package ast.ExpNode;
 
 import ast.Node;
+import ast.Types.BoolType;
 import ast.Types.Type;
+import ast.Types.VoidType;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
 
@@ -29,7 +32,14 @@ public class NotExpNode implements Node {
 
     @Override
     public Type typeCheck() {
-        return null;
+        //exp deve essere bool e ritorna bool
+        if(exp instanceof BoolType){
+            return new BoolType();
+        }
+        else{
+            System.out.println("Type Error: type not allowed in not expression");
+            return new ErrorType() ;
+        }
     }
 
     @Override

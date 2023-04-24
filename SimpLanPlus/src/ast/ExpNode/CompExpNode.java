@@ -1,7 +1,11 @@
 package ast.ExpNode;
 
 import ast.Node;
+import ast.Types.BoolType;
+import ast.Types.IntType;
 import ast.Types.Type;
+import ast.Types.VoidType;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
 
@@ -33,7 +37,16 @@ public class CompExpNode implements Node {
 
     @Override
     public Type typeCheck() {
-        return null;
+
+        Type leftop = left.typeCheck() ;
+        Type rightop = right.typeCheck() ;
+        if ((leftop instanceof IntType) && (rightop instanceof IntType)) {
+//
+            return new BoolType();
+        } else {
+            System.out.println("Type Error: incompatible types in left and right operands");
+            return new ErrorType();
+        }
     }
 
     @Override

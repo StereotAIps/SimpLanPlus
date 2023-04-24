@@ -103,8 +103,8 @@ public class SimpLanPlusLexer extends Lexer {
 	@Override
 	public String getSerializedATN() { return _serializedATN; }
 
-//	@Override
-//	public String[] getChannelNames() { return channelNames; }
+	@Override
+	public String[] getChannelNames() { return channelNames; }
 
 	@Override
 	public String[] getModeNames() { return modeNames; }

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import ast.Node;
 import ast.Types.Type;
 //import semanticanalysis.STentry;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
+import symboltable.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
 
@@ -14,13 +16,15 @@ import symboltable.SymbolTable;
  * **/
 public class IdExpNode implements Node {
 	private String id ;
-	private STentry type ;
+	private STentry entry;
 	private int nesting ;
-  
+
+
 	public IdExpNode(String _id) {
 		id = _id ;
 	}
-  
+
+
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
 		nesting = _nesting ;
 		ST.toPrint("IdExpNode "+id, nesting);
@@ -29,17 +33,26 @@ public class IdExpNode implements Node {
 		STentry st_type = ST.lookup(id) ;
 		if (st_type == null)
 			errors.add(new SemanticError("Id " + id + " not declared"));
-		else type = st_type ;
+		else{
+			entry = st_type ;
+		}
 
 		return errors;
 	}
   
 	public Type typeCheck () {
-//		if (type.gettype() instanceof ArrowType) { //
-//			System.out.println("Wrong usage of function identifier");
-//			return new ErrorType() ;
-//		} else return type.gettype() ;
-		return null;
+		if (entry.gettype() instanceof ArrowType) { //
+			System.out.println("Wrong usage of function identifier");
+			return new ErrorType() ;
+		}else{
+//			if(entry.isAssigned())
+//				return entry.gettype() ;
+//			else {
+//				System.out.println("Identifier "+ id +" is used but never assigned");
+//				return new ErrorType() ;
+//			}
+			return entry.gettype() ;
+		}
 	}
   
 	public String codeGeneration() {
@@ -59,5 +72,12 @@ public class IdExpNode implements Node {
 		return s+"Id:" + id +"\n"; //+ " at nestlev " + type.getnesting() +"\n" ;
 
 	}
-  
-}  
+
+	public STentry getEntry() {
+		return entry;
+	}
+
+	public void setEntry(STentry entry) {
+		this.entry = entry;
+	}
+}

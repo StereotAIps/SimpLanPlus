@@ -1,0 +1,2 @@
+- cambiamenti alla grammatica e #
+- in type checking è stato aggiunto il valore Bool assigned per sapere se a tale variabile è stato assegnato un valore o meno ed evitare di avere errori del tipo ERRORE perche` b e` usata ma non inizializzata

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ast.Types.Type;
+import ast.Types.VoidType;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
@@ -61,7 +62,9 @@ public class ProgLetInNode implements Node {
 		    d.typeCheck();
 		for (Node d: stmlist)
 			d.typeCheck();
-		return exp.typeCheck();
+		if(exp != null)
+			return exp.typeCheck();
+		else return new VoidType();
 	}
 		  
 	public String codeGeneration() {

@@ -1,12 +1,19 @@
 package ast.ExpNode;
 
 import ast.Node;
+import ast.Types.BoolType;
+import ast.Types.IntType;
 import ast.Types.Type;
+import ast.Types.VoidType;
+import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
 
 import java.util.ArrayList;
 
+/**
+ * exp: leftExp=exp  '==' rightExp=exp                                                                      #eqExp
+ * */
 public class EqExpNode implements Node {
 
     private Node left;
@@ -30,7 +37,22 @@ public class EqExpNode implements Node {
 
     @Override
     public Type typeCheck() {
-        return null;
+        Type leftop = left.typeCheck() ;
+        Type rightop = right.typeCheck() ;
+        //Controllo se un operando è void, in quel caso errore
+        if((leftop instanceof VoidType) || (rightop instanceof VoidType) ){
+            System.out.println("Type Error: type void is not allowed in equal expression");
+            return new ErrorType() ;
+        }
+        else {
+            //Controllo che siano dello stesso tipo, che questo sia int o bool e ritorna bool
+            if (leftop.getClass().equals(rightop.getClass()))
+                return new BoolType();
+            else {
+                System.out.println("Type Error: incompatible types in equal expression");
+                return new ErrorType();
+            }
+        }
     }
 
     @Override
