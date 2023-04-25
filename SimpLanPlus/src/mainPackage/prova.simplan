@@ -1,3 +1,1 @@
-int a; int b; int c ; c = 2 ;
-     if (c > 1) { b = c ; } else { a = b ; }
-   }
+int fact(int n){ if (n == 0){ 1 } else { n*fact(n-1) }}

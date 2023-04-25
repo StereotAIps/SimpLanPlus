@@ -41,7 +41,6 @@ public class CompExpNode implements Node {
         Type leftop = left.typeCheck() ;
         Type rightop = right.typeCheck() ;
         if ((leftop instanceof IntType) && (rightop instanceof IntType)) {
-//
             return new BoolType();
         } else {
             System.out.println("Type Error: incompatible types in left and right operands");

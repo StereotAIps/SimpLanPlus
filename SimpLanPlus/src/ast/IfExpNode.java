@@ -39,18 +39,17 @@ public class IfExpNode implements Node {
         errors.addAll(exp.checkSemantics(ST, nesting));
         HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
         ST.add(HM); //metto questo nuovo ambiente in testa allo stack
-        errors.addAll(thenExp.checkSemantics(ST, nesting+1));
-
         for (Node d : thenStm) {
             errors.addAll(d.checkSemantics(ST, nesting+1)) ;
         }
+        errors.addAll(thenExp.checkSemantics(ST, nesting+1));
         ST.remove();
         HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
         ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
-        errors.addAll(elseExp.checkSemantics(ST, nesting+1));
         for (Node d : elseStm) {
             errors.addAll(d.checkSemantics(ST, nesting+1)) ;
         }
+        errors.addAll(elseExp.checkSemantics(ST, nesting+1));
         ST.remove();
         return errors;
     }

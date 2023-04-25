@@ -35,12 +35,14 @@ public class AsgNode implements Node{
             entry = tmp ;
             //Se b non si trova in quest'ultimo ambiente allora lo aggiungo, indicando che è stato assegnato
             //if(!ST.top_lookup(id)) {
-                ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
+
             //}
         } else {
             errors.add(new SemanticError("Id " + id + " not declared")) ;
         }
+
         errors.addAll(exp.checkSemantics(ST, nesting));
+        ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
         return errors ;
     }
 

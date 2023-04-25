@@ -1,1 +1,2 @@
-line 6:0 no viable alternative at input 'if(c>1){int'
+line 4:34 extraneous input ';' expecting '}'
+line 4:57 extraneous input ';' expecting '}'
