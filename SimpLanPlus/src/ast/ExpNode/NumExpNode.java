@@ -53,7 +53,37 @@ public class NumExpNode implements Node {
 
     @Override
     public String codeGeneration() {
-        return null;
+        switch (op){
+            case "+":
+                return left.codeGeneration()+
+                        "pushr A0 \n" +
+                        right.codeGeneration()+
+                        "popr T1 \n" +
+                        "add A0 T1 \n" +
+                        "popr A0 \n" ;
+            case "-":
+                return 	left.codeGeneration()
+                        + "pushr A0 \n"
+                        + right.codeGeneration()
+                        + "popr T1 \n"
+                        + "sub T1 A0 \n"
+                        + "popr A0 \n";
+            case "*":
+                return 	left.codeGeneration()
+                        + "pushr A0 \n"
+                        + right.codeGeneration()
+                        + "popr T1 \n"
+                        + "mul A0 T1 \n"
+                        + "popr A0 \n";
+            case "/":
+                return 	left.codeGeneration()
+                        + "pushr A0 \n"
+                        + right.codeGeneration()
+                        + "popr T1 \n"
+                        + "div T1 A0 \n"
+                        + "popr A0 \n";
+        }
+        return "ERROR: op not recognize";
     }
 
     @Override

@@ -3,6 +3,7 @@ package ast;
 import ast.Types.BoolType;
 import ast.Types.Type;
 import ast.Types.VoidType;
+import evaluator.SimpLanlib;
 import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
@@ -75,17 +76,22 @@ public class IfStmNode implements Node {
     }
 
     public String codeGeneration() {
-//        String lthen = SimpLanlib.freshLabel();
-//        String lend = SimpLanlib.freshLabel();
-//        return guard.codeGeneration() +
-//                "storei T1 1 \n" +
-//                "beq A0 T1 "+ lthen + "\n" +
-//                elsebranch.codeGeneration() +
-//                "b " + lend + "\n" +
-//                lthen + ":\n" +
-//                thenbranch.codeGeneration() +
-//                lend + ":\n" ;
-        return null;
+        String lthen = SimpLanlib.freshLabel();
+        String lend = SimpLanlib.freshLabel();
+        String elseCode="";
+        String thenCode="";
+        for (Node d: elsebranch)
+            elseCode += d.codeGeneration();
+        for (Node s: thenbranch)
+            thenCode += s.codeGeneration();
+        return exp.codeGeneration() +
+                "storei T1 1 \n" +
+                "beq A0 T1 "+ lthen + "\n" +
+                elseCode +
+                "b " + lend + "\n" +
+                lthen + ":\n" +
+                thenCode +
+                lend + ":\n" ;
     }
 
     @Override

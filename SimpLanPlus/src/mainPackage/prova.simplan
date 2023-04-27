@@ -1,1 +1,6 @@
-int fact(int n){ if (n == 0){ 1 } else { n*fact(n-1) }}
+int a;
+     void h(int n){
+  	  int x ; int y ;
+          if (n==0){ x = n+1 ;} else { h(n-1) ; y = x ;}
+     }
+     h(5) ;

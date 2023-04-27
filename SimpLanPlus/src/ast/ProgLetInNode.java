@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import ast.Types.Type;
 import ast.Types.VoidType;
+import evaluator.SimpLanlib;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
@@ -68,18 +69,21 @@ public class ProgLetInNode implements Node {
 	}
 		  
 	public String codeGeneration() {
-//		String declCode="";
-//		for (Node d: dec)
-//				    declCode += d.codeGeneration();
-//		return  "move SP FP  \n"
-//				+ "pushr FP \n"
-//				+ "move SP AL \n"
-//				+ "pushr AL \n"
-//				+ declCode
-//				+ exp.codeGeneration()
-//				+ "halt\n" +
-//				SimpLanlib.getCode();
-		return null;
+		String declCode="";
+		String stmCode="";
+		for (Node d: declist)
+			declCode += d.codeGeneration();
+		for (Node s: stmlist)
+			stmCode += s.codeGeneration();
+		return  "move SP FP  \n"
+				+ "pushr FP \n"
+				+ "move SP AL \n"
+				+ "pushr AL \n"
+				+ declCode
+				+ stmCode
+				+ exp.codeGeneration()
+				+ "halt\n" +
+				SimpLanlib.getCode();
 	} 
 		  
 	public String toPrint(String s) {

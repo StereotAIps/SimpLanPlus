@@ -1,6 +1,8 @@
 package mainPackage;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 
@@ -62,5 +64,11 @@ public class Main {
         else
             System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
+        // CODE GENERATION  prova.SimpLan.asm
+        String code=ast.codeGeneration();
+        BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
+        out.write(code);
+        out.close();
+        System.out.println("Code generated! Assembling and running generated code.");
     }
 }

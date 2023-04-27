@@ -7,10 +7,6 @@
     <list default="true" id="baa7128f-3492-4bde-92b3-4e5196c99846" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/AsgNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/AsgNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/CompExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/CompExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/IdExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/IdExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/IfExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IfExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainPackage/errori.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/errori.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mainPackage/prova.simplan" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/prova.simplan" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +59,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1682168470141</updated>
-      <workItem from="1682168471794" duration="26654000" />
+      <workItem from="1682168471794" duration="30161000" />
     </task>
     <servers />
   </component>
