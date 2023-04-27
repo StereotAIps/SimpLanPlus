@@ -7,12 +7,25 @@
     <list default="true" id="baa7128f-3492-4bde-92b3-4e5196c99846" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/AsgNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/AsgNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/BodyNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/BodyNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/CallNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/CallNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/DecfunNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DecfunNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/IfExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IfExpNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/IfStmNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IfStmNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ProgLetInNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ProgLetInNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mainPackage/prova.simplan" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/prova.simplan" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -28,7 +41,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/mae/Documents/GitHub/SimpLanPlus/SimpLanPlus/src/parser",
+    "last_opened_file_path": "/Users/mae/Documents/GitHub/SimpLanPlus/SimpLanPlus/src/svm",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -41,14 +54,19 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/svm" />
       <recent name="$PROJECT_DIR$/src/parser" />
       <recent name="$PROJECT_DIR$/src/semanticanalysis" />
       <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/svm" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="evaluator" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -59,7 +77,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1682168470141</updated>
-      <workItem from="1682168471794" duration="30161000" />
+      <workItem from="1682168471794" duration="36992000" />
     </task>
     <servers />
   </component>

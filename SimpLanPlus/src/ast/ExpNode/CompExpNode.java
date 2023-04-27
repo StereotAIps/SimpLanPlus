@@ -5,6 +5,7 @@ import ast.Types.BoolType;
 import ast.Types.IntType;
 import ast.Types.Type;
 import ast.Types.VoidType;
+import evaluator.SimpLanlib;
 import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
@@ -50,7 +51,60 @@ public class CompExpNode implements Node {
 
     @Override
     public String codeGeneration() {
-        return null;
+        String ltrue = SimpLanlib.freshLabel();
+        String lend = SimpLanlib.freshLabel();
+        String leq = SimpLanlib.freshLabel();
+        switch (op){
+            case ">":
+                return	left.codeGeneration()+
+                        "pushr A0 \n" +
+                        right.codeGeneration()+
+                        "popr T1 \n" +
+                        "bleq A0 T1 "+ ltrue +"\n"+ // r <= l
+                        leq + ":\n"+
+                        "storei A0 0 \n"+ // se l < r allora no
+                        "b " + lend + "\n" +
+                        ltrue + ":\n"+
+                        "beq T1 A0 "+ leq +"\n"+ //se sono uguali allora 0
+                        "storei A0 1 \n" +
+                        lend + ":\n";
+            case "<":
+                return	left.codeGeneration()+
+                        "pushr A0 \n" +
+                        right.codeGeneration()+
+                        "popr T1 \n" +
+                        "bleq T1 A0"+ ltrue +"\n"+ // l <= r
+                        leq + ":\n"+
+                        "storei A0 0 \n"+ // se r < l allora no
+                        "b " + lend + "\n" +
+                        ltrue + ":\n"+
+                        "beq T1 A0 "+ leq +"\n"+ //se sono uguali allora 0
+                        "storei A0 1 \n" +
+                        lend + ":\n";
+            case ">=": // l >= r
+                return	left.codeGeneration()+
+                        "pushr A0 \n" +
+                        right.codeGeneration()+
+                        "popr T1 \n" +
+                        "bleq A0 T1"+ ltrue +"\n"+ //se r <= l
+                        "storei A0 0 \n"+ //se così non fosse allora 0
+                        "b " + lend + "\n" +
+                        ltrue + ":\n"+ //se vero restituisco 1
+                        "storei A0 1 \n" +
+                        lend + ":\n";
+            case "<=": // l <= r
+                return	left.codeGeneration()+
+                        "pushr A0 \n" +
+                        right.codeGeneration()+
+                        "popr T1 \n" +
+                        "bleq T1 A0"+ ltrue +"\n"+ //se l <= r
+                        "storei A0 0 \n"+ //se così non fosse allora 0
+                        "b " + lend + "\n" +
+                        ltrue + ":\n"+ //se vero restituisco 1
+                        "storei A0 1 \n" +
+                        lend + ":\n";
+        }
+        return "ERROR: op comp not recognize";
     }
 
     @Override

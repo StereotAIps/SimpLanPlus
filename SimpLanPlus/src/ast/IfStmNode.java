@@ -44,13 +44,13 @@ public class IfStmNode implements Node {
         HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
         ST.add(HM); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenbranch) {
-            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
+            errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         ST.remove();
         HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
         ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elsebranch) {
-            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
+            errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         ST.remove();
 

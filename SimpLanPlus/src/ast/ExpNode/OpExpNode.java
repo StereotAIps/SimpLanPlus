@@ -5,6 +5,7 @@ import ast.Types.BoolType;
 import ast.Types.IntType;
 import ast.Types.Type;
 import ast.Types.VoidType;
+import evaluator.SimpLanlib;
 import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
@@ -51,7 +52,40 @@ public class OpExpNode implements Node {
 
     @Override
     public String codeGeneration() {
-        return null;
+        String ltrue = SimpLanlib.freshLabel();
+        String lend = SimpLanlib.freshLabel();
+        String leq = SimpLanlib.freshLabel();
+        switch (op) {
+            case "&&":
+                return left.codeGeneration() +
+                        "pushr A0 \n" +
+                        right.codeGeneration() +
+                        "popr T1 \n" +
+                        "beq A0 T1 " + ltrue + "\n" +
+                        leq + ":\n" +
+                        "storei A0 0 \n" +
+                        "b " + lend + "\n" +
+                        ltrue + ":\n" +
+                        "storei A0 0 \n" +
+                        "beq T1 A0 " + leq + "\n" +
+                        "storei A0 1 \n" +
+                        lend + ":\n";
+            case "||":
+                return left.codeGeneration() +
+                        "pushr A0 \n" +
+                        right.codeGeneration() +
+                        "popr T1 \n" +
+                        "beq A0 T1 " + ltrue + "\n" +
+                        leq + ":\n" +
+                        "storei A0 1 \n" +
+                        "b " + lend + "\n" +
+                        ltrue + ":\n" +
+                        "storei A0 1 \n" +
+                        "beq T1 A0 " + leq + "\n" +
+                        "storei A0 0 \n" +
+                        lend + ":\n";
+        }
+        return "ERROR: op op not recognize";
     }
 
     @Override

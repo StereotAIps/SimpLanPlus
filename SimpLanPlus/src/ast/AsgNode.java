@@ -69,7 +69,8 @@ public class AsgNode implements Node{
 
     @Override
     public String codeGeneration() {
-        return null;
+        return exp.codeGeneration() +
+                "pushr A0 \n" ;
     }
 
     @Override

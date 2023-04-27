@@ -20,6 +20,7 @@ public class IdExpNode implements Node {
 	private int nesting ;
 
 
+
 	public IdExpNode(String _id) {
 		id = _id ;
 	}
@@ -53,15 +54,14 @@ public class IdExpNode implements Node {
 	}
   
 	public String codeGeneration() {
-//		String getAR="";
-//		for (int i=0; i < nesting - type.getnesting(); i++)
-//	    	 getAR += "store T1 0(T1) \n";
-//	    return
-//		       "move AL T1 \n"
-//		       + getAR  //risalgo la catena statica
-//		       + "subi T1 " + type.getoffset() +"\n" //metto offset sullo stack
-//			   + "store A0 0(T1) \n" ; //carico sullo stack il valore all'indirizzo ottenuto
-		return null;
+		String getAR="";
+		for (int i=0; i < nesting - entry.getnesting(); i++)
+			getAR += "store T1 0(T1) \n";
+		return
+				"move AL T1 \n"
+						+ getAR  //risalgo la catena statica
+						+ "subi T1 " + entry.getoffset() +"\n" //metto offset sullo stack
+						+ "store A0 0(T1) \n" ; //carico sullo stack il valore all'indirizzo ottenuto
 	}
 
 	public String toPrint(String s) {

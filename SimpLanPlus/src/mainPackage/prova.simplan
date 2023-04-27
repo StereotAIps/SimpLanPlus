@@ -1,6 +1,5 @@
-int a;
-     void h(int n){
+void h(int n){
   	  int x ; int y ;
-          if (n==0){ x = n+1 ;} else { h(n-1) ; y = x ;}
+          if (n==0){ x = n+1 ;} else { h(n-1) ; x = n ; y = x ;}
      }
      h(5) ;

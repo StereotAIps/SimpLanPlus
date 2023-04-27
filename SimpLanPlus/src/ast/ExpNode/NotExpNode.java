@@ -4,6 +4,7 @@ import ast.Node;
 import ast.Types.BoolType;
 import ast.Types.Type;
 import ast.Types.VoidType;
+import evaluator.SimpLanlib;
 import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.SymbolTable;
@@ -44,7 +45,19 @@ public class NotExpNode implements Node {
 
     @Override
     public String codeGeneration() {
-        return null;
+        String ltrue = SimpLanlib.freshLabel();
+        String lend = SimpLanlib.freshLabel();
+        return exp.codeGeneration() +
+                "storei T1 1 \n" +
+                "beq A0 T1 "+ ltrue + "\n" +
+                //Se sono diversi allora ho 1 e 0 allora metto 1 in A0
+                "storei A0 1 \n"+
+                "b " + lend + "\n" +
+                ltrue + ":\n" +
+                //Se sono uguali allora ho 1 e 1 allora metto 0 in A0
+                "storei A0 0 \n"+
+                lend + ":\n" ;
+
     }
 
     @Override

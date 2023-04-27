@@ -2,6 +2,7 @@ package ast;
 
 import ast.Types.BoolType;
 import ast.Types.Type;
+import evaluator.SimpLanlib;
 import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
@@ -40,16 +41,16 @@ public class IfExpNode implements Node {
         HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
         ST.add(HM); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenStm) {
-            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
+            errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
-        errors.addAll(thenExp.checkSemantics(ST, nesting+1));
+        errors.addAll(thenExp.checkSemantics(ST, nesting));
         ST.remove();
         HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
         ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elseStm) {
-            errors.addAll(d.checkSemantics(ST, nesting+1)) ;
+            errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
-        errors.addAll(elseExp.checkSemantics(ST, nesting+1));
+        errors.addAll(elseExp.checkSemantics(ST, nesting));
         ST.remove();
         return errors;
     }
@@ -75,17 +76,26 @@ public class IfExpNode implements Node {
     }
 
     public String codeGeneration() {
-//        String lthen = SimpLanlib.freshLabel();
-//        String lend = SimpLanlib.freshLabel();
-//        return guard.codeGeneration() +
-//                "storei T1 1 \n" +
-//                "beq A0 T1 "+ lthen + "\n" +
-//                elsebranch.codeGeneration() +
-//                "b " + lend + "\n" +
-//                lthen + ":\n" +
-//                thenbranch.codeGeneration() +
-//                lend + ":\n" ;
-        return null;
+        String thenCode="";
+        String elseCode="";
+        for (Node d: thenStm)
+            thenCode += d.codeGeneration();
+        for (Node s: elseStm)
+            elseCode += s.codeGeneration();
+
+        String lthen = SimpLanlib.freshLabel();
+        String lend = SimpLanlib.freshLabel();
+        return exp.codeGeneration() +
+                "storei T1 1 \n" +
+                "beq A0 T1 "+ lthen + "\n" +
+                elseCode +
+                elseExp.codeGeneration() +
+                "b " + lend + "\n" +
+                lthen + ":\n" +
+                thenCode +
+                thenExp.codeGeneration() +
+                lend + ":\n" ;
+
     }
 
     @Override

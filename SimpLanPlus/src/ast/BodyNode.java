@@ -2,6 +2,7 @@ package ast;
 
 import ast.Types.Type;
 import ast.Types.VoidType;
+import evaluator.SimpLanlib;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
@@ -76,7 +77,23 @@ public class BodyNode implements Node{
 
     @Override
     public String codeGeneration() {
-        return null;
+
+        String declCode="";
+        String stmCode="";
+        for (Node d: declist)
+            declCode += d.codeGeneration();
+        for (Node s: stmlist)
+            stmCode += s.codeGeneration();
+        String expCode="";
+        if(exp != null)
+            expCode = exp.codeGeneration();
+        return  "move SP FP  \n"
+                + "pushr FP \n"
+                + "move SP AL \n"
+                + "pushr AL \n"
+                + declCode
+                + stmCode
+                + expCode;
     }
 
     @Override

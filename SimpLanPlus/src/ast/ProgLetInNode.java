@@ -75,13 +75,16 @@ public class ProgLetInNode implements Node {
 			declCode += d.codeGeneration();
 		for (Node s: stmlist)
 			stmCode += s.codeGeneration();
+		String expCode="";
+		if(exp != null)
+			expCode = exp.codeGeneration();
 		return  "move SP FP  \n"
 				+ "pushr FP \n"
 				+ "move SP AL \n"
 				+ "pushr AL \n"
 				+ declCode
 				+ stmCode
-				+ exp.codeGeneration()
+				+ expCode
 				+ "halt\n" +
 				SimpLanlib.getCode();
 	} 
