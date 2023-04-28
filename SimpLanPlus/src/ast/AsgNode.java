@@ -42,7 +42,12 @@ public class AsgNode implements Node{
         }
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
+        if(!ST.top_lookup(id)) { //INSERISCO
+            ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
+        }
+        else { //UPDATE
+            ST.insert(id, tmp.gettype(),tmp.getoffset(), nesting, true, "");
+        }
         return errors ;
     }
 
@@ -69,7 +74,8 @@ public class AsgNode implements Node{
 
     @Override
     public String codeGeneration() {
-        return exp.codeGeneration() +
+        return "//AsgNode \n"+
+                exp.codeGeneration() +
                 "pushr A0 \n" ;
     }
 

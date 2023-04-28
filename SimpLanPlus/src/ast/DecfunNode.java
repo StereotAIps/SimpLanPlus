@@ -51,7 +51,7 @@ public class DecfunNode implements Node{
 
             ST.increaseoffset() ; // aumentiamo di 1 l'offset per far posto al return value
 
-            flabel = id;//SimpLanlib.freshFunLabel() ;
+            flabel = SimpLanlib.freshFunLabel() ;
 
             ST.insert(id, type, nesting, flabel) ;
 
@@ -97,7 +97,8 @@ public class DecfunNode implements Node{
 //	    for (Node dec:parlist) popParl+="pop\n";
 
         SimpLanlib.putCode(
-                flabel + ":\n"
+                "//DecFunNodeCODE \n"+
+                        flabel + ":\n"
                         + "pushr RA \n"
                        // + declCode
                         + body.codeGeneration()
@@ -128,7 +129,7 @@ public class DecfunNode implements Node{
 	    		*/
         );
 
-        return "push "+ flabel +"\n";
+        return "//DecFunNode \n"+"push "+ flabel +"\n";
     }
 
     public String toPrint(String s) {

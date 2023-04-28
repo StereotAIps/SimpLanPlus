@@ -84,7 +84,8 @@ public class IfStmNode implements Node {
             elseCode += d.codeGeneration();
         for (Node s: thenbranch)
             thenCode += s.codeGeneration();
-        return exp.codeGeneration() +
+        return "//IfStmNode \n"+
+                exp.codeGeneration() +
                 "storei T1 1 \n" +
                 "beq A0 T1 "+ lthen + "\n" +
                 elseCode +

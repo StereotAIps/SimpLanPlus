@@ -55,9 +55,10 @@ public class OpExpNode implements Node {
         String ltrue = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
         String leq = SimpLanlib.freshLabel();
+        String ret = "//OpExpNode \n"+"";
         switch (op) {
             case "&&":
-                return left.codeGeneration() +
+                ret += left.codeGeneration() +
                         "pushr A0 \n" +
                         right.codeGeneration() +
                         "popr T1 \n" +
@@ -70,8 +71,9 @@ public class OpExpNode implements Node {
                         "beq T1 A0 " + leq + "\n" +
                         "storei A0 1 \n" +
                         lend + ":\n";
+                break;
             case "||":
-                return left.codeGeneration() +
+                ret +=  left.codeGeneration() +
                         "pushr A0 \n" +
                         right.codeGeneration() +
                         "popr T1 \n" +
@@ -84,8 +86,9 @@ public class OpExpNode implements Node {
                         "beq T1 A0 " + leq + "\n" +
                         "storei A0 0 \n" +
                         lend + ":\n";
+                break;
         }
-        return "ERROR: op op not recognize";
+        return ret;
     }
 
     @Override

@@ -27,7 +27,7 @@ public class ProgNode implements Node {
 	}
 
 	public String codeGeneration() {
-		return exp.codeGeneration()+"halt\n";
+		return "//ProgNode \n"+exp.codeGeneration()+"halt\n";
 	}  
   
 	public String toPrint(String s) {

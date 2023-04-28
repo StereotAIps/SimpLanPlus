@@ -78,7 +78,8 @@ public class ProgLetInNode implements Node {
 		String expCode="";
 		if(exp != null)
 			expCode = exp.codeGeneration();
-		return  "move SP FP  \n"
+		return  "//ProgLetInNode \n"+
+				"move SP FP  \n"
 				+ "pushr FP \n"
 				+ "move SP AL \n"
 				+ "pushr AL \n"

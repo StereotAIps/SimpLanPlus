@@ -27,7 +27,7 @@ public class Type implements Node {
     @Override
     public String codeGeneration() {
         // It is never invoked
-        return "";
+        return "//Type \n"+"";
     }
 
 }

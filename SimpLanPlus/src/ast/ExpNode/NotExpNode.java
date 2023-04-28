@@ -47,7 +47,8 @@ public class NotExpNode implements Node {
     public String codeGeneration() {
         String ltrue = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
-        return exp.codeGeneration() +
+        return "//NotExpNode \n"+
+                exp.codeGeneration() +
                 "storei T1 1 \n" +
                 "beq A0 T1 "+ ltrue + "\n" +
                 //Se sono diversi allora ho 1 e 0 allora metto 1 in A0

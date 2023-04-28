@@ -87,7 +87,8 @@ public class BodyNode implements Node{
         String expCode="";
         if(exp != null)
             expCode = exp.codeGeneration();
-        return  "move SP FP  \n"
+        return  "//BodyNode \n"+
+                "move SP FP  \n"
                 + "pushr FP \n"
                 + "move SP AL \n"
                 + "pushr AL \n"

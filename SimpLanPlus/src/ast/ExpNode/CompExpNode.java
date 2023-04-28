@@ -54,9 +54,10 @@ public class CompExpNode implements Node {
         String ltrue = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
         String leq = SimpLanlib.freshLabel();
+        String ret = "//CompExpNode \n"+ "";
         switch (op){
             case ">":
-                return	left.codeGeneration()+
+                ret +=	left.codeGeneration()+
                         "pushr A0 \n" +
                         right.codeGeneration()+
                         "popr T1 \n" +
@@ -68,8 +69,9 @@ public class CompExpNode implements Node {
                         "beq T1 A0 "+ leq +"\n"+ //se sono uguali allora 0
                         "storei A0 1 \n" +
                         lend + ":\n";
+                break;
             case "<":
-                return	left.codeGeneration()+
+                ret+=	left.codeGeneration()+
                         "pushr A0 \n" +
                         right.codeGeneration()+
                         "popr T1 \n" +
@@ -81,8 +83,9 @@ public class CompExpNode implements Node {
                         "beq T1 A0 "+ leq +"\n"+ //se sono uguali allora 0
                         "storei A0 1 \n" +
                         lend + ":\n";
+                break;
             case ">=": // l >= r
-                return	left.codeGeneration()+
+                ret+=	left.codeGeneration()+
                         "pushr A0 \n" +
                         right.codeGeneration()+
                         "popr T1 \n" +
@@ -92,8 +95,9 @@ public class CompExpNode implements Node {
                         ltrue + ":\n"+ //se vero restituisco 1
                         "storei A0 1 \n" +
                         lend + ":\n";
+                break;
             case "<=": // l <= r
-                return	left.codeGeneration()+
+                ret+=	left.codeGeneration()+
                         "pushr A0 \n" +
                         right.codeGeneration()+
                         "popr T1 \n" +
@@ -103,8 +107,9 @@ public class CompExpNode implements Node {
                         ltrue + ":\n"+ //se vero restituisco 1
                         "storei A0 1 \n" +
                         lend + ":\n";
+                break;
         }
-        return "ERROR: op comp not recognize";
+        return ret;
     }
 
     @Override

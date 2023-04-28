@@ -85,7 +85,8 @@ public class IfExpNode implements Node {
 
         String lthen = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
-        return exp.codeGeneration() +
+        return "//IfExpNode \n"+
+                exp.codeGeneration() +
                 "storei T1 1 \n" +
                 "beq A0 T1 "+ lthen + "\n" +
                 elseCode +

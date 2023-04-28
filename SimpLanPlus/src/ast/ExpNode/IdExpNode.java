@@ -57,7 +57,7 @@ public class IdExpNode implements Node {
 		String getAR="";
 		for (int i=0; i < nesting - entry.getnesting(); i++)
 			getAR += "store T1 0(T1) \n";
-		return
+		return "//IdExpNode \n"+
 				"move AL T1 \n"
 						+ getAR  //risalgo la catena statica
 						+ "subi T1 " + entry.getoffset() +"\n" //metto offset sullo stack

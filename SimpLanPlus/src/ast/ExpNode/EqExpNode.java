@@ -60,7 +60,8 @@ public class EqExpNode implements Node {
     public String codeGeneration() {
         String ltrue = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
-        return	left.codeGeneration()+
+        return	"//EqExpNode \n"+
+                left.codeGeneration()+
                 "pushr A0 \n" +
                 right.codeGeneration()+
                 "popr T1 \n" +

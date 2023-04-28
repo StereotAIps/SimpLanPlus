@@ -25,7 +25,7 @@ public class BoolExpNode implements Node {
 	}    
     
 	public String codeGeneration() {
-		return "storei A0 "+(val?1:0)+"\n";
+		return "//BoolExpNode \n"+"storei A0 "+(val?1:0)+"\n";
 	}
     
 	public String toPrint(String s) {
