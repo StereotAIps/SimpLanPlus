@@ -5,31 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="baa7128f-3492-4bde-92b3-4e5196c99846" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/evaluator/ExecuteVM.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mainPackage/TestAssembler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/SimpLanPlus.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/AsgNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/AsgNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/BodyNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/BodyNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/CallNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/CallNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/BodyNode.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/DecfunNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DecfunNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/DecvarNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DecvarNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/BoolExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/BoolExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/CompExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/CompExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/EqExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/EqExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/IdExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/IdExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/IntExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/IntExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/NotExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/NotExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/NumExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/NumExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/OpExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/OpExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/IfExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IfExpNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/IfStmNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IfStmNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ParNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ParNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ProgLetInNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ProgLetInNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ProgNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ProgNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/SVMVisitorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/SVMVisitorImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Types/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Types/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainPackage/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainPackage/errori.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/errori.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/SimpLanPlusVisitorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/SimpLanPlusVisitorImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mainPackage/prova.simplan" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/prova.simplan" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mainPackage/prova.simplan.asm" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/prova.simplan.asm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/symboltable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/symboltable/SymbolTable.java" afterDir="false" />
@@ -97,7 +88,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1682168470141</updated>
-      <workItem from="1682168471794" duration="57758000" />
+      <workItem from="1682168471794" duration="73909000" />
     </task>
     <servers />
   </component>

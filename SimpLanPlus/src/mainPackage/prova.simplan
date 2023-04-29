@@ -1,3 +1,5 @@
-int fun(int x){
-3+x}
-fun(1)
+int x;
+int y;
+x = 2;
+y = 3;
+if(x < y) {y-x} else{ x-y}

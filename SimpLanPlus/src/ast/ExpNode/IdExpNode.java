@@ -30,16 +30,12 @@ public class IdExpNode implements Node {
 		nesting = _nesting ;
 		ST.toPrint("IdExpNode "+id, nesting);
 		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+		nesting = _nesting ;
+
 		STentry st_type = ST.lookup(id) ;
 		if (st_type == null)
 			errors.add(new SemanticError("Id " + id + " not declared"));
-		else{
-			if(!ST.top_lookup(id) && !st_type.isAssigned()){
-				errors.add(new SemanticError("Id " + id + " used but not initialized"));
-			}
-			else
-				entry = st_type ;
-		}
+		else entry = st_type ;
 
 		return errors;
 	}
@@ -48,20 +44,18 @@ public class IdExpNode implements Node {
 		if (entry.gettype() instanceof ArrowType) { //
 			System.out.println("Wrong usage of function identifier");
 			return new ErrorType() ;
-		}else{
-			return entry.gettype() ;
-		}
+		} else return entry.gettype() ;
 	}
   
 	public String codeGeneration() {
 		String getAR="";
 		for (int i=0; i < nesting - entry.getnesting(); i++)
 			getAR += "store T1 0(T1) \n";
-		return "//IdExpNode \n"+
-				"move AL T1 \n"
+		return
+				"move AL T1 "+ " //IdExpNode \n"
 						+ getAR  //risalgo la catena statica
 						+ "subi T1 " + entry.getoffset() +"\n" //metto offset sullo stack
-						+ "store A0 0(T1) \n" ; //carico sullo stack il valore all'indirizzo ottenuto
+						+ "store A0 0(T1) " + " //EndIdExpNode \n" ; //carico sullo stack il valore all'indirizzo ottenuto
 	}
 
 	public String toPrint(String s) {

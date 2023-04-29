@@ -25,7 +25,7 @@ public class IntExpNode implements Node {
 	} 
   
 	public String codeGeneration() {
-		return "//IntExpNode \n"+"storei A0 "+val+"\n";
+		return "storei A0 "+val+" //IntExpNode \n";
 	}
 
 	public String toPrint(String s) {

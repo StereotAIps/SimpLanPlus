@@ -78,15 +78,15 @@ public class ProgLetInNode implements Node {
 		String expCode="";
 		if(exp != null)
 			expCode = exp.codeGeneration();
-		return  "//ProgLetInNode \n"+
-				"move SP FP  \n"
+		return
+				"move SP FP  " + " //ProgLetInNode \n"
 				+ "pushr FP \n"
 				+ "move SP AL \n"
 				+ "pushr AL \n"
 				+ declCode
 				+ stmCode
 				+ expCode
-				+ "halt\n" +
+				+ "halt " +  " //EndProgLetInNode \n"+
 				SimpLanlib.getCode();
 	} 
 		  

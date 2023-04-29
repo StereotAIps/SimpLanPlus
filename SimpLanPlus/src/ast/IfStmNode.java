@@ -39,21 +39,13 @@ public class IfStmNode implements Node {
         ST.toPrint("IfExpNode", _nesting);
         nesting = _nesting;
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
-
         errors.addAll(exp.checkSemantics(ST, nesting));
-        HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
-        ST.add(HM); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenbranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
-        ST.remove();
-        HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
-        ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elsebranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
-        ST.remove();
-
         return errors;
     }
 

@@ -101,41 +101,41 @@ public class SymbolTable {
 		offset.add(offs) ;
 	}
 
-	public void insert(String id, Type type,  int _nesting, boolean assigned, String _label) {
-		int n = symbol_table.size() - 1 ;
-		HashMap<String,STentry> H = symbol_table.get(n) ;
-		symbol_table.remove(n) ;
-		int offs = offset.get(n) ;
-		offset.remove(n) ;
-		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
-		H.put(id,idtype) ;
-		symbol_table.add(H) ;
-		if (type.getClass().equals((new BoolType()).getClass()))
-			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
-			// bytecode operations
-		else if (type.getClass().equals((new IntType()).getClass()))
-			offs = offs + 1 ;
-		else offs = offs + 1 ;
-		offset.add(offs) ;
-	}
+//	public void insert(String id, Type type,  int _nesting, boolean assigned, String _label) {
+//		int n = symbol_table.size() - 1 ;
+//		HashMap<String,STentry> H = symbol_table.get(n) ;
+//		symbol_table.remove(n) ;
+//		int offs = offset.get(n) ;
+//		offset.remove(n) ;
+//		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
+//		H.put(id,idtype) ;
+//		symbol_table.add(H) ;
+//		if (type.getClass().equals((new BoolType()).getClass()))
+//			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
+//			// bytecode operations
+//		else if (type.getClass().equals((new IntType()).getClass()))
+//			offs = offs + 1 ;
+//		else offs = offs + 1 ;
+//		offset.add(offs) ;
+//	}
 
-	public void insert(String id, Type type, int o, int _nesting, boolean assigned, String _label) {
-		int n = symbol_table.size() - 1 ;
-		HashMap<String,STentry> H = symbol_table.get(n) ;
-		symbol_table.remove(n) ;
-		int offs = o;//offset.get(n) ;
-		//offset.remove(n) ;
-		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
-		H.put(id,idtype) ;
-		symbol_table.add(H) ;
-		if (type.getClass().equals((new BoolType()).getClass()))
-			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
-			// bytecode operations
-		else if (type.getClass().equals((new IntType()).getClass()))
-			offs = offs + 1 ;
-		else offs = offs + 1 ;
-		//offset.add(offs) ;
-	}
+//	public void insert(String id, Type type, int o, int _nesting, boolean assigned, String _label) {
+//		int n = symbol_table.size() - 1 ;
+//		HashMap<String,STentry> H = symbol_table.get(n) ;
+//		symbol_table.remove(n) ;
+//		int offs = o;//offset.get(n) ;
+//		//offset.remove(n) ;
+//		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
+//		H.put(id,idtype) ;
+//		symbol_table.add(H) ;
+//		if (type.getClass().equals((new BoolType()).getClass()))
+//			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
+//			// bytecode operations
+//		else if (type.getClass().equals((new IntType()).getClass()))
+//			offs = offs + 1 ;
+//		else offs = offs + 1 ;
+//		//offset.add(offs) ;
+//	}
 
 	public void increaseoffset() {
 		int n = offset.size() - 1 ;

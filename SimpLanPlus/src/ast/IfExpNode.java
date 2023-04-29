@@ -38,20 +38,14 @@ public class IfExpNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
-        ST.add(HM); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenStm) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         errors.addAll(thenExp.checkSemantics(ST, nesting));
-        ST.remove();
-        HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
-        ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elseStm) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         errors.addAll(elseExp.checkSemantics(ST, nesting));
-        ST.remove();
         return errors;
     }
 
@@ -85,9 +79,9 @@ public class IfExpNode implements Node {
 
         String lthen = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
-        return "//IfExpNode \n"+
+        return
                 exp.codeGeneration() +
-                "storei T1 1 \n" +
+                "storei T1 1 " +" //IfExpNode \n"+
                 "beq A0 T1 "+ lthen + "\n" +
                 elseCode +
                 elseExp.codeGeneration() +
@@ -95,7 +89,7 @@ public class IfExpNode implements Node {
                 lthen + ":\n" +
                 thenCode +
                 thenExp.codeGeneration() +
-                lend + ":\n" ;
+                lend + ":" + " //EndIfExpNode \n" ;
 
     }
 
