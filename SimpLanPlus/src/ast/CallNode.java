@@ -72,7 +72,7 @@ public class CallNode implements Node {
         // formato AR: control_link + access link + parameters + indirizzo di ritorno + dich_locali
 
         return
-                "pushr FP \n" + "//CallNode \n"			// carico il frame pointer
+                "pushr FP " + "//CallNode \n"			// carico il frame pointer
                 + "move SP FP \n"
                 + "addi FP 1 \n"	// salvo in FP il puntatore all'indirizzo del frame pointer caricato
                 + "move AL T1\n"		// risalgo la catena statica

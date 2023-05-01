@@ -70,6 +70,7 @@ public class NumExpNode implements Node {
                         + "popr T1 \n"
                         + "sub T1 A0 \n"
                         + "popr A0 ";
+                break;
             case "*":
                 ret+= 	left.codeGeneration()
                         + "pushr A0 " +" //NumExpNode \n"

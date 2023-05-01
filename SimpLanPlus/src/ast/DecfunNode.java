@@ -131,23 +131,23 @@ public class DecfunNode implements Node{
 //	    for (Node dec:parlist) popParl+="pop\n";
 
         SimpLanlib.putCode(
-                flabel + ":\n"
+                flabel + ": //DecfunNode \n"
                         + "pushr RA \n"
                         + declCode
                         + stmCode
                         + expCode
 //	    			+ "move A0 RV \n"
-                        + "addi SP " + 	innerDecs.size() + "\n"
+                        + "addi SP " + 	innerDecs.size() + " //innerDecsSize\n"
                         + "popr RA \n"
-                        + "addi SP " + 	innerStms.size() + "\n"
-                        + "popr RA \n"
-                        + "addi SP " + 	parlist.size() + "\n"
+//                        + "addi SP " + 	innerStms.size() + "\n"
+//                        + "popr RA \n"
+                        + "addi SP " + 	parlist.size() + " //parSize\n"
                         + "pop \n"
                         + "store FP 0(FP) \n"
                         + "move FP AL \n"
                         + "subi AL 1 \n"
                         + "pop \n"
-                        + "rsub RA \n"
+                        + "rsub RA //EndDecfunNode\n"
 /*
 	    		"lra\n"+ 				// inserimento return address
 	    		declCode+ 				// inserimento dichiarazioni locali

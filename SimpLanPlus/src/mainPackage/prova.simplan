@@ -1,5 +1,9 @@
-int x;
-int y;
-x = 2;
-y = 3;
-if(x < y) {y-x} else{ x-y}
+int u ;
+int f(int n){
+    int y ;
+	y = 1 ;
+	if (n == 0) { y }
+	else { y = f(n-1) ; y*n }
+}
+u = 6 ;
+f(u)
