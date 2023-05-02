@@ -40,10 +40,11 @@ public class NumExpNode implements Node {
 
     @Override
     public Type typeCheck() {
+        // int + int
         Type leftop = left.typeCheck() ;
         Type rightop = right.typeCheck() ;
         //Controllo che siano entrambi Int e ritorno int
-        if ((leftop instanceof IntType) || (rightop instanceof IntType))
+        if ((leftop instanceof IntType) && (rightop instanceof IntType))
             return new IntType();
         else {
             System.out.println("Type Error: incompatible types in numerical expression");
