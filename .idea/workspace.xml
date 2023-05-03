@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2673d5ad-6dfe-4b82-a0a4-0de5b0ccfd56" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/BodyNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/BodyNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/CallNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/CallNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/DecfunNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/DecfunNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/DecvarNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/DecvarNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/CompExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/CompExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/EqExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/EqExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/IdExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/IdExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/IntExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/IntExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/NotExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/NotExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/NumExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/NumExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/OpExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ExpNode/OpExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/IfExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/IfExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/IfStmNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/IfStmNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ParNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ParNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ProgLetInNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ProgLetInNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/ast/ProgNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/ast/ProgNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/symboltable/STentry.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/symboltable/STentry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpLanPlus/src/symboltable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpLanPlus/src/symboltable/SymbolTable.java" afterDir="false" />
-    </list>
+    <list default="true" id="2673d5ad-6dfe-4b82-a0a4-0de5b0ccfd56" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,18 +18,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -61,6 +41,7 @@
       <workItem from="1682166306826" duration="251000" />
       <workItem from="1682166571970" duration="153000" />
       <workItem from="1682168128292" duration="275000" />
+      <workItem from="1683146178362" duration="3000" />
     </task>
     <servers />
   </component>

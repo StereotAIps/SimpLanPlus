@@ -74,9 +74,25 @@ public class AsgNode implements Node{
 
     @Override
     public String codeGeneration() {
-        return "//AsgNode \n"+
-                exp.codeGeneration() +
-                "pushr A0 \n" ;
+//        return "//AsgNode \n"+
+//                exp.codeGeneration() +
+//                "pushr A0 \n" ;
+        if(entry.getnesting() == nesting){ //se la variabile è definita in quell'ambiente
+            return
+                    exp.codeGeneration()
+                            +"pushr A0" + " //AsgNode \n" ;
+        }
+        else { //se la variabile è definita in un ambiente superiore
+            String getAR = "";
+            for (int i = 0; i < nesting - entry.getnesting(); i++)
+                getAR += "store T1 0(T1) \n";
+            return
+                    exp.codeGeneration()
+                            + "move AL T1 "+ " //AsgNode \n"
+                            + getAR  //risalgo la catena statica
+                            + "subi T1 " + entry.getoffset() +"\n" //metto offset sullo stack
+                            + "load A0 0(T1) " +" //EndAsgNode \n" ; //carico sullo stack il valore all'indirizzo ottenuto
+        }
     }
 
     @Override

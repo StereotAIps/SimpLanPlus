@@ -22,10 +22,10 @@ public class BoolExpNode implements Node {
 
 	public Type typeCheck() {
 		return new BoolType();
-	}    
-    
+	}
+
 	public String codeGeneration() {
-		return "//BoolExpNode \n"+"storei A0 "+(val?1:0)+"\n";
+		return "storei A0 "+(val?1:0)+ " //BoolExpNode \n";
 	}
     
 	public String toPrint(String s) {

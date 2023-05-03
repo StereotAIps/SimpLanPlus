@@ -18,118 +18,143 @@ public class DecfunNode implements Node{
     private String id;
     private Type returntype ;
     private ArrayList<ParNode> parlist ;
-    private Node body ;
+    private ArrayList<Node> innerDecs ;
+    private ArrayList<Node> innerStms ;
+    private Node exp;
     //private ArrowType type ;
     private int nesting ;
     private String flabel ;
 
     private ArrowType type ;
 
-    public DecfunNode (String _id, Type _type, ArrayList<ParNode> _parlist, Node _body) {
+    public DecfunNode (String _id, Type _type, ArrayList<ParNode> _parlist, ArrayList<Node> _declist, ArrayList<Node> _stmlist) {
         id = _id ;
         returntype = _type;
         parlist = _parlist ;
-        body = _body ;
+        innerDecs = _declist;
+        innerStms = _stmlist;
+    }
+
+    public DecfunNode (String _id, Type _type, ArrayList<ParNode> _parlist, ArrayList<Node> _declist, ArrayList<Node> _stmlist, Node _exp) {
+        id = _id ;
+        returntype = _type;
+        parlist = _parlist ;
+        innerDecs = _declist;
+        innerStms = _stmlist;
+        exp = _exp;
     }
 
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        ST.toPrint("DecfunNode", _nesting);
+        ST.toPrint("DecfunNode "+id, _nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
 
-        if (ST.lookup(id) != null) //vedo se il nome della funz è già stata dichiarata in questo ambiente
+        if (ST.lookup(id) != null)
             errors.add(new SemanticError("Identifier " + id + " already declared"));
-        else { //altrimenti creo un nuovo ambiente
-            ArrayList<Type> partypes = new ArrayList<Type>() ;
+        else {
+            HashMap<String, STentry> HM = new HashMap<String, STentry>();
+            ArrayList<Type> partypes = new ArrayList<Type>();
 
-            for (ParNode arg : parlist){
-                partypes.add(arg.getType()); //aggiungo il tipo del parametro alla lista dei tipi dei parametri
-                //errors.addAll(arg.checkSemantics(ST, nesting+1));
+            ST.add(HM);
+
+            for (ParNode arg : parlist) {
+                partypes.add(arg.getType());
+                if (ST.top_lookup(arg.getId()))
+                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared"));
+                else ST.insert(arg.getId(), arg.getType(), nesting + 1, "");
             }
 
-            type = new ArrowType(partypes, returntype) ; //mi salvo i tipi dei parametri e il tipo di ritorno della funzione
-
-            ST.increaseoffset() ; // aumentiamo di 1 l'offset per far posto al return value
-
-            flabel = SimpLanlib.freshFunLabel() ;
-
-            ST.insert(id, type, nesting, flabel) ;
-
-            HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
-            ST.add(HM); //metto questo nuovo ambiente in testa allo stack
-            for (ParNode arg : parlist){
-                errors.addAll(arg.checkSemantics(ST, nesting+1));
-            }
-
-            errors.addAll(body.checkSemantics(ST, nesting+1)); //controllo la semantica del body
-
-            ST.remove(); //rimuvo l'ambiente
+            type = new ArrowType(partypes, returntype);
 
 
+            for (Node dec : innerDecs)
+                errors.addAll(dec.checkSemantics(ST, nesting + 1));
+            for (Node stm : innerStms)
+                errors.addAll(stm.checkSemantics(ST, nesting + 1));
+
+            if (exp != null)
+                errors.addAll(exp.checkSemantics(ST, nesting + 1));
+
+            ST.remove();
+            ST.increaseoffset(); // aumentiamo di 1 l'offset per far posto al return value
+            //Inserisco la funzione in tabella
+            flabel = SimpLanlib.freshFunLabel();
+            ST.insert(id, type, nesting, flabel);
         }
         return errors ; // problemi con la generazione di codice!
     }
 
     public Type typeCheck () {
-        if (parlist!=null)
-            for (Node dec:parlist)
+        if (innerDecs!=null)
+            for (Node dec:innerDecs)
                 dec.typeCheck();
-        if ( (body.typeCheck()).getClass().equals(returntype.getClass()))
-            return null ;
-        else {
-            System.out.println("Wrong return type for function "+id);
-            return new ErrorType() ;
+        if (innerStms!=null)
+            for (Node dec:innerStms)
+                dec.typeCheck();
+        if(exp != null) {
+            if ((exp.typeCheck()).getClass().equals(returntype.getClass()))
+                return null;
+            else {
+                System.out.println("Wrong return type for function " + id);
+                return new ErrorType();
+            }
         }
+        return null;
     }
 
     public String codeGeneration() {
 
-//        String declCode = "" ;
-////	    String popDecl = "" ;
-//        if (de .size() != 0) {
-//            for (Node dec:declist){
-//                declCode = declCode + dec.codeGeneration();
-////	    			popDecl = popDecl + "pop\n";
-//            }
-//        }
+        String declCode = "" ;
+//	    String popDecl = "" ;
+        if (innerDecs.size() != 0) {
+            for (Node dec:innerDecs){
+                declCode = declCode + dec.codeGeneration();
+//	    			popDecl = popDecl + "pop\n";
+            }
+        }
+
+        String stmCode = "" ;
+        if (innerStms.size() != 0) {
+            for (Node stm:innerStms){
+                stmCode = stmCode + stm.codeGeneration();
+//	    			popDecl = popDecl + "pop\n";
+            }
+        }
+
+        String expCode = "";
+        if(exp != null)
+            expCode = exp.codeGeneration();
+
 
 //	    String popParl="";
 //	    for (Node dec:parlist) popParl+="pop\n";
 
         SimpLanlib.putCode(
-                "//DecFunNodeCODE \n"+
-                        flabel + ":\n"
+                flabel + ": //DecfunNode \n"
                         + "pushr RA \n"
-                       // + declCode
-                        + body.codeGeneration()
+                        + declCode
+                        + stmCode
+                        + expCode
 //	    			+ "move A0 RV \n"
-                        //+ "addi SP " + 	declist.size() + "\n"
+                        + "addi SP " + 	innerDecs.size() + " //innerDecsSize\n"
                         + "popr RA \n"
-                        + "addi SP " + 	parlist.size() + "\n"
+//                        + "addi SP " + 	innerStms.size() + "\n"
+//                        + "popr RA \n"
+                        + "addi SP " + 	parlist.size() + " //parSize\n"
                         + "pop \n"
                         + "store FP 0(FP) \n"
                         + "move FP AL \n"
                         + "subi AL 1 \n"
                         + "pop \n"
-                        + "rsub RA \n"
+                        + "rsub RA //EndDecfunNode\n"
 /*
 	    		"lra\n"+ 				// inserimento return address
 	    		declCode+ 				// inserimento dichiarazioni locali
-	    		body.codeGeneration()+
-	    		"srv\n"+ 				// pop del return value e memorizzazione in rv
-	    		popDecl+				// rimuove lo spazio per le variabili locali
-	    		"sra\n"+ 				// pop del return address e memorizzazione in $ra
-	    		popParl+				// rimuove lo spazio dei parametri
-	    		"pop\n" +				// cancella access link
-	    		"sfp\n"+  				// memorizza in fp il valore del frame pointer precedente (che si trova sulla pila)
-	    		"salfpm \n" +			// memorizza in al l'ambiente del chiamante (che si trova a fp -1)
-	    		"lrv\n"+ 				// risultato della funzione sullo stack
-	    		"lra\n"+
-	    		"js\n"  				// salta a ra
+Expand All	@@ -129,15 +165,31 @@ public String codeGeneration() {
 	    		*/
         );
 
-        return "//DecFunNode \n"+"push "+ flabel +"\n";
+        return "push "+ flabel +"\n";
     }
 
     public String toPrint(String s) {
@@ -137,9 +162,23 @@ public class DecfunNode implements Node{
         for (ParNode par:parlist){
             parlstr += par.toPrint(s);
         }
-        return s+"DecFun "+id+":"+returntype.toPrint(" ")+"\n  "+parlstr + "\n"+body.toPrint(s+"  ") ;
+        String declstr= "";
+        if (innerDecs!=null)
+            for (Node dec:innerDecs)
+                declstr+=dec.toPrint(s+"  ");
+        String stmstr= "";
+        if (innerStms!=null)
+            for (Node dec:innerStms)
+                stmstr+=dec.toPrint(s+" ");
+        String expstr = "";
+        if(exp != null)
+            expstr = exp.toPrint(s+" ");
+        return s+"DecFun "
+                +id+":" +returntype.toPrint(" ")+"\n  "
+                +parlstr + "\n "
+                +declstr + "\n "
+                +stmstr + "\n "
+                +expstr ;
     }
-
-        //valore di ritorno non utilizzato
 
 }

@@ -57,11 +57,23 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
      */
     @Override public Node visitFunDec(SimpLanPlusParser.FunDecContext ctx) {
         ArrayList<ParNode> _param = new ArrayList<ParNode>() ;
-
+        ArrayList<Node> innerDecs = new ArrayList<Node>();
+        ArrayList<Node> innerStms = new ArrayList<Node>();
         for (ParamContext vc : ctx.param())
             _param.add( new ParNode(vc.ID().getText(), (Type) visit( vc.type() )) );
 
-        return new DecfunNode(ctx.ID().getText(), (Type) visit(ctx.type()), _param, visit(ctx.body()));
+        for (DecContext dc : ctx.body().dec()){
+            innerDecs.add( visit(dc) );
+        }
+
+        for (StmContext st : ctx.body().stm()){
+            innerStms.add( visit(st) );
+        }
+
+        if(ctx.body().exp()!=null)
+            return new DecfunNode(ctx.ID().getText(), (Type) visit(ctx.type()), _param, innerDecs, innerStms, visit( ctx.body().exp()));
+
+        return new DecfunNode(ctx.ID().getText(), (Type) visit(ctx.type()), _param, innerDecs, innerStms);
     }
     /**
      param  : type ID ;
@@ -69,31 +81,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
     @Override public Node visitParam(SimpLanPlusParser.ParamContext ctx) {
         return new ParNode(ctx.ID().getText(), (Type) visit( ctx.type() ));
     }
-    /**
-     body   : (dec)* (stm)* (exp)?
-     */
-    @Override public Node visitBody(SimpLanPlusParser.BodyContext ctx) {
-        ArrayList<Node> declarations = new ArrayList<Node>();
-        ArrayList<Node> statements = new ArrayList<Node>();
 
-        for (DecContext dc : ctx.dec()){
-            declarations.add( visit(dc) );
-        }
-
-        for (StmContext st : ctx.stm()){
-            statements.add( visit(st) );
-        }
-
-        if(ctx.exp()!=null){
-            //visit exp context
-            Node exp = visit( ctx.exp() );
-
-            return new BodyNode(declarations, statements, exp);
-        }
-
-        //build @res accordingly with the result of the visits to its content
-        return new BodyNode(declarations, statements);
-    }
     /**
      type   : 'int'
              | 'bool'
@@ -219,7 +207,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
      * exp: leftExp=exp ('&&' | '||') rightExp=exp                                                              #opExp
      */
     @Override public Node visitOpExp(SimpLanPlusParser.OpExpContext ctx) {
-        return new OpExpNode(visit(ctx.leftExp), visit(ctx.rightExp));
+        return new OpExpNode(ctx.op.getText(), visit(ctx.leftExp), visit(ctx.rightExp));
     }
     /**
      * exp:'!' exp                                                                                             #notExp

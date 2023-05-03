@@ -28,7 +28,7 @@ public class IdExpNode implements Node {
 
 	public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
 		nesting = _nesting ;
-		ST.toPrint("IdExpNode "+id, nesting);
+		ST.toPrint("IdExpNode "+id, _nesting);
 		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 		STentry st_type = ST.lookup(id) ;
 		if (st_type == null)
@@ -52,16 +52,16 @@ public class IdExpNode implements Node {
 			return entry.gettype() ;
 		}
 	}
-  
+
 	public String codeGeneration() {
 		String getAR="";
 		for (int i=0; i < nesting - entry.getnesting(); i++)
 			getAR += "store T1 0(T1) \n";
-		return "//IdExpNode \n"+
-				"move AL T1 \n"
+		return
+				"move AL T1 "+ " //IdExpNode \n"
 						+ getAR  //risalgo la catena statica
 						+ "subi T1 " + entry.getoffset() +"\n" //metto offset sullo stack
-						+ "store A0 0(T1) \n" ; //carico sullo stack il valore all'indirizzo ottenuto
+						+ "store A0 0(T1) " + " //EndIdExpNode \n" ; //carico sullo stack il valore all'indirizzo ottenuto
 	}
 
 	public String toPrint(String s) {

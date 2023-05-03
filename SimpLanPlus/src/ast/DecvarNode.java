@@ -29,7 +29,7 @@ public class DecvarNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
-        ST.toPrint("DecvarNode "+ id, nesting);
+        ST.toPrint("DecvarNode "+ id, _nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
 
@@ -53,7 +53,7 @@ public class DecvarNode implements Node {
 
     //non utilizzato
     public String codeGeneration() {
-        return "//DecVarNode \n"+"";
+        return "";
     }
 
     public String toPrint(String s) {

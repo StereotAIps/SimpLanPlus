@@ -43,7 +43,7 @@ public class NumExpNode implements Node {
         Type leftop = left.typeCheck() ;
         Type rightop = right.typeCheck() ;
         //Controllo che siano entrambi Int e ritorno int
-        if ((leftop instanceof IntType) || (rightop instanceof IntType))
+        if ((leftop instanceof IntType) && (rightop instanceof IntType))
             return new IntType();
         else {
             System.out.println("Type Error: incompatible types in numerical expression");
@@ -53,41 +53,42 @@ public class NumExpNode implements Node {
 
     @Override
     public String codeGeneration() {
-        String ret = "//NumExpNode \n"+"";
+        String ret = "";
         switch (op){
             case "+":
                 ret += left.codeGeneration()+
-                        "pushr A0 \n" +
+                        "pushr A0 " + " //NumExpNode \n" +
                         right.codeGeneration()+
                         "popr T1 \n" +
                         "add A0 T1 \n" +
-                        "popr A0 \n" ;
+                        "popr A0 " ;
                 break;
             case "-":
                 ret += 	left.codeGeneration()
-                        + "pushr A0 \n"
+                        + "pushr A0 " +" //NumExpNode \n"
                         + right.codeGeneration()
                         + "popr T1 \n"
                         + "sub T1 A0 \n"
-                        + "popr A0 \n";
+                        + "popr A0 ";
+                break;
             case "*":
                 ret+= 	left.codeGeneration()
-                        + "pushr A0 \n"
+                        + "pushr A0 " +" //NumExpNode \n"
                         + right.codeGeneration()
                         + "popr T1 \n"
                         + "mul A0 T1 \n"
-                        + "popr A0 \n";
+                        + "popr A0 ";
                 break;
             case "/":
                 ret+= 	left.codeGeneration()
-                        + "pushr A0 \n"
+                        + "pushr A0 " +" //NumExpNode \n"
                         + right.codeGeneration()
                         + "popr T1 \n"
                         + "div T1 A0 \n"
-                        + "popr A0 \n";
+                        + "popr A0 ";
                 break;
         }
-        return ret;
+        return ret +" //EndNumExpNode \n" ;
     }
 
     @Override

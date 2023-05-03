@@ -21,9 +21,10 @@ public class OpExpNode implements Node {
     private Node left;
     private Node right;
 
-    public OpExpNode( Node left, Node right) {
+    public OpExpNode(String _op, Node left, Node right) {
         this.left = left;
         this.right = right;
+        op =_op;
     }
 
     @Override

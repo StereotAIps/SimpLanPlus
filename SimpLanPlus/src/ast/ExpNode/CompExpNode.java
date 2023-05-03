@@ -54,11 +54,11 @@ public class CompExpNode implements Node {
         String ltrue = SimpLanlib.freshLabel();
         String lend = SimpLanlib.freshLabel();
         String leq = SimpLanlib.freshLabel();
-        String ret = "//CompExpNode \n"+ "";
+        String ret = "";
         switch (op){
             case ">":
                 ret +=	left.codeGeneration()+
-                        "pushr A0 \n" +
+                        "pushr A0 " + " //CompExpNode \n"+
                         right.codeGeneration()+
                         "popr T1 \n" +
                         "bleq A0 T1 "+ ltrue +"\n"+ // r <= l
@@ -68,48 +68,48 @@ public class CompExpNode implements Node {
                         ltrue + ":\n"+
                         "beq T1 A0 "+ leq +"\n"+ //se sono uguali allora 0
                         "storei A0 1 \n" +
-                        lend + ":\n";
+                        lend + ":";
                 break;
             case "<":
                 ret+=	left.codeGeneration()+
-                        "pushr A0 \n" +
+                        "pushr A0 " + " //CompExpNode \n"+
                         right.codeGeneration()+
                         "popr T1 \n" +
-                        "bleq T1 A0"+ ltrue +"\n"+ // l <= r
+                        "bleq T1 A0 "+ ltrue +"\n"+ // l <= r
                         leq + ":\n"+
                         "storei A0 0 \n"+ // se r < l allora no
                         "b " + lend + "\n" +
                         ltrue + ":\n"+
                         "beq T1 A0 "+ leq +"\n"+ //se sono uguali allora 0
                         "storei A0 1 \n" +
-                        lend + ":\n";
+                        lend + ":";
                 break;
             case ">=": // l >= r
                 ret+=	left.codeGeneration()+
-                        "pushr A0 \n" +
+                        "pushr A0 " + " //CompExpNode \n"+
                         right.codeGeneration()+
                         "popr T1 \n" +
-                        "bleq A0 T1"+ ltrue +"\n"+ //se r <= l
+                        "bleq A0 T1 "+ ltrue +"\n"+ //se r <= l
                         "storei A0 0 \n"+ //se così non fosse allora 0
                         "b " + lend + "\n" +
                         ltrue + ":\n"+ //se vero restituisco 1
                         "storei A0 1 \n" +
-                        lend + ":\n";
+                        lend + ":";
                 break;
             case "<=": // l <= r
                 ret+=	left.codeGeneration()+
-                        "pushr A0 \n" +
+                        "pushr A0 " + " //CompExpNode \n"+
                         right.codeGeneration()+
                         "popr T1 \n" +
-                        "bleq T1 A0"+ ltrue +"\n"+ //se l <= r
+                        "bleq T1 A0 "+ ltrue +"\n"+ //se l <= r
                         "storei A0 0 \n"+ //se così non fosse allora 0
                         "b " + lend + "\n" +
                         ltrue + ":\n"+ //se vero restituisco 1
                         "storei A0 1 \n" +
-                        lend + ":\n";
+                        lend + ":";
                 break;
         }
-        return ret;
+        return ret+ " //EndCompExpNode \n";
     }
 
     @Override
