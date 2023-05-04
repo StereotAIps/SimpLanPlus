@@ -53,7 +53,7 @@ public class DecvarNode implements Node {
 
     //non utilizzato
     public String codeGeneration() {
-        return "";
+        return "push 0"+ " //DecVarNode \n";
     }
 
     public String toPrint(String s) {

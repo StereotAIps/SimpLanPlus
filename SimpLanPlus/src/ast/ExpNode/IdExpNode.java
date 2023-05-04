@@ -56,7 +56,7 @@ public class IdExpNode implements Node {
 	public String codeGeneration() {
 		String getAR="";
 		for (int i=0; i < nesting - entry.getnesting(); i++)
-			getAR += "store T1 0(T1) \n";
+			getAR += "store T1 0(T1) //nest "+nesting+"-"+entry.getnesting()+"\n";
 		return
 				"move AL T1 "+ " //IdExpNode \n"
 						+ getAR  //risalgo la catena statica

@@ -1,4 +1,3 @@
-int u;
-int fun(int x){x}
-u=5;
-fun(u)
+int x ;
+int f(int z){ x = 1 ; x+z}
+f(3)

@@ -77,12 +77,12 @@ public class AsgNode implements Node{
 //        return "//AsgNode \n"+
 //                exp.codeGeneration() +
 //                "pushr A0 \n" ;
-        if(entry.getnesting() == nesting){ //se la variabile è definita in quell'ambiente
-            return
-                    exp.codeGeneration()
-                            +"pushr A0" + " //AsgNode \n" ;
-        }
-        else { //se la variabile è definita in un ambiente superiore
+//        if(entry.getnesting() == nesting){ //se la variabile è definita in quell'ambiente
+//            return
+//                    exp.codeGeneration()
+//                            +"pushr A0" + " //AsgNode \n" ;
+//        }
+//        else { //se la variabile è definita in un ambiente superiore
             String getAR = "";
             for (int i = 0; i < nesting - entry.getnesting(); i++)
                 getAR += "store T1 0(T1) \n";
@@ -93,7 +93,7 @@ public class AsgNode implements Node{
                             + "subi T1 " + entry.getoffset() +"\n" //metto offset sullo stack
                             + "load A0 0(T1) " +" //EndAsgNode \n" ; //carico sullo stack il valore all'indirizzo ottenuto
         }
-    }
+//    }
 
     @Override
     public String toPrint(String s) {
