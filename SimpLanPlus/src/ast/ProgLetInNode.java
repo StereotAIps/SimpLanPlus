@@ -8,6 +8,7 @@ import evaluator.SimpLanlib;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
+import symboltable.VarInfo;
 
 /**
  * prog   : (dec)+ (stm)* (exp)?
@@ -37,6 +38,8 @@ public class ProgLetInNode implements Node {
 
 		HashMap<String, STentry> H = new HashMap<String, STentry>();
 		ST.add(H);
+		HashMap<String, VarInfo> V = new HashMap<String, VarInfo>();
+		ST.addVar(V);
 
 		//declare resulting list
 		ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
@@ -54,6 +57,7 @@ public class ProgLetInNode implements Node {
 
 		//clean the scope, we are leaving a let scope
 		ST.remove();
+		ST.removeVar();
 
 		//return the result
 		return errors;

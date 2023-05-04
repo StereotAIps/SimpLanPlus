@@ -10,6 +10,7 @@ import semanticanalysis.SemanticError;
 import symboltable.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
+import symboltable.VarInfo;
 
 /**
  *  exp: ID #idExp
@@ -34,7 +35,8 @@ public class IdExpNode implements Node {
 		if (st_type == null)
 			errors.add(new SemanticError("Id " + id + " not declared"));
 		else{
-			if(!ST.top_lookup(id) && !st_type.isAssigned()){
+			VarInfo varInfo = ST.lookupVar(id) ;
+			if(!ST.top_lookupVar(id) && !varInfo.isAssigned()){
 				errors.add(new SemanticError("Id " + id + " used but not initialized"));
 			}
 			else
@@ -76,5 +78,9 @@ public class IdExpNode implements Node {
 
 	public void setEntry(STentry entry) {
 		this.entry = entry;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

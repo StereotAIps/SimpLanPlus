@@ -1,3 +1,6 @@
-int x ;
-int f(int z){ x = 1 ; x+z}
-f(3)
+int a; int b; int c ;
+     void f(int n){
+	  int x ; int y ;
+          if (n > 0) { x = n ;} else { y = n+x ;}
+     }
+     c = 1 ; f(0) ;

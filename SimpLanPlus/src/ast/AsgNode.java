@@ -17,12 +17,15 @@ public class AsgNode implements Node{
     private String id;
     private Node exp;
 
+    private boolean assigned;
+
     private STentry entry;
 
     private int nesting;
     public AsgNode(String _id, Node _exp) {
         id = _id ;
         exp = _exp ;
+        assigned = false;
     }
 
     @Override
@@ -42,11 +45,15 @@ public class AsgNode implements Node{
         }
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        if(!ST.top_lookup(id)) { //INSERISCO
-            ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
+        if(!ST.top_lookupVar(id)) { //INSERISCO
+            //ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
+            ST.insertVar(id, true);
+            assigned = true;
         }
         else { //UPDATE
-            ST.insert(id, tmp.gettype(),tmp.getoffset(), nesting, true, "");
+            //ST.insert(id, tmp.gettype(),tmp.getoffset(), nesting, true, "");
+            ST.insertVar(id, true);
+            assigned = true;
         }
         return errors ;
     }
@@ -58,8 +65,7 @@ public class AsgNode implements Node{
         Type _type = entry.gettype();
         if (exp.typeCheck().getClass().equals(_type.getClass())) {
             if (exp.typeCheck().getClass().equals(new IdExpNode("").getClass())) {
-                STentry entry = ((IdExpNode) exp).getEntry();
-                if(!entry.isAssigned()){
+                if(!assigned){
                     System.out.println("Identifier "+ id +" is used but never assigned");
                     return new ErrorType() ;
                 }

@@ -8,6 +8,7 @@ import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
+import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,18 +42,18 @@ public class IfStmNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
-        ST.add(HM); //metto questo nuovo ambiente in testa allo stack
+        HashMap<String, VarInfo> V1 = new HashMap<String,VarInfo>() ;
+        ST.addVar(V1);
         for (Node d : thenbranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
-        ST.remove();
-        HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
-        ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
+        ST.removeVar();
+        HashMap<String, VarInfo> V2 = new HashMap<String,VarInfo>() ;
+        ST.addVar(V2);
         for (Node d : elsebranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
-        ST.remove();
+        ST.removeVar();
 
         return errors;
     }

@@ -7,6 +7,7 @@ import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
+import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,20 +39,20 @@ public class IfExpNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        HashMap<String, STentry> HM = new HashMap<String,STentry>() ;
-        ST.add(HM); //metto questo nuovo ambiente in testa allo stack
+        HashMap<String, VarInfo> V = new HashMap<String,VarInfo>() ;
+        ST.addVar(V); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenStm) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         errors.addAll(thenExp.checkSemantics(ST, nesting));
-        ST.remove();
-        HashMap<String, STentry> HM1 = new HashMap<String,STentry>() ;
-        ST.add(HM1); //metto questo nuovo ambiente in testa allo stack
+        ST.removeVar();
+        HashMap<String, VarInfo> V1 = new HashMap<String,VarInfo>() ;
+        ST.addVar(V1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elseStm) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         errors.addAll(elseExp.checkSemantics(ST, nesting));
-        ST.remove();
+        ST.removeVar();
         return errors;
     }
 

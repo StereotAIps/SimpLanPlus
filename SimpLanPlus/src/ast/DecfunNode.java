@@ -7,6 +7,7 @@ import semanticanalysis.SemanticError;
 import symboltable.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
+import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,19 +54,33 @@ public class DecfunNode implements Node{
             errors.add(new SemanticError("Identifier " + id + " already declared"));
         else {
             HashMap<String, STentry> HM = new HashMap<String, STentry>();
+            HashMap<String, VarInfo> V = new HashMap<String, VarInfo>();
             ArrayList<Type> partypes = new ArrayList<Type>();
-
-            ST.add(HM);
 
             for (ParNode arg : parlist) {
                 partypes.add(arg.getType());
-                if (ST.top_lookup(arg.getId()))
-                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared"));
-                else ST.insert(arg.getId(), arg.getType(), nesting + 1, "");
             }
 
             type = new ArrowType(partypes, returntype);
 
+            ST.increaseoffset(); // aumentiamo di 1 l'offset per far posto al return value
+            //Inserisco la funzione in tabella
+            flabel = SimpLanlib.freshFunLabel();
+            ST.insert(id, type, nesting, flabel);
+            ST.insertVar(id, true);
+
+            ST.add(HM);
+            ST.addVar(V);
+
+            for (ParNode arg : parlist) {
+                //partypes.add(arg.getType());
+                if (ST.top_lookup(arg.getId()))
+                    errors.add(new SemanticError("Parameter id " + arg.getId() + " already declared"));
+                else {
+                    ST.insert(arg.getId(), arg.getType(), nesting + 1, "");
+                    ST.insertVar(arg.getId(), true);
+                }
+            }
 
             for (Node dec : innerDecs)
                 errors.addAll(dec.checkSemantics(ST, nesting + 1));
@@ -76,10 +91,8 @@ public class DecfunNode implements Node{
                 errors.addAll(exp.checkSemantics(ST, nesting + 1));
 
             ST.remove();
-            ST.increaseoffset(); // aumentiamo di 1 l'offset per far posto al return value
-            //Inserisco la funzione in tabella
-            flabel = SimpLanlib.freshFunLabel();
-            ST.insert(id, type, nesting, flabel);
+            ST.removeVar();
+
         }
         return errors ; // problemi con la generazione di codice!
     }
