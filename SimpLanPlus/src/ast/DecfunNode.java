@@ -63,7 +63,7 @@ public class DecfunNode implements Node{
 
             type = new ArrowType(partypes, returntype);
 
-            ST.increaseoffset(); // aumentiamo di 1 l'offset per far posto al return value
+
             //Inserisco la funzione in tabella
             flabel = SimpLanlib.freshFunLabel();
             ST.insert(id, type, nesting, flabel);
@@ -81,6 +81,7 @@ public class DecfunNode implements Node{
                     ST.insertVar(arg.getId(), true);
                 }
             }
+            ST.increaseoffset(); // aumentiamo di 1 l'offset per far posto al return value
 
             for (Node dec : innerDecs)
                 errors.addAll(dec.checkSemantics(ST, nesting + 1));

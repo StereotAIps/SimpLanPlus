@@ -43,7 +43,7 @@ public class ParNode implements Node {
 
     //non utilizzato
     public String codeGeneration() {
-        return "//ParNode \n"+"";
+        return " //ParNode \n"+"";
     }
 
     public String toPrint(String s) {

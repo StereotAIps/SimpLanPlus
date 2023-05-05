@@ -95,7 +95,7 @@ int f(int n){
 	else { y = f(n-1) ; y*n }
 }
 u = 6 ;
-f(u)
+f(u) //res 720?
 
 =====
 int u ;
