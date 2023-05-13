@@ -17,7 +17,7 @@ public class AsgNode implements Node{
     private String id;
     private Node exp;
 
-    private boolean assigned;
+    //private boolean assigned;
 
     private STentry entry;
 
@@ -25,7 +25,7 @@ public class AsgNode implements Node{
     public AsgNode(String _id, Node _exp) {
         id = _id ;
         exp = _exp ;
-        assigned = false;
+        //assigned = false;
     }
 
     @Override
@@ -33,43 +33,26 @@ public class AsgNode implements Node{
         ST.toPrint("AsgNode "+ id, _nesting);
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
         nesting = _nesting ;
+        //Controllo sull'id di sinistra
         STentry tmp = ST.lookup(id) ;
         if (tmp != null) {
-            entry = tmp ;
-            //Se b non si trova in quest'ultimo ambiente allora lo aggiungo, indicando che è stato assegnato
-            //if(!ST.top_lookup(id)) {
-
-            //}
-        } else {
+            entry = tmp ; //Se è stato dichiarato allora ok prendo l'entry
+        } else { //Se non è stato dichiarato allora errore
             errors.add(new SemanticError("Id " + id + " not declared")) ;
         }
-
+        //Controllo gli errori su exp
         errors.addAll(exp.checkSemantics(ST, nesting));
-        if(!ST.top_lookupVar(id)) { //INSERISCO
-            //ST.insert(id, tmp.gettype(), nesting, true, ""); //ora so che è stato assegnato
-            ST.insertVar(id, true);
-            assigned = true;
-        }
-        else { //UPDATE
-            //ST.insert(id, tmp.gettype(),tmp.getoffset(), nesting, true, "");
-            ST.insertVar(id, true);
-            assigned = true;
-        }
+        //Ora so che id è stato assegnato quindi lo metto nell'ultimo ambiente della tabella delle assegnazioni
+        ST.insertVar(id, true);
         return errors ;
     }
 
     @Override
     public Type typeCheck() {
 
-        //controllo che il tipo dell'espressione è uguale al tipo dell'oggetto con nome x in questo evironment
+        //controllo che il tipo dell'espressione è uguale al tipo dell'oggetto con nome id in questo evironment
         Type _type = entry.gettype();
         if (exp.typeCheck().getClass().equals(_type.getClass())) {
-            if (exp.typeCheck().getClass().equals(new IdExpNode("").getClass())) {
-                if(!assigned){
-                    System.out.println("Identifier "+ id +" is used but never assigned");
-                    return new ErrorType() ;
-                }
-            }
             return null;
         }
         else {

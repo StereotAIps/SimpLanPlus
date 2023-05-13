@@ -1,1 +1,1 @@
-line 4:8 extraneous input 'int' expecting {'if', ID}
+line 2:11 no viable alternative at input 'if(1){a=1}'

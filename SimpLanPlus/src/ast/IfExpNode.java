@@ -53,6 +53,11 @@ public class IfExpNode implements Node {
         }
         errors.addAll(elseExp.checkSemantics(ST, nesting));
         ST.removeVar();
+        //......
+        //listanuoviasg
+        //for listanuoviasg per ogni elemento
+        //ST.insertVar(id, true); HASMAP<ID, VARINFO = TRUE>
+
         return errors;
     }
 

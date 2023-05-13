@@ -35,12 +35,12 @@ public class IdExpNode implements Node {
 		if (st_type == null)
 			errors.add(new SemanticError("Id " + id + " not declared"));
 		else{
-			VarInfo varInfo = ST.lookupVar(id) ;
+			VarInfo varInfo = ST.lookupVar(id) ; //Controllo se è assegnato nella tabella degli assegnamenti
 			if(!ST.top_lookupVar(id) && !varInfo.isAssigned()){
-				errors.add(new SemanticError("Id " + id + " used but not initialized"));
+				errors.add(new SemanticError("Id " + id + " used but not initialized")); //Se non è stato assegnato do errore
 			}
 			else
-				entry = st_type ;
+				entry = st_type ; //mi salvo l'entry
 		}
 
 		return errors;
