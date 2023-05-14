@@ -36,6 +36,9 @@ public class IfStmNode implements Node {
 
     @Override
 
+
+    @Override
+
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
         ST.toPrint("IfExpNode", _nesting);
         nesting = _nesting;
@@ -47,14 +50,16 @@ public class IfStmNode implements Node {
         for (Node d : thenbranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
+        ArrayList<String> V1List = TakeDeclaredVariables(V1);
         ST.removeVar();
         HashMap<String, VarInfo> V2 = new HashMap<String,VarInfo>() ;
         ST.addVar(V2);
         for (Node d : elsebranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
+        ArrayList<String> V2List = TakeDeclaredVariables(V2);
         ST.removeVar();
-
+        ArrayList<String> FinalList= CompareEnvironmentVariables(V1List, V2List);
         return errors;
     }
 

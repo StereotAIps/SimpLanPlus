@@ -25,4 +25,9 @@ public class VarInfo {
     public void setAssigned(boolean assigned) {
         this.assigned = assigned;
     }
+
+
+    public boolean equals(VarInfo object) {
+        return (object.assigned==this.assigned);
+    }
 }
