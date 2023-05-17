@@ -1,4 +1,6 @@
-package parser;
+package utils;
+
+import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +11,7 @@ import java.util.Map;
 
 public class Utils {
 
-    public ArrayList<String> TakeDeclaredVariables(HashMap<String, VarInfo> ambiente){
+    public static ArrayList<String> TakeDeclaredVariables(HashMap<String, VarInfo> ambiente){
         Iterator hmIterator = ambiente.entrySet().iterator();
         ArrayList<String> result=new ArrayList<String>();
         while (hmIterator.hasNext()) {
@@ -21,7 +23,7 @@ public class Utils {
         return result;
     }
 
-    public ArrayList<String> CompareEnvironmentVariables(ArrayList<String> thenList, ArrayList<String> elseList) {
+    public static ArrayList<String> CompareEnvironmentVariables(ArrayList<String> thenList, ArrayList<String> elseList) {
         ArrayList<String> result=new ArrayList<String>();
         for(String element:thenList) {
             if(elseList.contains(element)) {
@@ -31,9 +33,9 @@ public class Utils {
         return result;
     }
 
-    public void UpdateHashMap(HashMap<String,VarInfo> hash, ArrayList<String> variablesToUpdate){
+    public static void UpdateHashMap(HashMap<String,VarInfo> hash, ArrayList<String> variablesToUpdate){
         for(String variable:variablesToUpdate){
-            if(hash.get(variable)){
+            if(hash.get(variable)!=null){
                 hash.put(variable, new VarInfo(true));
             }
         }

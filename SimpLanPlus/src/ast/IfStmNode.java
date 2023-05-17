@@ -1,17 +1,20 @@
 package ast;
 
+import utils.Utils;
 import ast.Types.BoolType;
 import ast.Types.Type;
 import ast.Types.VoidType;
 import evaluator.SimpLanlib;
 import semanticanalysis.ErrorType;
 import semanticanalysis.SemanticError;
-import symboltable.STentry;
 import symboltable.SymbolTable;
 import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static utils.Utils.CompareEnvironmentVariables;
+import static utils.Utils.TakeDeclaredVariables;
 
 /**
  * stm    : 'if' '(' exp ')' '{' left=stms '}' ('else' '{' right=stms '}')?                   #ifStm
@@ -34,11 +37,9 @@ public class IfStmNode implements Node {
         thenbranch = _thenbranch;
     }
 
-    @Override
 
 
     @Override
-
     public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
         ST.toPrint("IfExpNode", _nesting);
         nesting = _nesting;
@@ -63,6 +64,8 @@ public class IfStmNode implements Node {
         return errors;
     }
 
+
+    @Override
     public Type typeCheck() {
         if (exp.typeCheck() instanceof BoolType) {
 //            Type thenexp = thenbranch.typeCheck() ;
