@@ -17,14 +17,19 @@ import ast.Types.ErrorType;
 import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
+import static utils.Utils.createFile;
+import static utils.Utils.writeInFile;
+
 /**
  * param  : type ID
  * */
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        String fileName = "./src/mainPackage/prova.simplan";
-        FileInputStream is = new FileInputStream(fileName);
+        String fileinput = "./src/mainPackage/prova.simplan";
+        String fileError = "./src/mainPackage/errori.log";
+        createFile(fileError);
+        FileInputStream is = new FileInputStream(fileinput);
         ANTLRInputStream input = new ANTLRInputStream(is);
         SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
         ParserErrorHandler handler = new ParserErrorHandler();
@@ -42,7 +47,7 @@ public class Main {
         if (handler.numErrori() != 0) {
             //Ci sono errori
             System.out.println(handler);
-            handler.scriviInFile("./src/mainPackage/errori.log");
+            handler.scriviInFile(fileError);
             return;
         }
         System.out.println("Parse completed without errors!");
@@ -50,9 +55,15 @@ public class Main {
         SymbolTable ST = new SymbolTable();
         ArrayList<SemanticError> errors = ast.checkSemantics(ST, 0);
         if(errors.size()>0) {
+            //Bisogna scrivere questi errori nel file prova.simplan e bisogna assicurarsi che il file sia vuoto
+            // all'inizio del main così che ogni volta che si esugue codice sia vuto se non ci sono errori
             System.out.println("You had: " + errors.size() + " errors:");
-            for (SemanticError e : errors)
-                System.out.println("\t" + e);
+            String semError = "";
+            for (SemanticError e : errors) {
+                semError += "[!] A semantic error occurred: " + e + "\n";
+                System.out.println("[!] A semantic error occurred: " + e + "\t");
+                writeInFile(fileError, semError);
+            }
             return;
         }
         System.out.println("Visualizing AST...");
@@ -66,7 +77,7 @@ public class Main {
 
         // CODE GENERATION  prova.SimpLan.asm
         String code=ast.codeGeneration();
-        BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
+        BufferedWriter out = new BufferedWriter(new FileWriter(fileinput+".asm"));
         out.write(code);
         out.close();
         System.out.println("Code generated! Assembling and running generated code.");

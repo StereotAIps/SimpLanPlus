@@ -2,6 +2,7 @@ package utils;
 
 import symboltable.VarInfo;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,6 +39,24 @@ public class Utils {
             if(hash.get(variable)!=null){
                 hash.put(variable, new VarInfo(true));
             }
+        }
+    }
+
+    public static void writeInFile(String filename, String str) throws IOException {
+        BufferedWriter wr = new BufferedWriter(new FileWriter(filename));
+
+        wr.write(str);
+        wr.close();
+    }
+
+    public static void createFile(String filename) throws IOException {
+        File myObj = new File(filename);
+        if (myObj.createNewFile()) {
+            //System.out.println("File created: " + myObj.getName());
+        } else {
+            PrintWriter writer = new PrintWriter(filename);
+            writer.print("");
+            writer.close();
         }
     }
 }

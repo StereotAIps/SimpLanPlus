@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static utils.Utils.writeInFile;
+
 public class ParserErrorHandler extends BaseErrorListener {
 
     public static final ParserErrorHandler INSTANCE = new ParserErrorHandler();
@@ -28,12 +30,13 @@ public class ParserErrorHandler extends BaseErrorListener {
     }
 
     public void scriviInFile(String filename) throws IOException {
-        BufferedWriter wr = new BufferedWriter(new FileWriter(filename));
+        //BufferedWriter wr = new BufferedWriter(new FileWriter(filename));
         String errori = "";
         for (String event : this.errorList) {
             errori += event + "\n";
         }
-        wr.write(errori);
-        wr.close();
+        writeInFile(filename, errori);
+//        wr.write(errori);
+//        wr.close();
     }
 }

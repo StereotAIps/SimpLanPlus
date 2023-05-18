@@ -1,1 +1,1 @@
-[!] An error occurred at line 4, character 0 :extraneous input 'int' expecting {<EOF>, '(', 'if', 'true', 'false', '!', INTEGER, ID}
+[!] A semantic error occurred: Id b used but not initialized
