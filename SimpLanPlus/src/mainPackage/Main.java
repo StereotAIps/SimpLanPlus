@@ -45,7 +45,7 @@ public class Main {
             handler.scriviInFile("./src/mainPackage/errori.log");
             return;
         }
-        System.out.println("Parse completed!");
+        System.out.println("Parse completed without errors!");
         System.out.println("Checking semantic errors...");
         SymbolTable ST = new SymbolTable();
         ArrayList<SemanticError> errors = ast.checkSemantics(ST, 0);

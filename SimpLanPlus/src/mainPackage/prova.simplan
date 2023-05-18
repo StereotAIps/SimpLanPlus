@@ -1,7 +1,5 @@
-int u ;
-void f(int m, int n){
-    int x;
-	if (m>n) { u = m+n ;}
-	else { x = 1 ; f(m+1,n+1) ; }
-}
-f(5,4) ;
+int b;
+int a;
+b= 42;
+int y;
+EOF
