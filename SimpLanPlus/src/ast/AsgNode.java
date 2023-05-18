@@ -1,9 +1,8 @@
 package ast;
 
-import ast.ExpNode.IdExpNode;
 import ast.Types.Type;
-import semanticanalysis.ErrorType;
-import semanticanalysis.SemanticError;
+import ast.Types.ErrorType;
+import symboltable.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
 

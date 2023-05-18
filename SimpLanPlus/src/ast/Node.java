@@ -3,7 +3,7 @@ package ast;
 import java.util.ArrayList;
 
 import ast.Types.Type;
-import semanticanalysis.SemanticError ;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
 public interface Node {

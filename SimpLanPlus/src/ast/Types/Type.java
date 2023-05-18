@@ -3,7 +3,7 @@ package ast.Types;
 import java.util.ArrayList;
 
 import ast.Node;
-import semanticanalysis.SemanticError;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
 public class Type implements Node {

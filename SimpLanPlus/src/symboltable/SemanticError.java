@@ -1,4 +1,4 @@
-package semanticanalysis;
+package symboltable;
 
 public class SemanticError {
 	private String msg;

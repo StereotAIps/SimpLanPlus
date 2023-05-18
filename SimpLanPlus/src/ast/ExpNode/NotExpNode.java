@@ -3,10 +3,9 @@ package ast.ExpNode;
 import ast.Node;
 import ast.Types.BoolType;
 import ast.Types.Type;
-import ast.Types.VoidType;
 import evaluator.SimpLanlib;
-import semanticanalysis.ErrorType;
-import semanticanalysis.SemanticError;
+import ast.Types.ErrorType;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
 import java.util.ArrayList;

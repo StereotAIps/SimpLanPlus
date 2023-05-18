@@ -1,4 +1,4 @@
-package semanticanalysis;
+package ast.Types;
 
 import ast.Types.Type;
 

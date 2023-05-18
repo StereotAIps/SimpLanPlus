@@ -7,18 +7,14 @@ import java.util.ArrayList;
 
 
 import ast.Node;
-import ast.SVMVisitorImpl;
 import ast.SimpLanPlusVisitorImpl;
-import evaluator.ExecuteVM;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.ParserErrorHandler;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
-import semanticanalysis.ErrorType;
-import semanticanalysis.SemanticError;
-import svm.SVMLexer;
-import svm.SVMParser;
+import ast.Types.ErrorType;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
 /**

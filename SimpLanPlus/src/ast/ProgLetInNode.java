@@ -5,7 +5,7 @@ import java.util.HashMap;
 import ast.Types.Type;
 import ast.Types.VoidType;
 import evaluator.SimpLanlib;
-import semanticanalysis.SemanticError;
+import symboltable.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
 import symboltable.VarInfo;

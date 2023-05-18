@@ -1,7 +1,7 @@
 package ast;
 
 import ast.Types.Type;
-import semanticanalysis.SemanticError;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
 import java.util.ArrayList;

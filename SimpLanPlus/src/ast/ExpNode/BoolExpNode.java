@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import ast.Node;
 import ast.Types.BoolType;
 import ast.Types.Type;
-import semanticanalysis.SemanticError;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 
 public class BoolExpNode implements Node {

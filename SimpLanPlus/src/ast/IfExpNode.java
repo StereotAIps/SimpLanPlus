@@ -3,9 +3,8 @@ package ast;
 import ast.Types.BoolType;
 import ast.Types.Type;
 import evaluator.SimpLanlib;
-import semanticanalysis.ErrorType;
-import semanticanalysis.SemanticError;
-import symboltable.STentry;
+import ast.Types.ErrorType;
+import symboltable.SemanticError;
 import symboltable.SymbolTable;
 import symboltable.VarInfo;
 
