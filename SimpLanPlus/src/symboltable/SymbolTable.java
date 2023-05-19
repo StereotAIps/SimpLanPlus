@@ -18,23 +18,23 @@ public class SymbolTable {
 
 	public void toPrint(String fun, int nesting){
 		System.out.println("--------------------------------");
-		System.out.println("VarTable: ");
-		for(HashMap<String,VarInfo> h : var_table){
-			if(h.size()>0){
-				System.out.println("[");
-				h.forEach((s,st) -> {
-					System.out.println("|"+s+":"+st.toPrint()+"|");
-				});
-				System.out.println("]");
-			}
-			else System.out.println("[]");
-		}
 		System.out.println("ST"+nesting+": "+fun);
 		for(HashMap<String,STentry> h : symbol_table){
 			if(h.size()>0){
 				System.out.println("[");
 				h.forEach((s,st) -> {
 					System.out.println(s+st.toPrint());
+				});
+				System.out.println("]");
+			}
+			else System.out.println("[]");
+		}
+		System.out.println("VarTable: ");
+		for(HashMap<String,VarInfo> h : var_table){
+			if(h.size()>0){
+				System.out.println("[");
+				h.forEach((s,st) -> {
+					System.out.println("|"+s+":"+st.toPrint()+"|");
 				});
 				System.out.println("]");
 			}

@@ -7,12 +7,10 @@
     <list default="true" id="baa7128f-3492-4bde-92b3-4e5196c99846" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ExpNode/IdExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExpNode/IdExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainPackage/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainPackage/errori.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mainPackage/errori.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/errori.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mainPackage/prova.simplan" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/prova.simplan" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mainPackage/prova.simplan.asm" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPackage/prova.simplan.asm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ParserErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ParserErrorHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/symboltable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/symboltable/SymbolTable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
