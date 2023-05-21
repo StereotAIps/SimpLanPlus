@@ -41,6 +41,10 @@ public class SymbolTable {
 			else System.out.println("[]");
 		}
 	}
+
+	//****************************************************************
+	//							SYMBOL TABLE
+	//****************************************************************
 	public Integer nesting() {
 		return symbol_table.size() -1 ;
 	}
@@ -62,16 +66,16 @@ public class SymbolTable {
 		return T ;
 	}
 
-	public Integer nslookup(String id) {
-		int n = symbol_table.size() - 1 ;
-		boolean found = false ;
-		while ((n >= 0) && !found) {
-			HashMap<String,STentry> H = symbol_table.get(n) ;
-			if (H.get(id) != null) found = true ;
-			else n = n-1 ;
-		}
-		return n ;
-	}
+//	public Integer nslookup(String id) {
+//		int n = symbol_table.size() - 1 ;
+//		boolean found = false ;
+//		while ((n >= 0) && !found) {
+//			HashMap<String,STentry> H = symbol_table.get(n) ;
+//			if (H.get(id) != null) found = true ;
+//			else n = n-1 ;
+//		}
+//		return n ;
+//	}
 
 	//a new name into the symbol table with its attributes
 	public void add(HashMap<String,STentry> H) {
@@ -113,41 +117,41 @@ public class SymbolTable {
 		offset.add(offs) ;
 	}
 
-	public void insert(String id, Type type,  int _nesting, boolean assigned, String _label) {
-		int n = symbol_table.size() - 1 ;
-		HashMap<String,STentry> H = symbol_table.get(n) ;
-		symbol_table.remove(n) ;
-		int offs = offset.get(n) ;
-		offset.remove(n) ;
-		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
-		H.put(id,idtype) ;
-		symbol_table.add(H) ;
-		if (type.getClass().equals((new BoolType()).getClass()))
-			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
-			// bytecode operations
-		else if (type.getClass().equals((new IntType()).getClass()))
-			offs = offs + 1 ;
-		else offs = offs + 1 ;
-		offset.add(offs) ;
-	}
+//	public void insert(String id, Type type,  int _nesting, boolean assigned, String _label) {
+//		int n = symbol_table.size() - 1 ;
+//		HashMap<String,STentry> H = symbol_table.get(n) ;
+//		symbol_table.remove(n) ;
+//		int offs = offset.get(n) ;
+//		offset.remove(n) ;
+//		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
+//		H.put(id,idtype) ;
+//		symbol_table.add(H) ;
+//		if (type.getClass().equals((new BoolType()).getClass()))
+//			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
+//			// bytecode operations
+//		else if (type.getClass().equals((new IntType()).getClass()))
+//			offs = offs + 1 ;
+//		else offs = offs + 1 ;
+//		offset.add(offs) ;
+//	}
 
-	public void insert(String id, Type type, int o, int _nesting, boolean assigned, String _label) {
-		int n = symbol_table.size() - 1 ;
-		HashMap<String,STentry> H = symbol_table.get(n) ;
-		symbol_table.remove(n) ;
-		int offs = o;//offset.get(n) ;
-		//offset.remove(n) ;
-		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
-		H.put(id,idtype) ;
-		symbol_table.add(H) ;
-		if (type.getClass().equals((new BoolType()).getClass()))
-			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
-			// bytecode operations
-		else if (type.getClass().equals((new IntType()).getClass()))
-			offs = offs + 1 ;
-		else offs = offs + 1 ;
-		//offset.add(offs) ;
-	}
+//	public void insert(String id, Type type, int o, int _nesting, boolean assigned, String _label) {
+//		int n = symbol_table.size() - 1 ;
+//		HashMap<String,STentry> H = symbol_table.get(n) ;
+//		symbol_table.remove(n) ;
+//		int offs = o;//offset.get(n) ;
+//		//offset.remove(n) ;
+//		STentry idtype = new STentry(type,offs,_nesting, _label, true) ;
+//		H.put(id,idtype) ;
+//		symbol_table.add(H) ;
+//		if (type.getClass().equals((new BoolType()).getClass()))
+//			offs = offs + 1 ; // we always increment the offset by 1 otherwise we need ad-hoc
+//			// bytecode operations
+//		else if (type.getClass().equals((new IntType()).getClass()))
+//			offs = offs + 1 ;
+//		else offs = offs + 1 ;
+//		//offset.add(offs) ;
+//	}
 
 	public void increaseoffset() {
 		int n = offset.size() - 1 ;
@@ -157,6 +161,9 @@ public class SymbolTable {
 		offset.add(offs) ;	
 	}
 
+	//****************************************************************
+	//							VAR TABLE
+	//****************************************************************
 	public void addVar(HashMap<String,VarInfo> H) {
 		var_table.add(H) ;
 	}
@@ -185,13 +192,13 @@ public class SymbolTable {
 		var_table.add(H) ;
 	}
 
-	public boolean top_lookupVar(String id) {
-		int n = var_table.size() - 1 ;
-		VarInfo T = null ;
-		HashMap<String,VarInfo> H = var_table.get(n) ;
-		T = H.get(id) ;
-		return (T != null) ;
-	}
+//	public boolean top_lookupVar(String id) {
+//		int n = var_table.size() - 1 ;
+//		VarInfo T = null ;
+//		HashMap<String,VarInfo> H = var_table.get(n) ;
+//		T = H.get(id) ;
+//		return (T != null) ;
+//	}
 
 	public VarInfo lookupVar(String id) {
 		int n = var_table.size() - 1 ;

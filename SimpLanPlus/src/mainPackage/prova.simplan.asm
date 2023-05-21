@@ -2,13 +2,18 @@ move SP FP   //ProgLetInNode
 pushr FP 
 move SP AL 
 pushr AL 
+push 0 //DecVarNode 
 push function0
+storei A0 2 //IntExpNode 
+move AL T1  //AsgNode 
+subi T1 1
+load A0 0(T1)  //EndAsgNode 
 pushr FP //CallNode 
 move SP FP 
 addi FP 1 
 move AL T1
 pushr T1 
-storei A0 5 //IntExpNode 
+storei A0 3 //IntExpNode 
 pushr A0
 move FP AL 
 subi AL 1 
@@ -17,68 +22,10 @@ halt  //EndProgLetInNode
 
 function0: //DecfunNode 
 pushr RA 
-push 0 //DecVarNode 
-push 0 //DecVarNode 
-//IfStmNode 
 move AL T1  //IdExpNode 
 subi T1 1
 store A0 0(T1)  //EndIdExpNode 
-pushr A0  //EqExpNode 
-storei A0 0 //IntExpNode 
-popr T1 
-beq A0 T1 label2
-storei A0 0 
-b label3
-label2:
-storei A0 1 
-label3:
-storei T1 1 
-beq A0 T1 label0
-pushr FP //CallNode 
-move SP FP 
-addi FP 1 
-move AL T1
-store T1 0(T1) 
-pushr T1 
-move AL T1  //IdExpNode 
-subi T1 1
-store A0 0(T1)  //EndIdExpNode 
-pushr A0  //NumExpNode 
-storei A0 1 //IntExpNode 
-popr T1 
-sub T1 A0 
-popr A0  //EndNumExpNode 
-pushr A0
-move FP AL 
-subi AL 1 
-jsub function0
-move AL T1  //IdExpNode 
-subi T1 1
-store A0 0(T1)  //EndIdExpNode 
-move AL T1  //AsgNode 
-subi T1 3
-load A0 0(T1)  //EndAsgNode 
-move AL T1  //IdExpNode 
-subi T1 3
-store A0 0(T1)  //EndIdExpNode 
-move AL T1  //AsgNode 
-subi T1 4
-load A0 0(T1)  //EndAsgNode 
-b label1
-label0:
-move AL T1  //IdExpNode 
-subi T1 1
-store A0 0(T1)  //EndIdExpNode 
-pushr A0  //NumExpNode 
-storei A0 1 //IntExpNode 
-popr T1 
-add A0 T1 
-popr A0  //EndNumExpNode 
-move AL T1  //AsgNode 
-subi T1 3
-load A0 0(T1)  //EndAsgNode 
-label1:
-addi SP 2 //innerDecsSize
+addi SP 0 //innerDecsSize
 popr RA 
 addi SP 1 //parSize
 pop 

@@ -32,7 +32,7 @@ public class ParNode implements Node {
         nesting = _nesting ;
         if (ST.top_lookup(id)) //controllo se esiste già un parametro con questo nome
             errors.add(new SemanticError("Parameter id " + id + " already declared")) ; //se si errore
-        else ST.insert(id, type, nesting, true, "") ; //se no aggiungo il nuovo parametro nell'ultimo ambiente della ST
+        else ST.insert(id, type, nesting, "") ; //se no aggiungo il nuovo parametro nell'ultimo ambiente della ST
         return errors ;
     }
 
