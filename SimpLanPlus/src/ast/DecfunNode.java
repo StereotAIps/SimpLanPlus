@@ -4,7 +4,7 @@ import ast.Types.Type;
 import evaluator.SimpLanlib;
 import ast.Types.ErrorType;
 import symboltable.SemanticError;
-import symboltable.ArrowType;
+import ast.Types.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
 

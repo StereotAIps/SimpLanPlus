@@ -3,7 +3,7 @@ package ast;
 import ast.Types.Type;
 import ast.Types.ErrorType;
 import symboltable.SemanticError;
-import symboltable.ArrowType;
+import ast.Types.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
 

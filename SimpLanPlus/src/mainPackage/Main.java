@@ -67,7 +67,7 @@ public class Main {
             return;
         }
         System.out.println("Visualizing AST...");
-        System.out.println(ast.toPrint(""));
+        //System.out.println(ast.toPrint(""));
         System.out.println("Checking type errors...");
         Node type = ast.typeCheck(); //type-checking bottom-up
         if (type instanceof ErrorType)

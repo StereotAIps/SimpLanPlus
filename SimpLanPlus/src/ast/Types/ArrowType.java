@@ -1,4 +1,4 @@
-package symboltable;
+package ast.Types;
 
 import ast.Types.Type;
 

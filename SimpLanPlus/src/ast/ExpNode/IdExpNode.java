@@ -7,7 +7,7 @@ import ast.Types.Type;
 //import semanticanalysis.STentry;
 import ast.Types.ErrorType;
 import symboltable.SemanticError;
-import symboltable.ArrowType;
+import ast.Types.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
 

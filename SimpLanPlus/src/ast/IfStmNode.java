@@ -59,6 +59,8 @@ public class IfStmNode implements Node {
         ArrayList<String> V2List = TakeDeclaredVariables(V2);
         ST.removeVar();
         ArrayList<String> FinalList= CompareEnvironmentVariables(V1List, V2List);
+        for (String id: FinalList)
+            ST.insertVar(id, true);
         return errors;
     }
 

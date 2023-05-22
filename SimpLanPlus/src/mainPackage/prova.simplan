@@ -1,12 +1,8 @@
-int a ;
-int b ;
-void g(int p){
-    int y ;
-    y = p ;
+int x ;
+int y ;
+if (true) {
+    x = 2 ;
+} else {
+    x = 1 ;
 }
-void g(int p){
-    int y ;
-    y = p-1 ;
-}
-b = 2 ;
-g(c) ;
+y = x ;
