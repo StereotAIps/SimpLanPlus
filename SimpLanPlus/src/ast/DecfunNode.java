@@ -7,10 +7,11 @@ import symboltable.SemanticError;
 import symboltable.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
-import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static java.lang.Boolean.TRUE;
 
 /**
  * dec    : type ID '(' ( param ( ',' param)* )? ')' '{' body '}'          #funDec
@@ -54,7 +55,7 @@ public class DecfunNode implements Node{
             errors.add(new SemanticError("Identifier " + id + " already declared"));
         else {
             HashMap<String, STentry> HM = new HashMap<String, STentry>();
-            HashMap<String, VarInfo> V = new HashMap<String, VarInfo>();
+            HashMap<String, Boolean> V = new HashMap<String, Boolean>();
             ArrayList<Type> partypes = new ArrayList<Type>();
 
             for (ParNode arg : parlist) {
@@ -67,7 +68,7 @@ public class DecfunNode implements Node{
             //Inserisco la funzione in tabella
             flabel = SimpLanlib.freshFunLabel();
             ST.insert(id, type, nesting, flabel);
-            ST.insertVar(id, true);
+            ST.insertVar(id, TRUE);
 
             ST.add(HM);
             ST.addVar(V);

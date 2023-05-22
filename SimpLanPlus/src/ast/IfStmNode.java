@@ -7,7 +7,6 @@ import evaluator.SimpLanlib;
 import ast.Types.ErrorType;
 import symboltable.SemanticError;
 import symboltable.SymbolTable;
-import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +44,14 @@ public class IfStmNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        HashMap<String, VarInfo> V1 = new HashMap<String,VarInfo>() ;
+        HashMap<String, Boolean> V1 = new HashMap<String,Boolean>() ;
         ST.addVar(V1);
         for (Node d : thenbranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         ArrayList<String> V1List = TakeDeclaredVariables(V1);
         ST.removeVar();
-        HashMap<String, VarInfo> V2 = new HashMap<String,VarInfo>() ;
+        HashMap<String, Boolean> V2 = new HashMap<String,Boolean>() ;
         ST.addVar(V2);
         for (Node d : elsebranch) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;

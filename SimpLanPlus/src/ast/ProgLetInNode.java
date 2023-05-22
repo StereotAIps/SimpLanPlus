@@ -8,7 +8,6 @@ import evaluator.SimpLanlib;
 import symboltable.SemanticError;
 import symboltable.STentry;
 import symboltable.SymbolTable;
-import symboltable.VarInfo;
 
 /**
  * prog   : (dec)+ (stm)* (exp)?
@@ -38,7 +37,7 @@ public class ProgLetInNode implements Node {
 
 		HashMap<String, STentry> H = new HashMap<String, STentry>();
 		ST.add(H);
-		HashMap<String, VarInfo> V = new HashMap<String, VarInfo>();
+		HashMap<String, Boolean> V = new HashMap<String, Boolean>();
 		ST.addVar(V);
 
 		//declare resulting list

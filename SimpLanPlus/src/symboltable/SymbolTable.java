@@ -9,11 +9,11 @@ import java.util.*;
 public class SymbolTable {
 	private ArrayList<HashMap<String,STentry>>  symbol_table ;
 	private ArrayList<Integer> offset;
-	private ArrayList<HashMap<String,VarInfo>>  var_table ;
+	private ArrayList<HashMap<String,Boolean>>  var_table ;
 	public SymbolTable() {
 		symbol_table = new ArrayList<HashMap<String,STentry>>() ;
 		offset = new ArrayList<Integer>() ;
-		var_table = new ArrayList<HashMap<String,VarInfo>>();
+		var_table = new ArrayList<HashMap<String,Boolean>>();
 	}
 
 	public void toPrint(String fun, int nesting){
@@ -30,11 +30,11 @@ public class SymbolTable {
 			else System.out.println("[]");
 		}
 		System.out.println("VarTable: ");
-		for(HashMap<String,VarInfo> h : var_table){
+		for(HashMap<String,Boolean> h : var_table){
 			if(h.size()>0){
 				System.out.println("[");
 				h.forEach((s,st) -> {
-					System.out.println("|"+s+":"+st.toPrint()+"|");
+					System.out.println("|"+s+":"+st.toString()+"|");
 				});
 				System.out.println("]");
 			}
@@ -164,7 +164,7 @@ public class SymbolTable {
 	//****************************************************************
 	//							VAR TABLE
 	//****************************************************************
-	public void addVar(HashMap<String,VarInfo> H) {
+	public void addVar(HashMap<String,Boolean> H) {
 		var_table.add(H) ;
 	}
 
@@ -176,19 +176,18 @@ public class SymbolTable {
 
 	public void insertVar(String id) {
 		int n = var_table.size() - 1 ;
-		HashMap<String,VarInfo> H = var_table.get(n) ;
+		HashMap<String,Boolean> H = var_table.get(n) ;
 		var_table.remove(n) ;
-		VarInfo varInfo = new VarInfo() ;
-		H.put(id,varInfo) ;
+		H.put(id, Boolean.FALSE) ;
 		var_table.add(H) ;
 	}
 
 	public void insertVar(String id, boolean _asg) {
 		int n = var_table.size() - 1 ;
-		HashMap<String,VarInfo> H = var_table.get(n) ;
+		HashMap<String,Boolean> H = var_table.get(n) ;
 		var_table.remove(n) ;
-		VarInfo varInfo = new VarInfo(_asg) ;
-		H.put(id,varInfo) ;
+		Boolean bo = (_asg)? Boolean.TRUE: Boolean.FALSE;
+		H.put(id,bo) ;
 		var_table.add(H) ;
 	}
 
@@ -200,14 +199,14 @@ public class SymbolTable {
 //		return (T != null) ;
 //	}
 
-	public VarInfo lookupVar(String id) {
+	public Boolean lookupVar(String id) {
 		int n = var_table.size() - 1 ;
 		boolean found = false ;
-		VarInfo T = null ;
+		Boolean T = null ;
 		while ((n >= 0) && !found) {
-			HashMap<String,VarInfo> H = var_table.get(n) ;
+			HashMap<String,Boolean> H = var_table.get(n) ;
 			T = H.get(id) ;
-			if (T != null) found = true ;
+			if (T != null) found = Boolean.TRUE ;
 			else n = n-1 ;
 		}
 		return T ;

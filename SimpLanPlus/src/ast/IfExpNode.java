@@ -6,10 +6,12 @@ import evaluator.SimpLanlib;
 import ast.Types.ErrorType;
 import symboltable.SemanticError;
 import symboltable.SymbolTable;
-import symboltable.VarInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static utils.Utils.CompareEnvironmentVariables;
+import static utils.Utils.TakeDeclaredVariables;
 
 /**
  *  exp: 'if' '(' cond=exp ')' '{' (thenStm=stm)* thenExp=exp '}' 'else' '{' (elseStm=stm)* elseExp=exp '}'  #ifExp
@@ -38,25 +40,23 @@ public class IfExpNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
 
         errors.addAll(exp.checkSemantics(ST, nesting));
-        HashMap<String, VarInfo> V = new HashMap<String,VarInfo>() ;
-        ST.addVar(V); //metto questo nuovo ambiente in testa allo stack
+        HashMap<String, Boolean> V1 = new HashMap<String,Boolean>() ;
+        ST.addVar(V1); //metto questo nuovo ambiente in testa allo stack
         for (Node d : thenStm) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         errors.addAll(thenExp.checkSemantics(ST, nesting));
+        ArrayList<String> V1List = TakeDeclaredVariables(V1);
         ST.removeVar();
-        HashMap<String, VarInfo> V1 = new HashMap<String,VarInfo>() ;
-        ST.addVar(V1); //metto questo nuovo ambiente in testa allo stack
+        HashMap<String, Boolean> V2 = new HashMap<String,Boolean>() ;
+        ST.addVar(V2); //metto questo nuovo ambiente in testa allo stack
         for (Node d : elseStm) {
             errors.addAll(d.checkSemantics(ST, nesting)) ;
         }
         errors.addAll(elseExp.checkSemantics(ST, nesting));
+        ArrayList<String> V2List = TakeDeclaredVariables(V2);
         ST.removeVar();
-        //......
-        //listanuoviasg
-        //for listanuoviasg per ogni elemento
-        //ST.insertVar(id, true); HASMAP<ID, VARINFO = TRUE>
-
+        ArrayList<String> FinalList= CompareEnvironmentVariables(V1List, V2List);
         return errors;
     }
 

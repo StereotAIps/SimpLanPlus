@@ -10,7 +10,8 @@ import symboltable.SemanticError;
 import symboltable.ArrowType;
 import symboltable.STentry;
 import symboltable.SymbolTable;
-import symboltable.VarInfo;
+
+import static java.lang.Boolean.FALSE;
 
 /**
  *  exp: ID #idExp
@@ -35,8 +36,9 @@ public class IdExpNode implements Node {
 		if (st_type == null)
 			errors.add(new SemanticError("Id " + id + " not declared"));
 		else{
-			VarInfo varInfo = ST.lookupVar(id) ; //Controllo se è assegnato nella tabella degli assegnamenti
-			if(!varInfo.isAssigned() && (st_type.getnesting() == nesting)){
+			Boolean varInfo = ST.lookupVar(id) ; //Controllo se è assegnato nella tabella degli assegnamenti
+			if(varInfo!= null)
+				if(varInfo == FALSE && (st_type.getnesting() == nesting)){ //Se la variabile non è assegnata
 				//Se la variabile non è assegnata
 				errors.add(new SemanticError("Id " + id + " used but not initialized")); //Se non è stato assegnato do errore
 			}
