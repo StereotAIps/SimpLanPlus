@@ -209,8 +209,10 @@ public class ExecuteVM {
               case SVMParser.RETURNSUB:
                     ip = read(bytecode.getArg1()) ;
                     break;
-              case SVMParser.HALT : //to print the result 
-             		System.out.println("\nResult: " + a0 + "\n");
+              case SVMParser.HALT : //to print the result
+				    System.out.println("\nCode executed with success!\n");
+             		System.out.println("\nThe result is: " + a0 + "\n");
+					//System.out.println("\nCode executed with success! The result is: " + a0 + "\\n");
              		return;          
             } 
     	}   	  	
