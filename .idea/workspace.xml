@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2673d5ad-6dfe-4b82-a0a4-0de5b0ccfd56" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Appendix.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Code/ErroreLessicale.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Code/SimpLanPlus.g" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Images/ST_example1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Images/ST_structure.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Images/STentry _structure.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Images/VT_example1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/Images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/esercizio1.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/esercizio2.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/esercizio3.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/esercizio4.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/introduzione.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/main.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpLanPlus/SimpLanPlus- Relazione/refs.bib" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,20 +37,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vecef/OneDrive/Documenti/Github/SimpLanPlus&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/vecef/OneDrive/Documenti/Github/SimpLanPlus",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/SimpLanPlus" />
+      <recent name="$PROJECT_DIR$/SimpLanPlus/doc" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -49,7 +72,7 @@
       <workItem from="1682166571970" duration="153000" />
       <workItem from="1682168128292" duration="275000" />
       <workItem from="1683146178362" duration="3000" />
-      <workItem from="1685958490870" duration="323000" />
+      <workItem from="1685958490870" duration="796000" />
     </task>
     <servers />
   </component>
