@@ -1,0 +1,59 @@
+\section{Esercizio 1}
+Una volta effettuate le modifiche alla grammatica SimpLanPlus fornita come modello, è stato utilizzato ANTLR per generare il codice utilizzato dal parser e dal lexer. 
+
+Nel main è stato definito il file \textit{prova.simplan} da utilizzare per passare il programma in input e sono stati definiti gli oggetti che gestiscono il parser e il lexer. La libreria di ANTLR ha permesso di utilizzate la classe \textit{ANTLRInputStream} per ottenere il contenuto del file di input, estrarre i token e effettuare il parsing.
+
+In questa fase sono stati definiti tutti gli elementi (appartenenti all'interfaccia \textit{Node}) che fanno parte della grammatica per andare a costruire l'AST (albero di sintassi astratta). Sempre per questo scopo, è stato effettuato un override dei metodi predefiniti contenuti nella classe \textit{SimpLanPlusBaseVisitor}. Questi nuovi metodi si trovano in \textit{SimpLanPlusBaseVisitorImpl} contenuto nel pacchetto \textit{ast} e vengono utilizzati per costruire l'AST nel momento in cui nel main viene chiamata la funzione \textit{visit ()}. 
+
+È stata inoltre implementata la funzione \textit{toPrint()} in tutti i nodi, questa è in grado di stampare sul terminale di IntelliJ l'AST del programma per avere una rappresentazione visiva più chiara.
+
+Per quanto riguarda la gestione degli errori, è in questa fase che è stata implementata la classe \textit{ParserErrorHandler} contenuta nel pacchetto parser per gestire gli errori lessicali e sintattici.
+Alla verifica di uno o più errori, l'handler verrà triggerato in modo automatico, le funzioni presenti in \textit{ParserErrorHandler} permetteranno di salvare all’interno di un ArrayList di stringhe gli errori lessicali e sintattici, tali errori verrano scritti nel file \textit{errori.log} presente nel pacchetto mainPackage. La classe \textit{ParserErrorHandler} estende la classe base di ANTLR \textit{BaseErrorListener}, eseguendo l’override del metodo \textit{syntaxError}.
+
+\subsection{Esempi}
+Vengono di seguito mostrati tre diversi esempi di codice errati che contengono corrispondentemente un errore lessicale, sintattico e semantico. Tali errori vengono scritti nel file \textit{errori.log}, che si aggiorna ogni volta che un nuovo programma viene eseguito.
+
+\begin{itemize}
+\item Il primo tipo di errore trattato è quello lessicale. Questo avviene quando il lexer non è in grado di riconoscere nella stringa di ingresso gruppi di simboli che corrispondono a specifiche categorie sintattiche. Consideriamo il seguente codice e errore riportato dal compilatore SimpLanPlus :
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int a;
+int 1b;
+\end{minted}
+\begin{minted}[xleftmargin=20pt, linenos]{java}
+[!] An error occurred at line 2, character 4 :no viable alternative at
+input 'int1'
+[!] An error occurred at line 2, character 5 :mismatched input 'b' 
+expecting {<EOF>, '*', '/', '+', '-', '==', '>', '<', '>=', '<=',
+'&&', '||'}
+\end{minted}
+
+In questo caso il carattere \textit{1} non può essere usato come nome di indentificatore, poichè la grammatica definisce che gli identificatori debbano essere della forma \textit{ID : CHAR (CHAR | DIGIT)* ;}, difatti, l'errore indica l'impossibilità di riconoscere 'int1' in una grammatica (o meglil, sequenza di token) nota. 
+
+\item Il secondo tipo di errore trattato è quello sintattico. Questo si verifica quando data una sequenza s di token (in cui il programma sorgente è stato tradotto dall’analizzatore lessicale), la sequenza non appartiene al linguaggio sorgente del compilatore specificato dalla grammatica G. Consideriamo il seguente codice e errore riportato dal compilatore SimpLanPlus :
+
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int a;
+a = 2;
+int b;
+\end{minted}
+\begin{minted}[xleftmargin=20pt, linenos]{java}
+[!] An error occurred at line 3, character 0 :extraneous input 'int' 
+expecting {<EOF>, '(', 'if', 'true', 'false', '!', INTEGER, ID}
+\end{minted}
+In questo caso la dichiarazione di b non può essere effettuata in seguito all'inizializzazione di a. Come specificato nella grammatica \textit{prog : (dec)+ (stm)* (exp)? EOF}, in seguito a una o più dichiarazioni e uno statemente è possibile avere solo altri statement o un'espressione, ma non è possibile avere altre dichiarazioni, difattil'errore indica "extraneous input 'int' 
+expecting <EOF>", la gramamtica si aspetta che ci sia un end of file e non una dichiarazione. 
+
+\item Il terzo tipo di errore trattato è quello semantico. Questi si verificano quando ci sono degli errori logici che derivano da un'errata logica di stesura del programma da parte del programmatore. Consideriamo il seguente codice e errore riportato dal compilatore SimpLanPlus :
+
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int a;
+int b;
+a = b;
+\end{minted}
+\begin{minted}[xleftmargin=20pt, linenos]{java}
+[!] A semantic error occurred: Id b used but not initialized
+\end{minted}
+In questo caso b viene dichiarato ma mai inizializzato, quindi nel momento in cui si trova nella parte destra di un assegnamento viene segnalato un errore logico.  
+\end{itemize}
+
+

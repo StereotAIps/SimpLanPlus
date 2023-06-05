@@ -1,0 +1,355 @@
+\section{Esercizio 3}
+Lo scopo dell'esercizio 3 è quello di soddisfare i seguenti punti.
+\begin{itemize}
+    \item correttezza dei tipi (in particolare numero e tipo dei parametri attuali se conformi al numero e tipo dei parametri formali).
+    \item gestione dell'uso di variabili non inizializzate.
+\end{itemize}
+
+Una volta implementate le funzionalità della Symbol table, si è proseguito nel progetto lavorando sull’analisi semantica, ovvero verificare la correttezza dei tipi (type checking)  e l’uso di variabili dichiarate ma non inizializzate.
+
+\subsection{Varibili utilizzate ma non inizializzate e Var Table}
+\label{sec:vartable}
+Prima di proseguire con le modalità di gesitone delle variabili dichiarate ma non inizializzate, è fondamentale fornire più informazioni riguardanti l'utilizzo della Var table utilizzata a questo scopo. Come è stato già introdotta nella Sezione \ref{sec:symboltable}, la Var table (VT) è un elemento della classe \textit{SymbolTable} della forma \textit{$ArrayList<HashMap<String,Boolean>>$}. 
+
+La necessità dell'utilizzo di tale struttura è nato dal momento in cui si è sentita la necessità di voler prendere nota di quali identificatori fossero stati inizializzati e quali no. Come primo approccio c'è stato un tentativo di integrale una variabile \textit{assigned} di tipo bool alla struttura \textit{STentry}, senza però putroppo aver riscontrato buorni risultati. In seguito viene mostrato un esempio di codice che mostra una delle criticità riscontrate.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int x ; 
+int y ;
+if (e) {
+    x = 2 ;
+} else {
+    y = x ;
+}
+\end{minted}
+Il primo approccio tentato avrebbe previsto l'assegnamento della variabile \textit{assigned = true} alla riga 4 del codice, per poi valutatre come lecita la riga di codice a riga 6, nonostante l'assegnamento fosse stato fatto nel ramo then, uno scope che rimane chiuso tra le due parentesi graffe a riga 3 e 5. In questo codice, la variabile \textit{x} dovrebbe risultare come utilizzata ma non inizializzata.
+
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int x ; 
+int y ;
+if (e) {
+    y = 2 ;
+} else {
+    x = 1 ;
+}
+y = x ;
+\end{minted}
+Secondo il primo approccio tentato, la variabile \textit{x} sarebbe stata assegnata a riga 6, anche qua, in uno scope che diverso rispetto alla quale questa è utilizzata a riga 8. In questo codice, la variabile \textit{x} dovrebbe risultare come utilizzata ma non inizializzata.
+
+Per ricorrere a questo problema, si è deciso di utilizzate una struttura separata da quella della della gestione della ST e quindi avere la possibilità di manipolare gli ambienti di scope delle variabili in modo coerente con la struttura e i nodi del codice. Ciò nonostante la struttura della VT è pressochè simile a quello della ST, difatti entrambe vengono modificate negli stessi punti del codice effettuando le stesse operazioni fatta eccezione dei nodi in cui bisogna effettuare controlli sull'utilizzo delle variabili. Un esempio di come si dovrebbe comportare la VT è presente in Figura \ref{fig:VTexample}. La VT quindi crea/elimina nuovi "scope" nello stesso momento in cui sulla ST vengono creati/eliminati nuovi ambienti. Le uniche eccezioni e controlli aggiuntivin vengono applicati nei nodi del condizionale if, sia \textit{IfExpNode} che \textit{IfStmNode}, il nodo dell'assegnamento \textit{AsgNode} e il nodo foglia degli id \textit{IdExpNode}. I codici risultati sono i seguenti.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+public ArrayList<SemanticError> checkSemantics(SymbolTable ST, int _nesting) {
+        nesting = _nesting;
+        ArrayList<SemanticError> errors = new ArrayList<SemanticError>();
+        errors.addAll(exp.checkSemantics(ST, nesting));
+        HashMap<String, Boolean> V1 = new HashMap<String,Boolean>() ;
+        ST.addVar(V1);
+        for (Node d : thenbranch) {
+            errors.addAll(d.checkSemantics(ST, nesting)) ;
+        }
+        ArrayList<String> V1List = TakeDeclaredVariables(V1);
+        ST.removeVar();
+        HashMap<String, Boolean> V2 = new HashMap<String,Boolean>() ;
+        ST.addVar(V2);
+        for (Node d : elsebranch) {
+            errors.addAll(d.checkSemantics(ST, nesting)) ;
+        }
+        ArrayList<String> V2List = TakeDeclaredVariables(V2);
+        ST.removeVar();
+        ArrayList<String> FinalList= CompareEnvironmentVariables(V1List, V2List);
+        for (String id: FinalList)
+            ST.insertVar(id, true);
+        return errors;
+    }
+\end{minted}
+Il codice soprastante è quello utilizzato nelle classi \textit{IfExpNode} che \textit{IfStmNode}. In questo caso, a riga 7 e 14 vengono dichiarati due nuove strutture \textit{$HashMap<String, Boolean>$} utilizzate per tenere traccia delle variabili inizializzate corrispettivamente nel ramo then ed else. A riga 12 e 19, viene utilizzata la funzione \textit{$TakeDeclaredVariables(HashMap<String, Boolean> V)$} per mettere in una lista \textit{$ArrayList<String>$} il nome delle variabili inizializzate in quello scope. Solo a riga 21 la funzione  \textit{$CompareEnvironmentVariables(ArrayList<String> L1, ArrayList<String> L2)$} compara le due liste e a riga 23 gli elementi presenti in entrambe le liste vengono aggiunte allo scope attuale. Tramite questa tecnica è possibile risolvere i problemi mostrati precedentemente dal momento in cui veongo creati e distrutti scope apposta per i due rami dell'if senza andare a modificare direttamente lo socpe attuale.
+
+Ma come è possibile sapere se un identificativo è stato assegnato o meno nel momento in cui viene eseguita un'espressione o statement? Nel nodo \textit{IdExpNode} è stato aggiunto il seguente controllo.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+//Controllo se è assegnato nella tabella degli assegnamenti
+Boolean varInfo = ST.lookupVar(id) ; 
+if(varInfo!= null)
+    if(varInfo == FALSE && (st_type.getnesting() == nesting)){ 
+    //Se la variabile non è assegnata
+    errors.add(new SemanticError("Id " + id + " used but not initialized"));
+}
+\end{minted}
+Tramite questo controllo è possibile ottenere tramite la funzione \textit{lookupVar(String id)} l'oggetto nella VT che fa riferimento all'id \textit{id}. A riga 3 viene verficato che l'elemento esista, in questo caso è stato dichiarato e aggiunto alla tablla correttamente. Dopo di che viene controllato a riga 4 se l'elemento è presente in questo scope e ha come valore FALSE allora non è mai stato inizializzato e deve essere restituito un errore.
+
+È inoltre importante precisare che nel momento in cui l'id delle funzioni viene aggiunto alla VT, questo avrà sempre valore TRUE per fare in modo che nel corpo di una funzione, questa possa richiamare sè stessa pur appartenendo allo stesso scope. Stessa cosa avviene per i parametri formali delle funzioni, anch'essi vengono assegnati come TRUE dal momento in cui vengono inizializzati durante la chiamata a funzione. In fine, nel momento in cui viene fatto un assegnamento, l'identificativo di sinista viene aggiunto alla VT con valore TRUE.
+
+\subsection{Regole di inferenza}
+Per quanto riguarda il type cheking sono state specificate le seguenti regole di inferenza dove:
+\begin{itemize}
+    \item L'ambiente $\Gamma$ è una funzione definita come $\Gamma:ID \rightarrow type, O, nesting $ e fa riferimento alla ST.
+    \item Lo scope $\Theta$ è una funzione definita come $\Theta:ID \rightarrow assigned$ e fa riferimento alla VT.
+\end{itemize}
+
+\subsubsection{Progammi}
+\textbf{Programma solo con espressione}
+\[
+\inference{\emptyset \cdot [], \emptyset \cdot [], O, N \vdash exp:\Gamma, \Theta, T}{ \vdash exp: T }[[ProgExp]]
+\]
+Regola iniziale del programma che contiene solo un espressione. L'offset e il livello di nesting iniziale viene posto a 1. \\
+
+\textbf{Programma con dichiarazioni, statement ed espressione}
+\[
+\inference{\emptyset \cdot [], \emptyset \cdot [], O, N \vdash dec:\Gamma, \Theta \\ \Gamma, \Theta \vdash stm:\Gamma, \Theta^{'} \\ \Gamma, \Theta^{'} \vdash exp:\Gamma, \Theta^{''}, T}{ \vdash dec \; stm \; exp}[[Prog1]]
+\]
+Regola iniziale del programma, consente di avere dichiarazioni, statements e un'epressione. L'offset e il livello di nesting iniziale viene posto a 1. \\
+
+\textbf{Programma con dichiarazioni ed espressione}
+\[
+\inference{\emptyset \cdot [], \emptyset \cdot [], O, N \vdash dec:\Gamma, \Theta \\ \Gamma, \Theta \vdash exp:\Gamma, \Theta^{'}, T}{ \vdash dec \; exp}[[Prog2]]
+\]
+Regola iniziale del programma, consente di avere dichiarazioni e un'epressione. L'offset e il livello di nesting iniziale viene posto a 1. \\
+
+\subsubsection{Dichiarazioni}
+\textbf{Dichiarazione di variabile}
+\[
+\inference{id \notin dom(top(\Gamma))}{\Gamma, \Theta, O \vdash T \; id;: \Gamma[id \rightarrow T], \Theta[id \rightarrow false] , O+1}[[DecVar]]
+\]
+Nella dichiarazione di variabile bisogna controllare che l'identificativo non faccia parte dell'ultimo ambiente di $\Gamma$, in caso contrario l'id viene aggiunto all'ambiente $\Gamma$ e scope $\Theta$ attuale. Nello scope $\Theta$, l'identificatore della variabile viene assegnata a false perché non è ancora stata inizializzata. L'offset $O$ viene incrementato di 1 per fare riferimento alla variabile nello stack.\\
+
+\textbf{Sequenza di dichiarazioni}
+\[
+\inference{\Gamma, \Theta, O \vdash d:\Gamma^{'}, \Theta^{'}, O^{'} & \Gamma^{'}, \Theta^{'}, O^{'} \vdash D:\Gamma^{''}, \Theta^{''}, O^{''} }{\Gamma, \Theta, O \vdash d \; D: \Gamma^{''}, \Theta^{''}}[[DecSeq]]
+\]
+Nella sequenza di dichiarazioni viene esplorata una dichiarazione alla volta. L'ambiente, lo scope e l'offset vengono aggionati dopo la prima dichiarazione e quindi vengono passati alle dichiarazioni che seguono la prima. \\
+
+\textbf{Dichiarazione di funzione}
+\[
+\inference{\Gamma \cdot [f \mapsto(argsTypes(args)) \rightarrow T], \Theta \cdot[f \mapsto true], O+1, N+1 \vdash args: \Gamma^{'}, \Theta^{'}, O^{'}, N^{'} \\ \Gamma^{'}, \Theta^{'}, O^{'}+1 , N^{'}\vdash body: T1 \\ f \notin dom(top(\Gamma)) & T= T1}{\Gamma, \Theta, O, N \vdash T \; f(args)\{body\} : \Gamma [f \mapsto(argsTypes(args)) \rightarrow T], \Theta [f \mapsto true]}[[DecFun]]
+\]
+Nella dichiarazione di funzione viene creato un nuovo ambiente in $\Gamma$ e un nuovo scope in $\Theta$. L'oggetto $args$ è costruito nel modo seguente $T_{1} x_{1}, ..., T_{n} x_{n}$. In $\Gamma$ viene aggiunto l'id della funzione che ha come tipo un oggetto costrutito come $(T_{1},..., T_{n}) \rightarrow T$, ovvero "i tipi dei parametri in input" $\rightarrow$ "il tipo della funzione". Per ottenere il tipo dei parametri $T_{1},..., T_{n}$ viene usata la funzione \textit{argsTypes(args)}. In $\Theta$ viene aggiunto l'identificativo della funzione con valore true per fare in modo che questo possa essere richiamato nell corpo della funzione stessa. Nella regola che va in arg, l'offset $O$ viene incrementato di 1 perché si stanno valutando elementi interni a un nuovo ambiente e scope, inoltre, anche il livello di nesting $N$ aumenta di 1 per fare riferimento all'identificativo della funzione nello stack. Nella regola che va nel body l'offset $O^{'}$ viene incrementato nuovamente per fare spazio all'indirizzo di ritorno. \\
+%Nel nuovo ambiente $\Gamma$, vengono inoltre aggiunti tutti gli id dei parametri e il loro tipo. 
+
+\textbf{Parametro (un argomento)}
+\[
+\inference{id \notin dom(top(\Gamma))}{\Gamma, \Theta, O \vdash T \; id: \Gamma[id \rightarrow T], \Theta[id \rightarrow true] , O+1}[[Arg]]
+\]
+Se l'identificativo del parametro non appartiene all'ultimo ambiente $\Gamma$ allora lo si aggiunge all'ultimo ambiente $\Gamma$, gli viene assegnato nello scope $\Theta$ il valore true e l'offset viene aumentato di 1. \\
+
+\textbf{Parametri (argomenti di funzione)}
+\[
+\inference{\Gamma, \Theta, O \vdash a: \Gamma^{'}, \Theta{'}, O^{'} \\ \Gamma^{'}, \Theta^{'}, O^{'} \vdash A: \Gamma^{''}, \Theta{''}, O^{''} }{\Gamma, \Theta, O \vdash a \; A: \Gamma^{''}, \Theta{''}, O^{''} }[[Args]]
+\]
+
+\textbf{Dichiarazioni, statement ed espressione (Body)}
+\[
+\inference{\Gamma, \Theta, O \vdash dec:\Gamma^{'}, \Theta, O^{'} \\ \Gamma^{'}, \Theta, O^{'} \vdash stm:\Gamma^{'}, \Theta^{'}, O^{'} \\ \Gamma^{'}, \Theta^{'}, O^{'} \vdash exp:\Gamma^{'}, \Theta^{''}, O^{'}, T}{\Gamma, \Theta \vdash dec \; stm \; exp: T}[[Body]]
+\]
+
+\subsubsection{Statements}
+\textbf{Assegnamento}
+\[
+\inference{\Gamma, \Theta, N \vdash Id:T1 & \Gamma, \Theta \vdash exp:\Gamma, \Theta^{'}, T2 \\ T1 = T2}{\Gamma, \Theta, N \vdash Id \; = \; exp: \Gamma, \Theta^{'}[Id\mapsto true], void}[[Asg]]
+\]
+Viene controllato che i tipi dell'identificativo e dell'espressione siano gli stessi. Nello scope $\Theta$ l'identificativo viene assegnato a true in seguito all'assegnamento. \\
+
+\textbf{Condizionale if (stm)} 
+\[
+\inference{\Gamma, \Theta \vdash exp:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash stme1:\Gamma, \Theta^{''}, T2 & \Gamma, \Theta^{'} \vdash stme2:\Gamma, \Theta^{'''}, T3 \\ T1 = bool }{\Gamma, \Theta \vdash if\; (exp)\; \{ stme1 \}\; else\; \{stme2\}: \Gamma, CompScope(\Theta^{''}, \Theta^{'''}), void}[[IfStm1]]
+\]
+Nel condizionale if bisogna innanzitutto controllare che l'espressione della condizione sia di tipo booleano. I due rami alterano lo scope $\Theta$ in modo diverso, ragione per cui viene utilizzata una funzione $CompScope(\Theta^{''}, \Theta^{'''})$ per paragonare i due nuovi scope e passare lo scope di ritorno contenente gli identificativi valutati come assegnati in modo corretto. Tale funzione compara i due scope tenendo traccia di quali identificativi siano assegnati come true, se questi sono presenti in entrambi gli scope allora rimangono, altrimenti le modifiche vengono riportate a $\Theta^{'}$.\\
+
+\textbf{Condizionale if senza ramo else (stm)} 
+\[
+\inference{\Gamma, \Theta \vdash exp:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash stme1:\Gamma, \Theta^{''}, T2 \\ T1 = bool}{\Gamma, \Theta \vdash if\; (exp)\; \{ stme1 \}: \Gamma, \Theta^{'}, void}[[IfStm2]]
+\]
+
+\textbf{Statement}
+\[
+\inference{\Gamma, \Theta \vdash s:\Gamma, \Theta^{'}, T }{\Gamma, \Theta \vdash s \; S: \Gamma, \Theta^{''}, void}[[Stm]]
+\]
+
+\textbf{Sequenza di statements}
+\[
+\inference{\Gamma, \Theta \vdash s:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash S:\Gamma, \Theta^{''}, T2 }{\Gamma, \Theta \vdash s \; S: \Gamma, \Theta^{''}, void}[[SeqStm]]
+\]
+
+\textbf{Chiamata di funzione} 
+\[
+\inference{\Gamma, \Theta \vdash f: (T_{1}, ..., T_{n}) \rightarrow T & (\Gamma e_{i}: T^{'}_{i})^{n}_{i = 1} & (T_{i} = T^{'}_{i})^{n}_{i = 1}}{\Gamma, \Theta \vdash f(e_{1},...,e_{n});: \Gamma, \Theta, T}[[CallExp]]
+\]
+Si controlla che i parametri attuali e formali in input alla funzione abbiamo un tipo compatibile. \\
+
+\subsubsection{Espressioni}
+
+\textbf{Espressione generica}
+\[
+\inference{\Gamma, \Theta \vdash exp:\Gamma, \Theta^{'}, T}{\Gamma, \Theta \vdash exp: \Gamma, \Theta^{''}, T}[[Exp]]
+\]
+
+\textbf{Assioma intero} 
+\[
+\inference{}{\Gamma \vdash num: \Gamma, int}[[IntExp]]
+\]
+
+\textbf{Assioma booleano} 
+\[
+\inference{}{\Gamma \vdash true: \Gamma, bool}[[BoolExpTrue]]
+\]
+\[
+\inference{}{\Gamma \vdash false: \Gamma, bool}[[BoolExpFalse]]
+\]
+
+\textbf{Variabile} 
+\[
+\inference{id \in dom(\Gamma): T \\ (\Theta(id) = true \lor \neg(\Gamma(id).nesting = N))}{\Gamma, \Theta, N \vdash id:  T}[[IdExp]]
+\]
+In questo caso bisogna controllare che l'identificativo della variabile sia presente in $\Gamma$ e che il valore dell'identificatico in $\Theta$ sia true (ovvero la variabile è assegnata) oppure che non sia stata dichiarata nell'ambiente attuale (e quindi in quel caso è una variabile globale e deve essere accettata). 
+
+\textbf{Espressione in parentesi} 
+\[
+\inference{\Gamma, \Theta \vdash exp: \Gamma, \Theta^{'}, T}{\Gamma, \Theta \vdash (exp): \Gamma, \Theta^{'}, T}[[BaseExp]]
+\]
+
+\textbf{Espressioni booleane} 
+\[
+\inference{\Gamma, \Theta \vdash exp: \Gamma, \Theta^{'}, T & T==bool}{\Gamma, \Theta \vdash !\; exp: \Gamma, \Theta^{'}, bool}[[NotExp]]
+\]
+
+\[
+\inference{\Gamma, \Theta \vdash e1:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash e2:\Gamma, \Theta^{''}, T2 \\ T1 = bool = T2 & \sigma: bool \times bool \rightarrow bool}{\Gamma, \Theta \vdash e1 \; \sigma \; e2: \Gamma, \Theta^{''}, bool}[[OpExp]]
+\]
+Dove il simbolo $\sigma$ viene utilizzato per fare riferimento ai simboli:$\&\&$ e $||$. \\
+
+\textbf{Espressioni intere} 
+\[
+\inference{\Gamma, \Theta \vdash e1:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash e2:\Gamma, \Theta^{''}, T2 \\ T1 = int = T2 & \sigma: int \times int \rightarrow int}{\Gamma, \Theta \vdash e1 \; \sigma \; e2: \Gamma, \Theta^{''}, int}[[NumExp]]
+\]
+Dove il simbolo $\sigma$ viene utilizzato per fare riferimento ai simboli:$+, -, *$ e $/$. \\
+
+\textbf{Espressioni di confronto} 
+\[
+\inference{\Gamma, \Theta \vdash e1:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash e2:\Gamma, \Theta^{''}, T2 \\ T1 = T2 & ==: T1 \times T2 \rightarrow bool}{\Gamma, \Theta \vdash e1 \; == \; e2: \Gamma, \Theta^{''}, bool}[[EqExp]]
+\]
+
+\[
+\inference{\Gamma, \Theta \vdash e1:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash e2:\Gamma, \Theta^{''}, T2 \\ T1 = int = T2 & \sigma: int \times int \rightarrow bool}{\Gamma, \Theta \vdash e1 \; \sigma \; e2: \Gamma, \Theta^{''}, bool}[[NumExp]]
+\]
+Dove il simbolo $\sigma$ viene utilizzato per fare riferimento ai simboli:$<, <=, >$ e $>=$. \\
+
+
+\textbf{Condizionale if (exp)} 
+\[
+\inference{\Gamma, \Theta \vdash cond:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash stme1:\Gamma, \Theta^{''}, T2 & \Gamma, \Theta^{''} \vdash stme2:\Gamma, \Theta^{'''}, T3 \\ T1 = bool & T2 = T = T3}{\Gamma, \Theta \vdash if\; (cond)\; \{ stme1 \}\; else\; \{stme2\}: \Gamma, CompScope(\Theta^{''}, \Theta^{'''}), T}[[IfExp]]
+\]
+Anche in questo caso, come nel caso del condizionale if (stm) senza espressione, bisogna controllare che la condizione sia di tipo booleano ed anche qua viene utilizzata la funzione $CompScope(\Theta^{''}, \Theta^{'''})$ per comparare gli scope dei due branch. \\
+
+\textbf{Statement ed espressione}
+\[
+\inference{\Gamma, \Theta \vdash stm:\Gamma, \Theta^{'}, T1 & \Gamma, \Theta^{'} \vdash exp:\Gamma, \Theta^{''}, T2 \\ T1 = void}{\Gamma, \Theta \vdash stm \; exp: \Gamma, \Theta^{''}, T2}[[StmExp]]
+\]
+
+\textbf{Chiamata di funzione} 
+\[
+\inference{\Gamma, \Theta \vdash f: (T_{1}, ..., T_{n}) \rightarrow T & (\Gamma e_{i}: T^{'}_{i})^{n}_{i = 1} & (T_{i} = T^{'}_{i})^{n}_{i = 1}}{\Gamma, \Theta \vdash f(e_{1},...,e_{n}): \Gamma, \Theta, T}[[CallExp]]
+\]
+
+
+\subsection{Esempi}
+In questa sezione testiamo i seguenti 4 codici forniti nelle specifiche del progetto.
+\begin{enumerate}
+\item \textbf{Codice 1}
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int a;
+int b;
+int c ;
+c = 2 ;
+if (c > 1) {
+    b = c ; 
+} else {
+    a = b ;
+}
+\end{minted}
+I messaggi in output dal compilatore sono i seguenti.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+Parsing in progress....
+Parse completed without errors!
+Checking semantic errors...
+You had: 1 errors:
+[!] A semantic error occurred: Id b used but not initialized	
+\end{minted}
+Come si legge dallì'ultimo messaggio di errore, l'identificatore \textit{b} è utilizzato ma mai usato, infatti è possibile vedere che nel ramo then b è effettivamente inizializzato ma tale modifica è presente e valida solo in quel ramo, quindi una volta che il compilatore controlla gli elementi utilizzati nell'espressione del ramo else, trova errore a riga 8 nel momento in cui si prova a utilizzare \textit{b}, dichiarato a riga 2 ma mai inizializzato in questo scope.
+
+\item \textbf{Codice 2}
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int a ; 
+int b ; 
+int c ;
+void f(int n){
+    int x ; 
+    int y ;
+    if (n > 0) {
+        x = n ;
+    } else {
+        y = n+x ;
+    }
+ }
+ c = 1 ;
+ f(0) ;
+\end{minted}
+I messaggi in output dal compilatore sono i seguenti.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+Parsing in progress....
+Parse completed without errors!
+Checking semantic errors...
+You had: 1 errors:
+[!] A semantic error occurred: Id x used but not initialized	
+\end{minted}
+Anche in questo caso, come nel caso precedente, il compilatore segnala un uso illecito della variabile \textit{x}, questa è inizializzata nel corpo della funzione \textit{f} a riga 5 e inizializzata nel ramo then, quindi nel momento in cui il controllo raggiunge il ramo else l'id \textit{x} non risulta inizializzato in questo scope.
+
+\item \textbf{Codice 3}
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+void h(int n){
+    int x ;
+    int y ;
+    if (n==0){
+        x = n+1 ;
+    } else {
+    h(n-1) ; 
+    x = n ; 
+    y = x ;
+    }
+}    
+h(5) ;
+\end{minted}
+I messaggi in output dal compilatore sono i seguenti.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+Parsing in progress....
+Parse completed without errors!
+Checking semantic errors...
+Visualizing AST...
+Checking type errors...
+Type checking ok! Type of the program is: [T]Void
+Code generated! Assembling and running generated code.
+...
+\end{minted}
+Eseguedo questo codice non vengono trovati errori da parte del compilatore.
+
+\item \textbf{Codice 4}
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+int a;
+void h(int n){
+    int x ;
+    int y ;
+    if (n==0){
+        x = n+1 ;
+    } else {
+        h(n-1) ;
+        y = x ;
+    }
+}
+h(5) ;
+\end{minted}
+I messaggi in output dal compilatore sono i seguenti.
+\begin{minted}[xleftmargin=20pt,linenos]{java}
+Parsing in progress....
+Parse completed without errors!
+Checking semantic errors...
+You had: 1 errors:
+[!] A semantic error occurred: Id x used but not initialized	
+\end{minted}
+Anche in questo codice, come in quelli precedenti, il compilatore segnala che la variabile \textit{x} sia stata utilizzata ma non inizializzata, questa è inizializzata nel corpo della funzione \textit{h} a riga 2 e inizializzata nel ramo then, quindi nel momento in cui il controllo raggiunge il ramo else l'id \textit{x} non risulta inizializzato in questo scope.
+\end{enumerate}
